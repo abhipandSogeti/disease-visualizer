@@ -1,8 +1,9 @@
 import { type RefObject } from 'react'
+import { type GlobeMethods } from 'react-globe.gl'
 import { RotateCcw, Map } from 'lucide-react'
 
 interface GlobeControlsProps {
-  globeRef: RefObject<{ pointOfView: (coords: object, ms: number) => void } | null>
+  globeRef: RefObject<GlobeMethods | undefined>
 }
 
 export function GlobeControls({ globeRef }: GlobeControlsProps) {

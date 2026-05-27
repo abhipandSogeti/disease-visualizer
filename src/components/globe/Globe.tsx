@@ -1,5 +1,5 @@
 import { useRef, useState, useCallback, useMemo } from 'react'
-import GlobeGL from 'react-globe.gl'
+import GlobeGL, { type GlobeMethods } from 'react-globe.gl'
 import { useAppStore } from '@/stores/app.store'
 import { useGlobalDisease } from '@/hooks/useCountryDisease'
 import { getBurdenColour } from '@/lib/colour-scale'
@@ -16,9 +16,7 @@ interface TooltipState {
 }
 
 export function Globe() {
-  const globeRef = useRef<{
-    pointOfView: (coords: object, ms: number) => void
-  } | null>(null)
+  const globeRef = useRef<GlobeMethods | undefined>(undefined)
   const { activeDiseases, selectedYear, setCountry } = useAppStore()
   const [tooltip, setTooltip] = useState<TooltipState>({
     visible: false,
@@ -45,26 +43,24 @@ export function Globe() {
   }, [burdenMap])
 
   const handleHover = useCallback(
-    (d: object | null, _: object | null, event: MouseEvent) => {
+    (d: object | null, _prev: object | null) => {
       if (!d) {
         setTooltip((t) => ({ ...t, visible: false }))
         return
       }
       const feature = d as { properties: { name: string; iso_a3: string } }
-      setTooltip({
+      setTooltip((t) => ({
+        ...t,
         visible: true,
         countryName: feature.properties.name,
         value: burdenMap.get(feature.properties.iso_a3) ?? null,
-        x: event.clientX,
-        y: event.clientY,
-      })
+      }))
     },
     [burdenMap],
   )
 
   const handleClick = useCallback(
-    (d: object | null) => {
-      if (!d) return
+    (d: object, _event: MouseEvent, _coords: { lat: number; lng: number; altitude: number }) => {
       const feature = d as { properties: { iso_a3: string } }
       setCountry(feature.properties.iso_a3)
     },
