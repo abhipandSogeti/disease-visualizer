@@ -15,6 +15,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "3dmol": "^2.5.5",
     "@react-aria/button": "^3.10.1",
     "@react-aria/dialog": "^3.6.0",
     "@react-aria/focus": "^3.18.1",
