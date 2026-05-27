@@ -29,6 +29,12 @@ importers:
       d3:
         specifier: ^7.9.0
         version: 7.9.0
+      d3-scale:
+        specifier: ^4.0.2
+        version: 4.0.2
+      d3-scale-chromatic:
+        specifier: ^3.1.0
+        version: 3.1.0
       lucide-react:
         specifier: ^0.456.0
         version: 0.456.0(react@18.3.1)
@@ -78,6 +84,12 @@ importers:
       '@types/d3':
         specifier: ^7.4.3
         version: 7.4.3
+      '@types/d3-scale':
+        specifier: ^4.0.9
+        version: 4.0.9
+      '@types/d3-scale-chromatic':
+        specifier: ^3.1.0
+        version: 3.1.0
       '@types/react':
         specifier: ^18.3.12
         version: 18.3.29
