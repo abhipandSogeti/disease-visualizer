@@ -1,8 +1,8 @@
 import { type ReactNode } from 'react'
 import { Header } from './Header'
 import { LeftPanel } from './LeftPanel'
-import { BottomBar } from './BottomBar'
 import { SkipLink } from '@/components/ui/SkipLink'
+import { DataFreshnessBar } from './DataFreshnessBar'
 
 interface AppShellProps {
   children: ReactNode
@@ -28,7 +28,7 @@ export function AppShell({ children, rightPanel }: AppShellProps) {
           </aside>
         )}
       </div>
-      <BottomBar />
+      <DataFreshnessBar />
     </div>
   )
 }
