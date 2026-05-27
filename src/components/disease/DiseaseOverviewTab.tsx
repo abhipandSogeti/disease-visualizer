@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import { Download } from 'lucide-react'
 import { useCountryDiseaseTimeSeries } from '@/hooks/useCountryDisease'
 import { usePopulation } from '@/hooks/useWorldBank'
 import { DISEASE_COLOURS } from '@/lib/colour-scale'
@@ -6,6 +7,7 @@ import { LoadingSkeleton } from '@/components/ui/LoadingSkeleton'
 import { ErrorState } from '@/components/ui/ErrorState'
 import { MetricCard } from './MetricCard'
 import { EpidemicCurveChart } from './EpidemicCurveChart'
+import { exportAsCsv } from '@/lib/export'
 import type { Disease, Persona } from '@/types/app.types'
 
 interface DiseaseOverviewTabProps {
@@ -90,8 +92,18 @@ export function DiseaseOverviewTab({ iso3, disease, persona }: DiseaseOverviewTa
           </p>
         </div>
       )}
-      {persona === 'analyst' && (
-        <button className="w-full rounded border border-slate-700 py-2 text-xs text-slate-400 hover:bg-slate-800 hover:text-slate-100">
+      {persona === 'analyst' && chartData.length > 0 && (
+        <button
+          onClick={() => {
+            exportAsCsv(
+              `${disease.id}-${iso3}`,
+              ['Year', 'Cases'],
+              chartData.map((d) => [String(d.year), String(d.value)]),
+            )
+          }}
+          className="flex w-full items-center justify-center gap-1.5 rounded border border-slate-700 py-2 text-xs text-slate-400 hover:bg-slate-800 hover:text-slate-100"
+        >
+          <Download className="h-3.5 w-3.5" aria-hidden="true" />
           Export data as CSV
         </button>
       )}
