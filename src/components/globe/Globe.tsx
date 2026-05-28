@@ -18,9 +18,11 @@ interface TooltipState {
 
 export function Globe() {
   const globeRef = useRef<GlobeMethods | undefined>(undefined)
+  const containerRef = useRef<HTMLDivElement>(null)
   const { activeDiseases, selectedYear, setCountry } = useAppStore()
   const prefersReducedMotion = useReducedMotion()
   const [countries, setCountries] = useState<object[]>([])
+  const [size, setSize] = useState({ width: 800, height: 600 })
   const [tooltip, setTooltip] = useState<TooltipState>({
     visible: false,
     countryName: '',
@@ -28,6 +30,18 @@ export function Globe() {
     x: 0,
     y: 0,
   })
+
+  // Track container size so the canvas fills exactly the available space
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+    const ro = new ResizeObserver(([entry]) => {
+      const { width, height } = entry.contentRect
+      setSize({ width: Math.floor(width), height: Math.floor(height) })
+    })
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
 
   useEffect(() => {
     fetch('/geo/countries-110m.json')
@@ -82,9 +96,15 @@ export function Globe() {
   }, [])
 
   return (
-    <div className="relative h-full w-full bg-navy-950" onMouseMove={handleMouseMove}>
+    <div
+      ref={containerRef}
+      className="relative h-full w-full bg-navy-950"
+      onMouseMove={handleMouseMove}
+    >
       <GlobeGL
         ref={globeRef}
+        width={size.width}
+        height={size.height}
         globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
         backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
         animateIn={!prefersReducedMotion}

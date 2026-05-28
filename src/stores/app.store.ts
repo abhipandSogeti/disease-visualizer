@@ -16,17 +16,20 @@ interface AppState {
   setCompareCountry: (iso3: string | null) => void
   theme: 'dark' | 'light'
   setTheme: (theme: 'dark' | 'light') => void
+  view: 'globe' | 'map'
+  setView: (view: 'globe' | 'map') => void
 }
 
 export const useAppStore = create<AppState>()(
   persist(
     (set, get) => ({
       activeDiseases: DEFAULT_DISEASES,
-      selectedYear: new Date().getFullYear(),
+      selectedYear: 2024,
       persona: 'analyst',
       selectedCountry: null,
       compareCountry: null,
       theme: 'dark',
+      view: 'globe',
       addDisease: (disease) => {
         if (get().activeDiseases.some((d) => d.id === disease.id)) return
         set({ activeDiseases: [...get().activeDiseases, disease] })
@@ -38,6 +41,7 @@ export const useAppStore = create<AppState>()(
       setCountry: (iso3) => set({ selectedCountry: iso3 }),
       setCompareCountry: (iso3) => set({ compareCountry: iso3 }),
       setTheme: (theme) => set({ theme }),
+      setView: (view) => set({ view }),
     }),
     {
       name: 'disease-visualizer-state',

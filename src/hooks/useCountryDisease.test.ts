@@ -18,7 +18,7 @@ describe('useCountryDisease', () => {
   it('returns data when service resolves', async () => {
     vi.mocked(whoService.getDiseaseByCountry).mockResolvedValue([
       {
-        Id: '1',
+        Id: 1,
         IndicatorCode: 'MALARIA_CASES',
         SpatialDim: 'NGA',
         TimeDim: 2022,

@@ -1,9 +1,9 @@
 import { z } from 'zod'
 
 export const WHORecordSchema = z.object({
-  Id: z.string(),
+  Id: z.number(),
   IndicatorCode: z.string(),
-  SpatialDim: z.string(),
+  SpatialDim: z.string().nullable(),
   TimeDim: z.number(),
   NumericValue: z.number().nullable(),
   Low: z.number().nullable(),

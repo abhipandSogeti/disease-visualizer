@@ -25,7 +25,7 @@ const wrapper = ({ children }: { children: React.ReactNode }) =>
   )
 
 const makeRecord = (year: number, value: number): WHORecord => ({
-  Id: String(year),
+  Id: year,
   IndicatorCode: 'MALARIA_CASES',
   SpatialDim: 'NGA',
   TimeDim: year,

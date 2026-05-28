@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { AppShell } from '@/components/layout/AppShell'
 import { Globe } from '@/components/globe/Globe'
+import { ChoroplethMap } from '@/components/map/ChoroplethMap'
 import { DiseasePanel } from '@/components/disease/DiseasePanel'
 import { LoadingSkeleton } from '@/components/ui/LoadingSkeleton'
 import { useAppStore } from '@/stores/app.store'
@@ -9,7 +10,7 @@ import { useAppStore } from '@/stores/app.store'
 const DrugPage = lazy(() => import('@/pages/DrugPage'))
 
 function GlobePage() {
-  const { selectedCountry, activeDiseases } = useAppStore()
+  const { selectedCountry, activeDiseases, view } = useAppStore()
   const primaryDisease = activeDiseases[0] ?? null
 
   return (
@@ -20,7 +21,7 @@ function GlobePage() {
         ) : undefined
       }
     >
-      <Globe />
+      {view === 'globe' ? <Globe /> : <ChoroplethMap />}
     </AppShell>
   )
 }
