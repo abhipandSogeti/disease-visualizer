@@ -11,7 +11,9 @@ export function LeftPanel() {
   const [showPicker, setShowPicker] = useState(false)
 
   const primaryDisease = activeDiseases[0]
-  const { data: years } = useAvailableYears(primaryDisease?.whoIndicator ?? '')
+  const { data: years, isLoading: yearsLoading } = useAvailableYears(
+    primaryDisease?.whoIndicator ?? '',
+  )
 
   const minYear = years ? years[years.length - 1] : 2000
   const maxYear = years ? years[0] : 2024
@@ -130,34 +132,130 @@ export function LeftPanel() {
         <p className="text-xs text-slate-500">No diseases selected. Use + to add.</p>
       )}
 
-      {/* Year slider — range comes from actual WHO data for the active disease */}
+      {/* Year selector — range comes from actual WHO data for the active disease */}
       <div className="mt-auto flex flex-col gap-2 border-t border-slate-800 pt-3">
-        <div className="flex items-center justify-between">
-          <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-            Year
-          </span>
-          <span className="text-xs font-bold text-slate-300">{selectedYear}</span>
-        </div>
-        {years && years.length > 1 ? (
-          <>
-            <input
-              type="range"
-              min={minYear}
-              max={maxYear}
-              value={Math.min(Math.max(selectedYear, minYear), maxYear)}
-              onChange={(e) => setYear(Number(e.target.value))}
-              aria-label={`Select year between ${minYear} and ${maxYear}`}
-              className="w-full accent-blue-500"
-            />
-            <div className="flex justify-between text-[10px] text-slate-600">
-              <span>{minYear}</span>
-              <span>{maxYear}</span>
-            </div>
-          </>
-        ) : (
-          <p className="text-[10px] text-slate-600">
-            {primaryDisease?.whoIndicator ? 'Loading years…' : 'No WHO data for this disease'}
+        <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">Year</span>
+
+        {/* No WHO indicator for this disease */}
+        {!primaryDisease?.whoIndicator && (
+          <p className="text-[10px] leading-snug text-slate-500">
+            No time-series data available for this disease
           </p>
+        )}
+
+        {/* Loading skeleton */}
+        {primaryDisease?.whoIndicator && yearsLoading && (
+          <div className="flex flex-col gap-2" aria-busy="true" aria-label="Loading years">
+            <div className="h-8 w-16 animate-pulse rounded bg-slate-700" />
+            <div className="h-2 w-full animate-pulse rounded-full bg-slate-700" />
+            <div className="flex justify-between">
+              <div className="h-2.5 w-8 animate-pulse rounded bg-slate-800" />
+              <div className="h-2.5 w-8 animate-pulse rounded bg-slate-800" />
+            </div>
+          </div>
+        )}
+
+        {/* Polished slider */}
+        {years &&
+          years.length > 1 &&
+          (() => {
+            const clampedYear = Math.min(Math.max(selectedYear, minYear), maxYear)
+            const pct =
+              maxYear === minYear ? 100 : ((clampedYear - minYear) / (maxYear - minYear)) * 100
+
+            // Tick marks every 5 years, always include first/last
+            const tickYears: number[] = []
+            const step5Start = Math.ceil(minYear / 5) * 5
+            for (let y = step5Start; y <= maxYear; y += 5) {
+              if (y >= minYear) tickYears.push(y)
+            }
+            if (!tickYears.includes(minYear)) tickYears.unshift(minYear)
+            if (!tickYears.includes(maxYear)) tickYears.push(maxYear)
+
+            return (
+              <>
+                {/* Large year display */}
+                <div
+                  className="text-3xl font-bold tabular-nums text-white"
+                  aria-live="polite"
+                  aria-atomic="true"
+                >
+                  {clampedYear}
+                </div>
+
+                {/* Slider with gradient fill */}
+                <div className="relative flex items-center">
+                  <input
+                    type="range"
+                    min={minYear}
+                    max={maxYear}
+                    step={1}
+                    value={clampedYear}
+                    onChange={(e) => setYear(Number(e.target.value))}
+                    aria-label={`Select year between ${minYear} and ${maxYear}`}
+                    aria-valuetext={String(clampedYear)}
+                    style={{
+                      background: `linear-gradient(to right, #3b82f6 ${pct}%, #334155 ${pct}%)`,
+                    }}
+                    className={[
+                      'w-full cursor-pointer appearance-none rounded-full',
+                      'h-2',
+                      // Thumb styling (webkit + moz)
+                      '[&::-webkit-slider-thumb]:appearance-none',
+                      '[&::-webkit-slider-thumb]:h-4',
+                      '[&::-webkit-slider-thumb]:w-4',
+                      '[&::-webkit-slider-thumb]:rounded-full',
+                      '[&::-webkit-slider-thumb]:bg-white',
+                      '[&::-webkit-slider-thumb]:shadow-md',
+                      '[&::-webkit-slider-thumb]:ring-2',
+                      '[&::-webkit-slider-thumb]:ring-blue-500',
+                      '[&::-webkit-slider-thumb]:transition-transform',
+                      '[&::-webkit-slider-thumb]:hover:scale-125',
+                      '[&::-moz-range-thumb]:h-4',
+                      '[&::-moz-range-thumb]:w-4',
+                      '[&::-moz-range-thumb]:rounded-full',
+                      '[&::-moz-range-thumb]:border-0',
+                      '[&::-moz-range-thumb]:bg-white',
+                      '[&::-moz-range-thumb]:shadow-md',
+                      '[&::-moz-range-thumb]:ring-2',
+                      '[&::-moz-range-thumb]:ring-blue-500',
+                      // Track (moz)
+                      '[&::-moz-range-track]:rounded-full',
+                      '[&::-moz-range-track]:h-2',
+                      'focus-visible:outline-none',
+                      'focus-visible:ring-2',
+                      'focus-visible:ring-blue-400',
+                      'focus-visible:ring-offset-2',
+                      'focus-visible:ring-offset-navy-900',
+                    ].join(' ')}
+                  />
+                </div>
+
+                {/* Tick labels */}
+                <div className="relative h-4">
+                  {tickYears.map((y) => {
+                    const pos = ((y - minYear) / (maxYear - minYear)) * 100
+                    return (
+                      <span
+                        key={y}
+                        style={{ left: `${pos}%` }}
+                        className={[
+                          'absolute -translate-x-1/2 text-[9px] tabular-nums',
+                          y === clampedYear ? 'font-bold text-blue-400' : 'text-slate-600',
+                        ].join(' ')}
+                      >
+                        {y}
+                      </span>
+                    )
+                  })}
+                </div>
+              </>
+            )
+          })()}
+
+        {/* Edge case: indicator present but only one data point */}
+        {primaryDisease?.whoIndicator && !yearsLoading && years && years.length === 1 && (
+          <p className="text-[10px] text-slate-500">Only one year of data: {years[0]}</p>
         )}
       </div>
     </aside>
