@@ -23,7 +23,13 @@ interface GeoFeature {
 
 type OrbitControls = { autoRotate: boolean; autoRotateSpeed: number }
 
-type RingDatum = { lat: number; lng: number; iso3: string; kind: 'burden' | 'compare' }
+type RingDatum = {
+  lat: number
+  lng: number
+  iso3: string
+  kind: 'burden' | 'compare'
+  rank: number
+}
 type PointDatum = { lat: number; lng: number; iso3: string }
 type ArcDatum = { startLat: number; startLng: number; endLat: number; endLng: number }
 type LabelDatum = { lat: number; lng: number; name: string }
@@ -207,16 +213,16 @@ export function Globe() {
             .filter(([, v]) => v !== null && v > 0)
             .sort(([, a], [, b]) => (b ?? 0) - (a ?? 0))
             .slice(0, 5)
-            .flatMap(([iso3]) => {
+            .flatMap(([iso3], rank) => {
               const c = centroidMap.get(iso3)
-              return c ? [{ lat: c.lat, lng: c.lng, iso3, kind: 'burden' as const }] : []
+              return c ? [{ lat: c.lat, lng: c.lng, iso3, kind: 'burden' as const, rank }] : []
             })
         : []
 
     const compare: RingDatum[] = []
     const addCompare = (iso3: string) => {
       const c = centroidMap.get(iso3)
-      if (c) compare.push({ lat: c.lat, lng: c.lng, iso3, kind: 'compare' as const })
+      if (c) compare.push({ lat: c.lat, lng: c.lng, iso3, kind: 'compare' as const, rank: 0 })
     }
     if (selectedCountry) addCompare(selectedCountry)
     if (compareCountry) addCompare(compareCountry)
@@ -337,14 +343,29 @@ export function Globe() {
         ringsData={ringsData}
         ringLat={(d: object) => (d as RingDatum).lat}
         ringLng={(d: object) => (d as RingDatum).lng}
-        ringColor={(d: object) =>
-          (d as RingDatum).kind === 'compare'
-            ? (t: number) => `rgba(0,229,255,${1 - t})`
-            : (t: number) => `rgba(239,68,68,${1 - t})`
-        }
-        ringMaxRadius={(d: object) => ((d as RingDatum).kind === 'compare' ? 4 : 3)}
-        ringPropagationSpeed={(d: object) => ((d as RingDatum).kind === 'compare' ? 2 : 1.5)}
-        ringRepeatPeriod={(d: object) => ((d as RingDatum).kind === 'compare' ? 900 : 1200)}
+        ringColor={(d: object) => {
+          const r = d as RingDatum
+          if (r.kind === 'compare') return (t: number) => `rgba(0,229,255,${(1 - t) * 0.9})`
+          // Severity gradient: rank 0 = bright red, rank 4 = amber
+          const hue = 0 + r.rank * 16 // 0°→64° (red→amber)
+          return (t: number) => `hsla(${hue},100%,55%,${(1 - t) * 0.95})`
+        }}
+        ringMaxRadius={(d: object) => {
+          const r = d as RingDatum
+          if (r.kind === 'compare') return 5
+          return 8 - r.rank * 0.8 // rank 0→8, rank 4→4.8
+        }}
+        ringPropagationSpeed={(d: object) => {
+          const r = d as RingDatum
+          if (r.kind === 'compare') return 2.5
+          return 3.5 - r.rank * 0.4 // rank 0→3.5, rank 4→1.9
+        }}
+        ringRepeatPeriod={(d: object) => {
+          const r = d as RingDatum
+          if (r.kind === 'compare') return 800
+          return 700 + r.rank * 150 // rank 0→700ms, rank 4→1300ms
+        }}
+        ringAltitude={0.012}
         // ── Labels — floating country names on top-burden ────────────────
         labelsData={labelsData}
         labelText={(d: object) => (d as LabelDatum).name}
