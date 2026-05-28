@@ -55,8 +55,8 @@ export function ChoroplethMap() {
                     key={geo.rsmKey}
                     geography={geo}
                     fill={getBurdenColour(value, maxValue)}
-                    stroke="#e5e7eb"
-                    strokeWidth={0.5}
+                    stroke="#6b7280"
+                    strokeWidth={0.8}
                     style={{
                       default: { outline: 'none' },
                       hover: { outline: 'none', opacity: 0.8, cursor: 'pointer' },

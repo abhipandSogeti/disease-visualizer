@@ -22,7 +22,7 @@ export function MoleculeViewer2D({ cid, drugName }: MoleculeViewer2DProps) {
     )
   }
 
-  const imageUrl = get2DImageUrl(cid, 300)
+  const imageUrl = get2DImageUrl(cid, 600)
 
   return (
     <div className="flex flex-col gap-2">
@@ -55,7 +55,7 @@ export function MoleculeViewer2D({ cid, drugName }: MoleculeViewer2DProps) {
           <img
             src={imageUrl}
             alt={`2D chemical structure of ${drugName}`}
-            className="h-36 w-36 object-contain"
+            className="h-64 w-64 object-contain"
             onLoad={() => setLoaded(true)}
             onError={() => setErrored(true)}
           />

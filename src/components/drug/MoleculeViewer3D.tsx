@@ -133,7 +133,7 @@ export function MoleculeViewer3D({ cid, drugName }: MoleculeViewer3DProps) {
           </a>
         </div>
       </div>
-      <div className="relative h-52 w-full overflow-hidden rounded border border-stone-300 bg-slate-950">
+      <div className="relative h-80 w-full overflow-hidden rounded border border-stone-300 bg-slate-950">
         {loading && !errored && (
           <div className="absolute inset-0 flex items-center justify-center">
             <LoadingSkeleton label="Loading 3D molecule..." rows={1} />

@@ -122,8 +122,8 @@ export function Globe() {
           const f = d as { properties: { iso_a3: string } }
           return getBurdenColour(burdenMap.get(f.properties.iso_a3) ?? null, maxValue)
         }}
-        polygonSideColor={() => 'rgba(0,0,0,0.1)'}
-        polygonStrokeColor={() => 'rgba(148,163,184,0.3)'}
+        polygonSideColor={() => 'rgba(0,0,0,0.2)'}
+        polygonStrokeColor={() => 'rgba(255,255,255,0.7)'}
         polygonLabel={() => ''}
         onPolygonHover={handleHover}
         onPolygonClick={handleClick}
