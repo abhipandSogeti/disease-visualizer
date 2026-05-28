@@ -1,3 +1,5 @@
+import { useReducedMotion } from '@/lib/use-reduced-motion'
+
 interface TimeScrubberProps {
   value: number
   min: number
@@ -6,6 +8,8 @@ interface TimeScrubberProps {
 }
 
 export function TimeScrubber({ value, min, max, onChange }: TimeScrubberProps) {
+  const reducedMotion = useReducedMotion()
+
   return (
     <div className="flex items-center gap-3 px-4 py-2">
       <span className="w-10 text-right text-xs text-slate-500">{min}</span>
@@ -30,7 +34,12 @@ export function TimeScrubber({ value, min, max, onChange }: TimeScrubberProps) {
           className="w-full cursor-pointer appearance-none rounded-full bg-slate-700 h-1.5 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-blue-500"
         />
         <div
-          className="pointer-events-none absolute -top-7 -translate-x-1/2 whitespace-nowrap"
+          className={[
+            'pointer-events-none absolute -top-7 -translate-x-1/2 whitespace-nowrap',
+            reducedMotion ? '' : 'transition-[left] duration-150',
+          ]
+            .join(' ')
+            .trim()}
           style={{ left: `${((value - min) / (max - min)) * 100}%` }}
           aria-hidden="true"
         >

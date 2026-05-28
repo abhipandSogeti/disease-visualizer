@@ -3,6 +3,7 @@ import GlobeGL, { type GlobeMethods } from 'react-globe.gl'
 import { useAppStore } from '@/stores/app.store'
 import { useGlobalDisease } from '@/hooks/useCountryDisease'
 import { getBurdenColour } from '@/lib/colour-scale'
+import { useReducedMotion } from '@/lib/use-reduced-motion'
 import { GlobeLegend } from './GlobeLegend'
 import { GlobeTooltip } from './GlobeTooltip'
 import { GlobeControls } from './GlobeControls'
@@ -18,6 +19,7 @@ interface TooltipState {
 export function Globe() {
   const globeRef = useRef<GlobeMethods | undefined>(undefined)
   const { activeDiseases, selectedYear, setCountry } = useAppStore()
+  const prefersReducedMotion = useReducedMotion()
   const [tooltip, setTooltip] = useState<TooltipState>({
     visible: false,
     countryName: '',
@@ -73,6 +75,7 @@ export function Globe() {
         ref={globeRef}
         globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
         backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
+        animateIn={!prefersReducedMotion}
         polygonsData={[]}
         polygonCapColor={(d: object) => {
           const f = d as { properties: { iso_a3: string } }
