@@ -15,7 +15,7 @@ export async function getCompoundByName(name: string): Promise<PubChemCompound |
     cid: p.CID,
     molecularFormula: p.MolecularFormula,
     molecularWeight: p.MolecularWeight,
-    isomericSmiles: p.IsomericSMILES,
+    isomericSmiles: p.IsomericSMILES ?? p.SMILES ?? '',
     iupacName: p.IUPACName ?? name,
     inchiKey: p.InChIKey ?? '',
   }

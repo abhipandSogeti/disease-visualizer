@@ -34,11 +34,9 @@ function InfoRow({
 }
 
 export function DrugOverviewTab({ drugName, pubchemId }: DrugOverviewTabProps) {
-  const { data: label, isLoading: labelLoading } = useDrugLabel(drugName)
+  const { data: label } = useDrugLabel(drugName)
   const { data: molecule, isLoading: molLoading } = useDrugMolecule(drugName)
-  const isLoading = labelLoading || molLoading
-
-  if (isLoading) return <LoadingSkeleton label={`Loading ${drugName} information...`} rows={4} />
+  if (molLoading) return <LoadingSkeleton label={`Loading ${drugName} information...`} rows={4} />
 
   const genericName = label?.openfda?.generic_name?.[0] ?? drugName
   const brandNames = label?.openfda?.brand_name?.slice(0, 3).join(', ') ?? null

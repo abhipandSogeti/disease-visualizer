@@ -4,7 +4,8 @@ export const PubChemPropertySchema = z.object({
   CID: z.number(),
   MolecularFormula: z.string(),
   MolecularWeight: z.string(),
-  IsomericSMILES: z.string(),
+  IsomericSMILES: z.string().optional(),
+  SMILES: z.string().optional(),
   IUPACName: z.string().optional(),
   InChIKey: z.string().optional(),
 })
