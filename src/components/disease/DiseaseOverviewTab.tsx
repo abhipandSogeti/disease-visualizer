@@ -1,7 +1,12 @@
 import { useMemo } from 'react'
 import { Download } from 'lucide-react'
 import { useCountryDiseaseTimeSeries } from '@/hooks/useCountryDisease'
-import { usePopulation } from '@/hooks/useWorldBank'
+import {
+  usePopulation,
+  useHospitalBeds,
+  useLifeExpectancy,
+  useGdpPerCapita,
+} from '@/hooks/useWorldBank'
 import { DISEASE_COLOURS } from '@/lib/colour-scale'
 import { LoadingSkeleton } from '@/components/ui/LoadingSkeleton'
 import { ErrorState } from '@/components/ui/ErrorState'
@@ -22,6 +27,9 @@ export function DiseaseOverviewTab({ iso3, disease, persona }: DiseaseOverviewTa
     disease.whoIndicator,
   )
   const { data: popData } = usePopulation(iso3)
+  const { data: bedsData } = useHospitalBeds(iso3)
+  const { data: lifeExpData } = useLifeExpectancy(iso3)
+  const { data: gdpData } = useGdpPerCapita(iso3)
 
   const latestPop = useMemo(() => popData?.find((d) => d.value !== null)?.value ?? null, [popData])
 
@@ -41,6 +49,18 @@ export function DiseaseOverviewTab({ iso3, disease, persona }: DiseaseOverviewTa
     if (!latest?.NumericValue || !latestPop) return null
     return (latest.NumericValue / latestPop) * 100_000
   }, [latest, latestPop])
+
+  const latestBeds = useMemo(() => bedsData?.[0]?.value ?? null, [bedsData])
+  const latestLifeExp = useMemo(() => lifeExpData?.[0]?.value ?? null, [lifeExpData])
+  const latestGdp = useMemo(() => gdpData?.[0]?.value ?? null, [gdpData])
+
+  const peakEntry = useMemo(
+    () =>
+      chartData.length > 0
+        ? chartData.reduce((max, d) => (d.value > max.value ? d : max), chartData[0])
+        : null,
+    [chartData],
+  )
 
   if (isLoading)
     return <LoadingSkeleton label={`Fetching ${disease.name} data for this country...`} />
@@ -71,6 +91,17 @@ export function DiseaseOverviewTab({ iso3, disease, persona }: DiseaseOverviewTa
           context="Cases per 100,000 population"
         />
       </div>
+      {peakEntry && (
+        <div className="flex items-center justify-between rounded border border-slate-800 bg-slate-900/40 px-3 py-2">
+          <span className="text-xs text-slate-500">Peak recorded year</span>
+          <div className="text-right">
+            <span className="text-xs font-bold text-slate-200">{peakEntry.year}</span>
+            <span className="ml-2 text-xs text-slate-400">
+              {peakEntry.value.toLocaleString()} cases
+            </span>
+          </div>
+        </div>
+      )}
       <div>
         <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
           Cases over time
@@ -80,6 +111,31 @@ export function DiseaseOverviewTab({ iso3, disease, persona }: DiseaseOverviewTa
           Source: WHO Global Health Observatory · Data from {chartData[0]?.year ?? '—'} to{' '}
           {chartData.at(-1)?.year ?? '—'}
         </p>
+      </div>
+      <div>
+        <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
+          Country health context
+        </h3>
+        <div className="grid grid-cols-3 gap-2">
+          <MetricCard
+            label="Hospital Beds"
+            value={latestBeds !== null ? Math.round(latestBeds * 10) / 10 : null}
+            unit="per 1k"
+            context="World Bank"
+          />
+          <MetricCard
+            label="Life Expectancy"
+            value={latestLifeExp !== null ? Math.round(latestLifeExp * 10) / 10 : null}
+            unit="yrs"
+            context="World Bank"
+          />
+          <MetricCard
+            label="GDP / Capita"
+            value={latestGdp !== null ? Math.round(latestGdp) : null}
+            unit="USD"
+            context="World Bank"
+          />
+        </div>
       </div>
       {(persona === 'epidemiologist' || persona === 'clinical') && (
         <div className="rounded border border-slate-800 bg-slate-900/40 p-3">

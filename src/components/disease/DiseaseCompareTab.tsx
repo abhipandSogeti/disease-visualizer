@@ -6,6 +6,7 @@ import { DISEASE_COLOURS } from '@/lib/colour-scale'
 import { EpidemicCurveChart } from './EpidemicCurveChart'
 import { useAppStore } from '@/stores/app.store'
 import { useCountryName } from '@/hooks/useCountryName'
+import { usePopulation } from '@/hooks/useWorldBank'
 import type { Disease } from '@/types/app.types'
 
 // Common ISO3 codes for quick selection
@@ -38,6 +39,7 @@ function CountryColumn({ iso3, disease }: { iso3: string; disease: Disease }) {
   const countryName = useCountryName(iso3)
   const { data } = useCountryDisease(iso3, disease.whoIndicator)
   const { data: series } = useCountryDiseaseTimeSeries(iso3, disease.whoIndicator)
+  const { data: popData } = usePopulation(iso3)
   const sorted = useMemo(() => (data ?? []).slice().sort((a, b) => b.TimeDim - a.TimeDim), [data])
   const latest = sorted[0]
   const previous = sorted[1]
@@ -53,6 +55,12 @@ function CountryColumn({ iso3, disease }: { iso3: string; disease: Disease }) {
         .map((r) => ({ year: r.TimeDim, value: r.NumericValue as number })),
     [series],
   )
+  const latestPop = useMemo(() => popData?.find((d) => d.value !== null)?.value ?? null, [popData])
+  const incidencePer100k = useMemo(() => {
+    if (!latest?.NumericValue || !latestPop) return null
+    return Math.round((latest.NumericValue / latestPop) * 100_000)
+  }, [latest, latestPop])
+
   return (
     <div className="flex-1 rounded border border-slate-800 bg-slate-900/40 p-3">
       <p className="mb-2 text-xs font-bold text-slate-300">{countryName}</p>
@@ -66,6 +74,13 @@ function CountryColumn({ iso3, disease }: { iso3: string; disease: Disease }) {
           {trend === 'increasing' ? 'Increasing' : trend === 'decreasing' ? 'Decreasing' : 'Stable'}
         </p>
       )}
+      {incidencePer100k !== null && (
+        <p className="mt-1 text-[11px] text-slate-500">
+          <span className="font-semibold text-slate-400">{incidencePer100k.toLocaleString()}</span>{' '}
+          per 100k
+        </p>
+      )}
+      {latest && <p className="text-[10px] text-slate-600">as of {latest.TimeDim}</p>}
       <div className="mt-3">
         <EpidemicCurveChart
           data={chartData}
