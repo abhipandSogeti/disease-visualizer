@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback, useMemo } from 'react'
+import { useRef, useState, useCallback, useMemo, useEffect } from 'react'
 import GlobeGL, { type GlobeMethods } from 'react-globe.gl'
 import { useAppStore } from '@/stores/app.store'
 import { useGlobalDisease } from '@/hooks/useCountryDisease'
@@ -20,6 +20,7 @@ export function Globe() {
   const globeRef = useRef<GlobeMethods | undefined>(undefined)
   const { activeDiseases, selectedYear, setCountry } = useAppStore()
   const prefersReducedMotion = useReducedMotion()
+  const [countries, setCountries] = useState<object[]>([])
   const [tooltip, setTooltip] = useState<TooltipState>({
     visible: false,
     countryName: '',
@@ -27,6 +28,13 @@ export function Globe() {
     x: 0,
     y: 0,
   })
+
+  useEffect(() => {
+    fetch('/geo/countries-110m.json')
+      .then((r) => r.json())
+      .then((d: { features: object[] }) => setCountries(d.features))
+      .catch(console.error)
+  }, [])
 
   const primaryDisease = activeDiseases[0]
   const { data: diseaseData } = useGlobalDisease(primaryDisease?.whoIndicator ?? '', selectedYear)
@@ -69,14 +77,18 @@ export function Globe() {
     [setCountry],
   )
 
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    setTooltip((t) => (t.visible ? { ...t, x: e.clientX, y: e.clientY } : t))
+  }, [])
+
   return (
-    <div className="relative h-full w-full bg-navy-950">
+    <div className="relative h-full w-full bg-navy-950" onMouseMove={handleMouseMove}>
       <GlobeGL
         ref={globeRef}
         globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
         backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
         animateIn={!prefersReducedMotion}
-        polygonsData={[]}
+        polygonsData={countries}
         polygonCapColor={(d: object) => {
           const f = d as { properties: { iso_a3: string } }
           return getBurdenColour(burdenMap.get(f.properties.iso_a3) ?? null, maxValue)
