@@ -51,6 +51,35 @@ function featureCentroid(feature: GeoFeature): { lat: number; lng: number } | nu
   return { lat, lng }
 }
 
+// Inject beacon CSS once per page load
+let beaconStyleInjected = false
+function ensureBeaconStyle() {
+  if (beaconStyleInjected) return
+  beaconStyleInjected = true
+  const s = document.createElement('style')
+  s.textContent = `
+    @keyframes globe-blink {
+      0%,100%{opacity:1;transform:scale(1)}
+      50%{opacity:0.25;transform:scale(0.7)}
+    }
+    @keyframes globe-ring-pulse {
+      0%{opacity:0.8;transform:scale(1)}
+      100%{opacity:0;transform:scale(2.6)}
+    }
+    .globe-beacon-dot{
+      width:7px;height:7px;border-radius:50%;background:#fff;
+      box-shadow:0 0 6px rgba(255,255,255,0.9);
+      animation:globe-blink 1.1s ease-in-out infinite;
+    }
+    .globe-beacon-ring{
+      position:absolute;width:7px;height:7px;border-radius:50%;
+      border:1.5px solid rgba(255,255,255,0.7);
+      animation:globe-ring-pulse 1.1s ease-out infinite;
+    }
+  `
+  document.head.appendChild(s)
+}
+
 export function Globe() {
   const globeRef = useRef<GlobeMethods | undefined>(undefined)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -370,21 +399,23 @@ export function Globe() {
         htmlElementsData={ringsData.filter((r) => r.kind === 'burden')}
         htmlLat={(d: object) => (d as RingDatum).lat}
         htmlLng={(d: object) => (d as RingDatum).lng}
-        htmlAltitude={0.09}
+        htmlAltitude={0.12}
         htmlElement={(d: object) => {
+          ensureBeaconStyle()
           const r = d as RingDatum
-          const hue = r.rank * 16
           const el = document.createElement('div')
-          el.style.cssText = [
-            'width:28px;height:28px;border-radius:50%',
-            `background:hsla(${hue},100%,50%,0.92)`,
-            'border:2px solid rgba(255,255,255,0.85)',
-            `box-shadow:0 0 10px hsla(${hue},100%,60%,0.7),0 0 22px hsla(${hue},100%,50%,0.35)`,
-            'display:flex;align-items:center;justify-content:center',
-            'color:#fff;font-family:system-ui,sans-serif;font-size:13px;font-weight:800',
-            'pointer-events:none;user-select:none;letter-spacing:-0.5px',
-          ].join(';')
-          el.textContent = String(r.rank + 1)
+          el.style.cssText =
+            'display:flex;flex-direction:column;align-items:center;pointer-events:none;user-select:none'
+          el.innerHTML = `
+            <div style="background:rgba(10,10,10,0.82);color:#fff;font-family:system-ui,sans-serif;font-size:11px;font-weight:800;padding:2px 8px;border-radius:20px;border:1px solid rgba(255,255,255,0.25);box-shadow:0 2px 12px rgba(0,0,0,0.5);letter-spacing:0.5px;backdrop-filter:blur(4px);white-space:nowrap">
+              ${r.rank + 1}
+            </div>
+            <div style="width:1px;height:18px;background:linear-gradient(to bottom,rgba(255,255,255,0.6),rgba(255,255,255,0.1));margin:1px 0"></div>
+            <div style="position:relative;display:flex;align-items:center;justify-content:center;width:14px;height:14px">
+              <div class="globe-beacon-ring"></div>
+              <div class="globe-beacon-dot"></div>
+            </div>
+          `
           return el
         }}
         // ── Labels — floating country names on top-burden ────────────────
