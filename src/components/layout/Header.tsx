@@ -16,9 +16,9 @@ export function Header() {
 
   return (
     <>
-      <header className="flex h-14 items-center justify-between border-b border-slate-800 bg-navy-900 px-4">
+      <header className="flex h-14 items-center justify-between border-b border-white/[0.06] bg-navy-900 px-4">
         <div className="flex items-center gap-2">
-          <Activity className="h-5 w-5 text-blue-400" aria-hidden="true" />
+          <Activity className="h-5 w-5 text-violet-400" aria-hidden="true" />
           <span className="text-sm font-semibold tracking-wide text-slate-100">
             Disease Visualizer
           </span>
@@ -32,8 +32,8 @@ export function Header() {
               className={[
                 'rounded px-3 py-1 text-xs font-medium transition-colors',
                 persona === p.id
-                  ? 'bg-blue-600 text-white'
-                  : 'text-slate-400 hover:bg-slate-800 hover:text-slate-100',
+                  ? 'bg-violet-600 text-white'
+                  : 'text-slate-400 hover:bg-white/[0.06] hover:text-slate-100',
               ].join(' ')}
             >
               {p.label}
@@ -44,7 +44,7 @@ export function Header() {
           <button
             onClick={() => setSearchOpen(true)}
             aria-label="Open search"
-            className="flex w-56 items-center gap-2 rounded bg-slate-800 py-1 pl-3 pr-3 text-xs text-slate-500 hover:bg-slate-700 hover:text-slate-300"
+            className="flex w-56 items-center gap-2 rounded bg-white/[0.05] py-1 pl-3 pr-3 text-xs text-slate-500 hover:bg-white/[0.08] hover:text-slate-300"
           >
             <Search className="h-3.5 w-3.5 flex-shrink-0" aria-hidden="true" />
             <span>Search countries, diseases, drugs...</span>

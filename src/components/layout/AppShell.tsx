@@ -21,7 +21,7 @@ export function AppShell({ children, rightPanel }: AppShellProps) {
         </main>
         {rightPanel && (
           <aside
-            className="w-96 overflow-y-auto border-l border-slate-800 bg-navy-900 shadow-2xl transition-all duration-300"
+            className="w-[460px] overflow-y-auto border-l border-white/[0.06] bg-navy-900 shadow-2xl transition-all duration-300"
             aria-label="Disease intelligence panel"
           >
             {rightPanel}

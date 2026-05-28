@@ -122,7 +122,7 @@ export function DiseaseCompareTab({ iso3Primary, iso3Compare, disease }: Disease
             placeholder="Filter countries…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full rounded border border-slate-700 bg-slate-900 py-1.5 pl-8 pr-3 text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="w-full rounded border border-slate-700 bg-slate-900 py-1.5 pl-8 pr-3 text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-violet-500"
           />
         </div>
         <ul className="flex flex-col gap-1">

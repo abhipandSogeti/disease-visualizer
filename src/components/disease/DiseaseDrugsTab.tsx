@@ -247,7 +247,7 @@ export function DiseaseDrugsTab({ disease }: DiseaseDrugsTabProps) {
               <li key={drug.name}>
                 <button
                   onClick={() => navigate(`/drug/${drug.pubchemId}`)}
-                  className="group flex w-full items-center justify-between rounded border border-slate-800 bg-slate-900/60 p-3 text-left transition-colors hover:border-blue-700 hover:bg-slate-800 focus:outline-none focus-visible:ring-1 focus-visible:ring-blue-500"
+                  className="group flex w-full items-center justify-between rounded border border-slate-800 bg-slate-900/60 p-3 text-left transition-colors hover:border-violet-700 hover:bg-slate-800 focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-500"
                   aria-label={`Open ${drug.name} drug visualiser`}
                 >
                   <div className="flex items-center gap-3">

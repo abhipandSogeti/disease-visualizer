@@ -12,15 +12,15 @@ export function RightPanel({ title, subtitle, children }: RightPanelProps) {
   const { setCountry } = useAppStore()
   return (
     <div className="flex h-full flex-col">
-      <div className="flex items-start justify-between border-b border-slate-800 p-4">
+      <div className="flex items-start justify-between border-b border-white/[0.06] p-4">
         <div>
-          <h2 className="text-sm font-semibold text-slate-100">{title}</h2>
-          {subtitle && <p className="mt-0.5 text-xs text-slate-500">{subtitle}</p>}
+          <h2 className="text-sm font-semibold text-white">{title}</h2>
+          {subtitle && <p className="mt-0.5 text-xs text-slate-400">{subtitle}</p>}
         </div>
         <button
           onClick={() => setCountry(null)}
           aria-label="Close panel"
-          className="rounded p-1 text-slate-500 hover:bg-slate-800 hover:text-slate-100"
+          className="rounded p-1 text-slate-500 hover:bg-white/[0.06] hover:text-slate-100"
         >
           <X className="h-4 w-4" aria-hidden="true" />
         </button>

@@ -29,7 +29,7 @@ export function LeftPanel() {
 
   return (
     <aside
-      className="flex w-52 flex-col gap-3 overflow-y-auto border-r border-slate-800 bg-navy-900 p-3"
+      className="flex w-52 flex-col gap-3 overflow-y-auto border-r border-white/[0.06] bg-navy-900 p-3"
       aria-label="Controls"
     >
       {/* View toggle */}
@@ -40,8 +40,8 @@ export function LeftPanel() {
           className={[
             'flex flex-1 items-center justify-center gap-1.5 rounded py-1.5 text-xs font-medium transition-colors',
             view === 'globe'
-              ? 'bg-blue-600 text-white'
-              : 'text-slate-400 hover:bg-slate-800 hover:text-slate-100',
+              ? 'bg-violet-600 text-white'
+              : 'text-slate-400 hover:bg-white/[0.06] hover:text-slate-100',
           ].join(' ')}
         >
           <Globe className="h-3.5 w-3.5" aria-hidden="true" />
@@ -53,8 +53,8 @@ export function LeftPanel() {
           className={[
             'flex flex-1 items-center justify-center gap-1.5 rounded py-1.5 text-xs font-medium transition-colors',
             view === 'map'
-              ? 'bg-blue-600 text-white'
-              : 'text-slate-400 hover:bg-slate-800 hover:text-slate-100',
+              ? 'bg-violet-600 text-white'
+              : 'text-slate-400 hover:bg-white/[0.06] hover:text-slate-100',
           ].join(' ')}
         >
           <Map className="h-3.5 w-3.5" aria-hidden="true" />
@@ -208,7 +208,7 @@ export function LeftPanel() {
                       '[&::-webkit-slider-thumb]:bg-white',
                       '[&::-webkit-slider-thumb]:shadow-md',
                       '[&::-webkit-slider-thumb]:ring-2',
-                      '[&::-webkit-slider-thumb]:ring-blue-500',
+                      '[&::-webkit-slider-thumb]:ring-violet-500',
                       '[&::-webkit-slider-thumb]:transition-transform',
                       '[&::-webkit-slider-thumb]:hover:scale-125',
                       '[&::-moz-range-thumb]:h-4',
@@ -218,13 +218,13 @@ export function LeftPanel() {
                       '[&::-moz-range-thumb]:bg-white',
                       '[&::-moz-range-thumb]:shadow-md',
                       '[&::-moz-range-thumb]:ring-2',
-                      '[&::-moz-range-thumb]:ring-blue-500',
+                      '[&::-moz-range-thumb]:ring-violet-500',
                       // Track (moz)
                       '[&::-moz-range-track]:rounded-full',
                       '[&::-moz-range-track]:h-2',
                       'focus-visible:outline-none',
                       'focus-visible:ring-2',
-                      'focus-visible:ring-blue-400',
+                      'focus-visible:ring-violet-400',
                       'focus-visible:ring-offset-2',
                       'focus-visible:ring-offset-navy-900',
                     ].join(' ')}
