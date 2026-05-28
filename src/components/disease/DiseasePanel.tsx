@@ -6,6 +6,7 @@ import { DiseaseOverviewTab } from './DiseaseOverviewTab'
 import { DiseaseHistoryTab } from './DiseaseHistoryTab'
 import { DiseaseCompareTab } from './DiseaseCompareTab'
 import { DiseaseDrugsTab } from './DiseaseDrugsTab'
+import { DISEASE_COLOURS } from '@/lib/colour-scale'
 import type { Disease } from '@/types/app.types'
 
 type Tab = 'overview' | 'history' | 'compare' | 'drugs'
@@ -28,7 +29,11 @@ export function DiseasePanel({ iso3, disease }: DiseasePanelProps) {
   const countryName = useCountryName(iso3)
 
   return (
-    <RightPanel title={disease.name} subtitle={`${countryName} · ${disease.description}`}>
+    <RightPanel
+      title={disease.name}
+      subtitle={`${countryName} · ${disease.description}`}
+      accentColor={DISEASE_COLOURS[disease.category]}
+    >
       <div
         role="tablist"
         aria-label="Disease information sections"

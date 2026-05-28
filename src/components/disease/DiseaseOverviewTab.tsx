@@ -84,39 +84,50 @@ export function DiseaseOverviewTab({ iso3, disease, persona }: DiseaseOverviewTa
           value={latest?.NumericValue ?? null}
           previous={previous?.NumericValue ?? null}
           context={latest ? `Recorded in ${latest.TimeDim}` : ''}
+          accent={colour}
         />
         <MetricCard
           label="Incidence Rate"
           value={incidencePer100k !== null ? Math.round(incidencePer100k) : null}
-          unit="per 100k people"
-          context="Cases per 100,000 population"
+          unit="per 100k"
+          context="per 100,000 population"
+          accent={colour}
         />
       </div>
       {peakEntry && (
-        <div className="flex items-center justify-between rounded border border-stone-300 bg-stone-200/40 px-3 py-2">
-          <span className="text-xs text-gray-600">Peak recorded year</span>
-          <div className="text-right">
-            <span className="text-xs font-bold text-gray-800">{peakEntry.year}</span>
-            <span className="ml-2 text-xs text-gray-600">
-              {peakEntry.value.toLocaleString()} cases
+        <div className="flex items-center justify-between rounded-lg border border-stone-200 bg-white px-3 py-2 shadow-sm">
+          <span className="text-[11px] font-medium text-gray-500">Peak recorded year</span>
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-bold text-gray-900">{peakEntry.year}</span>
+            <span
+              className="rounded-full px-2 py-0.5 text-[10px] font-semibold text-white"
+              style={{ background: colour }}
+            >
+              {peakEntry.value.toLocaleString()}
             </span>
           </div>
         </div>
       )}
       <div>
-        <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-600">
-          Cases over time
-        </h3>
+        <div className="mb-2 flex items-center gap-2">
+          <div className="h-2 w-2 rounded-full" style={{ background: colour }} />
+          <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-600">
+            Cases over time
+          </h3>
+        </div>
         <EpidemicCurveChart data={chartData} diseaseName={disease.name} colour={colour} />
-        <p className="mt-1 text-xs text-gray-600">
-          Source: WHO Global Health Observatory · Data from {chartData[0]?.year ?? '—'} to{' '}
+        <p className="mt-1 text-[11px] text-gray-400">
+          WHO Global Health Observatory · {chartData[0]?.year ?? '—'}–
           {chartData.at(-1)?.year ?? '—'}
         </p>
       </div>
       <div>
-        <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-600">
-          Country health context
-        </h3>
+        <div className="mb-2 flex items-center gap-2">
+          <div className="h-2 w-2 rounded-full bg-gray-400" />
+          <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-600">
+            Country health context
+          </h3>
+        </div>
         <div className="grid grid-cols-3 gap-2">
           <MetricCard
             label="Hospital Beds"

@@ -58,3 +58,4 @@ Could not sign in, please try to sign in again. (unauthenticated)
 [  117518ms] [ERROR] Failed to load resource: the server responded with a status of 503 () @ https://collector.github.com/github/collect:0
 [  117693ms] [ERROR] Failed to load resource: the server responded with a status of 503 () @ https://collector.github.com/github/collect:0
 [  340893ms] [ERROR] Failed to load resource: the server responded with a status of 503 () @ https://collector.github.com/github/collect:0
+[ 1934241ms] [ERROR] Failed to load resource: the server responded with a status of 503 () @ https://collector.github.com/github/collect:0

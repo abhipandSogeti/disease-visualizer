@@ -11,19 +11,23 @@ export function TrendBadge({ previous, current }: TrendBadgeProps) {
   const label = formatTrend(previous, current)
 
   const config = {
-    increasing: { icon: TrendingUp, color: 'text-red-600', bg: 'bg-red-950/40' },
-    decreasing: { icon: TrendingDown, color: 'text-green-700', bg: 'bg-green-950/40' },
-    stable: { icon: Minus, color: 'text-gray-600', bg: 'bg-stone-200/60' },
+    increasing: { icon: TrendingUp, color: 'text-red-700', bg: 'bg-red-50 border border-red-200' },
+    decreasing: {
+      icon: TrendingDown,
+      color: 'text-emerald-700',
+      bg: 'bg-emerald-50 border border-emerald-200',
+    },
+    stable: { icon: Minus, color: 'text-gray-600', bg: 'bg-stone-100 border border-stone-300' },
   }[direction]
 
   const Icon = config.icon
 
   return (
     <span
-      className={`inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-xs ${config.color} ${config.bg}`}
+      className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium ${config.color} ${config.bg}`}
     >
       <Icon className="h-3 w-3" aria-hidden="true" />
-      {direction === 'stable' ? 'Stable — less than 1% change' : label}
+      {direction === 'stable' ? 'Stable' : label}
     </span>
   )
 }

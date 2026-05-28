@@ -366,6 +366,27 @@ export function Globe() {
           return 700 + r.rank * 150 // rank 0→700ms, rank 4→1300ms
         }}
         ringAltitude={0.012}
+        // ── HTML badges — rank numbers float above WebGL at all times ────
+        htmlElementsData={ringsData.filter((r) => r.kind === 'burden')}
+        htmlLat={(d: object) => (d as RingDatum).lat}
+        htmlLng={(d: object) => (d as RingDatum).lng}
+        htmlAltitude={0.09}
+        htmlElement={(d: object) => {
+          const r = d as RingDatum
+          const hue = r.rank * 16
+          const el = document.createElement('div')
+          el.style.cssText = [
+            'width:28px;height:28px;border-radius:50%',
+            `background:hsla(${hue},100%,50%,0.92)`,
+            'border:2px solid rgba(255,255,255,0.85)',
+            `box-shadow:0 0 10px hsla(${hue},100%,60%,0.7),0 0 22px hsla(${hue},100%,50%,0.35)`,
+            'display:flex;align-items:center;justify-content:center',
+            'color:#fff;font-family:system-ui,sans-serif;font-size:13px;font-weight:800',
+            'pointer-events:none;user-select:none;letter-spacing:-0.5px',
+          ].join(';')
+          el.textContent = String(r.rank + 1)
+          return el
+        }}
         // ── Labels — floating country names on top-burden ────────────────
         labelsData={labelsData}
         labelText={(d: object) => (d as LabelDatum).name}

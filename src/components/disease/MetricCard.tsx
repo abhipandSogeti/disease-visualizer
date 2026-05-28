@@ -7,28 +7,37 @@ interface MetricCardProps {
   context: string
   previous?: number | null
   unit?: string
+  accent?: string
 }
 
-export function MetricCard({ label, value, context, previous, unit }: MetricCardProps) {
+export function MetricCard({ label, value, context, previous, unit, accent }: MetricCardProps) {
   return (
-    <div className="rounded border border-stone-300 bg-stone-200/60 p-3">
-      <p className="text-xs font-medium uppercase tracking-wider text-gray-600">{label}</p>
-      <p className="mt-1 text-xl font-bold text-gray-900">
-        {value === null ? (
-          'No data available'
-        ) : (
-          <>
-            {formatCount(value)}
-            {unit && <span className="ml-1 text-sm font-normal text-gray-600">{unit}</span>}
-          </>
-        )}
-      </p>
-      {previous !== undefined && previous !== null && value !== null && (
-        <div className="mt-1">
-          <TrendBadge previous={previous} current={value} />
-        </div>
+    <div className="relative overflow-hidden rounded-lg border border-stone-200 bg-white shadow-sm">
+      {accent && (
+        <div
+          className="absolute inset-y-0 left-0 w-[3px] rounded-l-lg"
+          style={{ background: accent }}
+        />
       )}
-      {context && <p className="mt-1.5 text-xs leading-relaxed text-gray-600">{context}</p>}
+      <div className={accent ? 'py-3 pl-4 pr-3' : 'px-3 py-3'}>
+        <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-500">{label}</p>
+        <p className="mt-1 text-2xl font-bold leading-none text-gray-900">
+          {value === null ? (
+            <span className="text-sm font-normal text-gray-400">No data</span>
+          ) : (
+            <>
+              {formatCount(value)}
+              {unit && <span className="ml-1 text-sm font-normal text-gray-500">{unit}</span>}
+            </>
+          )}
+        </p>
+        {previous !== undefined && previous !== null && value !== null && (
+          <div className="mt-1.5">
+            <TrendBadge previous={previous} current={value} />
+          </div>
+        )}
+        {context && <p className="mt-1.5 text-[11px] leading-relaxed text-gray-500">{context}</p>}
+      </div>
     </div>
   )
 }
