@@ -21,13 +21,18 @@ interface GeoFeature {
   geometry: { type: string; coordinates: unknown }
 }
 
-/** Approximate centroid of a GeoJSON polygon/multipolygon */
+type OrbitControls = { autoRotate: boolean; autoRotateSpeed: number }
+
+type RingDatum = { lat: number; lng: number; iso3: string; kind: 'burden' | 'compare' }
+type PointDatum = { lat: number; lng: number; iso3: string }
+type ArcDatum = { startLat: number; startLng: number; endLat: number; endLng: number }
+type LabelDatum = { lat: number; lng: number; name: string }
+
 function featureCentroid(feature: GeoFeature): { lat: number; lng: number } | null {
   const { type, coordinates } = feature.geometry
   let ring: number[][] | null = null
   if (type === 'Polygon') ring = (coordinates as number[][][])[0]
   else if (type === 'MultiPolygon') {
-    // pick the largest ring by point count
     const polys = coordinates as number[][][][]
     ring = polys.reduce(
       (best, poly) => (poly[0].length > (best?.length ?? 0) ? poly[0] : best),
@@ -43,7 +48,10 @@ function featureCentroid(feature: GeoFeature): { lat: number; lng: number } | nu
 export function Globe() {
   const globeRef = useRef<GlobeMethods | undefined>(undefined)
   const containerRef = useRef<HTMLDivElement>(null)
-  const autoRotateTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const resumeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  // Permanent lock: true while a country is selected — hover alone cannot resume rotation
+  const isLockedRef = useRef(false)
+
   const {
     activeDiseases,
     selectedYear,
@@ -64,7 +72,67 @@ export function Globe() {
     y: 0,
   })
 
-  // Container resize tracking
+  const orbitControls = useCallback(
+    () => globeRef.current?.controls() as OrbitControls | undefined,
+    [],
+  )
+
+  // ── Rotation helpers ──────────────────────────────────────────────────────
+  const stopRotation = useCallback(() => {
+    if (resumeTimer.current) clearTimeout(resumeTimer.current)
+    const c = orbitControls()
+    if (c) c.autoRotate = false
+  }, [orbitControls])
+
+  const startRotation = useCallback(() => {
+    if (prefersReducedMotion || isLockedRef.current) return
+    const c = orbitControls()
+    if (c) {
+      c.autoRotate = true
+      c.autoRotateSpeed = 0.4
+    }
+  }, [prefersReducedMotion, orbitControls])
+
+  const scheduleResume = useCallback(
+    (delayMs = 3000) => {
+      if (prefersReducedMotion || isLockedRef.current) return
+      if (resumeTimer.current) clearTimeout(resumeTimer.current)
+      resumeTimer.current = setTimeout(startRotation, delayMs)
+    },
+    [prefersReducedMotion, startRotation],
+  )
+
+  // Initial auto-rotate — poll until controls are available
+  useEffect(() => {
+    if (prefersReducedMotion) return
+    let raf: number
+    const tryStart = () => {
+      const c = orbitControls()
+      if (!c) {
+        raf = requestAnimationFrame(tryStart)
+        return
+      }
+      if (!isLockedRef.current) {
+        c.autoRotate = true
+        c.autoRotateSpeed = 0.4
+      }
+    }
+    raf = requestAnimationFrame(tryStart)
+    return () => cancelAnimationFrame(raf)
+  }, [prefersReducedMotion, orbitControls])
+
+  // Permanent lock tied to selectedCountry
+  useEffect(() => {
+    if (selectedCountry) {
+      isLockedRef.current = true
+      stopRotation()
+    } else {
+      isLockedRef.current = false
+      scheduleResume(1500)
+    }
+  }, [selectedCountry, stopRotation, scheduleResume])
+
+  // ── Container resize ──────────────────────────────────────────────────────
   useEffect(() => {
     const el = containerRef.current
     if (!el) return
@@ -76,7 +144,7 @@ export function Globe() {
     return () => ro.disconnect()
   }, [])
 
-  // Load GeoJSON
+  // ── GeoJSON ───────────────────────────────────────────────────────────────
   useEffect(() => {
     fetch('/geo/countries-110m.json')
       .then((r) => r.json())
@@ -84,34 +152,7 @@ export function Globe() {
       .catch(console.error)
   }, [])
 
-  type OrbitControls = { autoRotate: boolean; autoRotateSpeed: number }
-  const orbitControls = () => globeRef.current?.controls() as OrbitControls | undefined
-
-  // Auto-rotation — start once globe is ready, pause on hover, resume 3s after
-  useEffect(() => {
-    if (prefersReducedMotion) return
-    const c = orbitControls()
-    if (!c) return
-    c.autoRotate = true
-    c.autoRotateSpeed = 0.4
-  })
-
-  const pauseAutoRotate = useCallback(() => {
-    if (prefersReducedMotion) return
-    if (autoRotateTimer.current) clearTimeout(autoRotateTimer.current)
-    const c = orbitControls()
-    if (c) c.autoRotate = false
-  }, [prefersReducedMotion])
-
-  const scheduleAutoRotate = useCallback(() => {
-    if (prefersReducedMotion) return
-    if (autoRotateTimer.current) clearTimeout(autoRotateTimer.current)
-    autoRotateTimer.current = setTimeout(() => {
-      const c = orbitControls()
-      if (c) c.autoRotate = true
-    }, 3000)
-  }, [prefersReducedMotion])
-
+  // ── Disease data ──────────────────────────────────────────────────────────
   const primaryDisease = activeDiseases[0]
   const { data: diseaseData } = useGlobalDisease(primaryDisease?.whoIndicator ?? '', selectedYear)
 
@@ -124,11 +165,10 @@ export function Globe() {
   }, [diseaseData])
 
   const maxValue = useMemo(() => {
-    const values = Array.from(burdenMap.values()).filter((v): v is number => v !== null)
-    return Math.max(...values, 1)
+    const vals = Array.from(burdenMap.values()).filter((v): v is number => v !== null)
+    return Math.max(...vals, 1)
   }, [burdenMap])
 
-  // Centroid lookup from loaded features
   const centroidMap = useMemo(() => {
     const map = new Map<string, { lat: number; lng: number }>()
     countries.forEach((f) => {
@@ -138,8 +178,8 @@ export function Globe() {
     return map
   }, [countries])
 
-  // Arc data: animated arc between primary (selected) and compare country
-  const arcsData = useMemo(() => {
+  // ── Arc: compare connection ───────────────────────────────────────────────
+  const arcsData = useMemo((): ArcDatum[] => {
     if (!selectedCountry || !compareCountry) return []
     const s = centroidMap.get(selectedCountry)
     const e = centroidMap.get(compareCountry)
@@ -147,21 +187,45 @@ export function Globe() {
     return [{ startLat: s.lat, startLng: s.lng, endLat: e.lat, endLng: e.lng }]
   }, [selectedCountry, compareCountry, centroidMap])
 
-  // Rings: top-5 highest-burden countries get pulsing rings
-  const ringsData = useMemo(() => {
-    if (burdenMap.size === 0) return []
-    return Array.from(burdenMap.entries())
-      .filter(([, v]) => v !== null && v > 0)
-      .sort(([, a], [, b]) => (b ?? 0) - (a ?? 0))
-      .slice(0, 5)
-      .flatMap(([iso3]) => {
-        const c = centroidMap.get(iso3)
-        return c ? [{ lat: c.lat, lng: c.lng, iso3 }] : []
-      })
-  }, [burdenMap, centroidMap])
+  // ── Points: glowing markers at selected + compare ─────────────────────────
+  const comparePointsData = useMemo((): PointDatum[] => {
+    const pts: PointDatum[] = []
+    const add = (iso3: string) => {
+      const c = centroidMap.get(iso3)
+      if (c) pts.push({ ...c, iso3 })
+    }
+    if (selectedCountry) add(selectedCountry)
+    if (compareCountry) add(compareCountry)
+    return pts
+  }, [selectedCountry, compareCountry, centroidMap])
 
-  // Labels: top-8 burden countries get floating name labels
-  const labelsData = useMemo(() => {
+  // ── Rings: top-burden (red) + compare endpoints (cyan) ───────────────────
+  const ringsData = useMemo((): RingDatum[] => {
+    const burden: RingDatum[] =
+      burdenMap.size > 0
+        ? Array.from(burdenMap.entries())
+            .filter(([, v]) => v !== null && v > 0)
+            .sort(([, a], [, b]) => (b ?? 0) - (a ?? 0))
+            .slice(0, 5)
+            .flatMap(([iso3]) => {
+              const c = centroidMap.get(iso3)
+              return c ? [{ lat: c.lat, lng: c.lng, iso3, kind: 'burden' as const }] : []
+            })
+        : []
+
+    const compare: RingDatum[] = []
+    const addCompare = (iso3: string) => {
+      const c = centroidMap.get(iso3)
+      if (c) compare.push({ lat: c.lat, lng: c.lng, iso3, kind: 'compare' as const })
+    }
+    if (selectedCountry) addCompare(selectedCountry)
+    if (compareCountry) addCompare(compareCountry)
+
+    return [...burden, ...compare]
+  }, [burdenMap, centroidMap, selectedCountry, compareCountry])
+
+  // ── Labels: top-burden country names ─────────────────────────────────────
+  const labelsData = useMemo((): LabelDatum[] => {
     if (burdenMap.size === 0) return []
     return Array.from(burdenMap.entries())
       .filter(([, v]) => v !== null && v > 0)
@@ -175,41 +239,40 @@ export function Globe() {
       })
   }, [burdenMap, centroidMap, countries])
 
+  // ── Event handlers ────────────────────────────────────────────────────────
   const handleHover = useCallback(
     (d: object | null) => {
       if (!d) {
         setHoveredIso3(null)
         setTooltip((t) => ({ ...t, visible: false }))
-        scheduleAutoRotate()
+        scheduleResume()
         return
       }
-      const feature = d as GeoFeature
-      setHoveredIso3(feature.properties.iso_a3)
+      const f = d as GeoFeature
+      setHoveredIso3(f.properties.iso_a3)
       setTooltip((t) => ({
         ...t,
         visible: true,
-        countryName: feature.properties.name,
-        value: burdenMap.get(feature.properties.iso_a3) ?? null,
+        countryName: f.properties.name,
+        value: burdenMap.get(f.properties.iso_a3) ?? null,
       }))
-      pauseAutoRotate()
+      stopRotation()
     },
-    [burdenMap, pauseAutoRotate, scheduleAutoRotate],
+    [burdenMap, stopRotation, scheduleResume],
   )
 
   const handleClick = useCallback(
-    (d: object, _event: MouseEvent, coords: { lat: number; lng: number; altitude: number }) => {
-      const feature = d as GeoFeature
-      setCountry(feature.properties.iso_a3)
+    (d: object, _e: MouseEvent, coords: { lat: number; lng: number }) => {
+      const f = d as GeoFeature
+      setCountry(f.properties.iso_a3)
       globeRef.current?.pointOfView({ lat: coords.lat, lng: coords.lng, altitude: 1.5 }, 800)
-      pauseAutoRotate()
     },
-    [setCountry, pauseAutoRotate],
+    [setCountry],
   )
 
   const handleRightClick = useCallback(
     (d: object) => {
-      const feature = d as GeoFeature
-      setCompareCountry(feature.properties.iso_a3)
+      setCompareCountry((d as GeoFeature).properties.iso_a3)
     },
     [setCompareCountry],
   )
@@ -231,7 +294,7 @@ export function Globe() {
         globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
         backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
         animateIn={!prefersReducedMotion}
-        // Polygons
+        // ── Polygons ────────────────────────────────────────────────────────
         polygonsData={countries}
         polygonCapColor={(d: object) => {
           const f = d as GeoFeature
@@ -245,34 +308,55 @@ export function Globe() {
         onPolygonRightClick={handleRightClick}
         polygonAltitude={(d: object) => {
           const f = d as GeoFeature
-          return f.properties.iso_a3 === hoveredIso3 ? 0.06 : 0.01
+          const iso = f.properties.iso_a3
+          if (iso === hoveredIso3) return 0.06
+          if (iso === selectedCountry || iso === compareCountry) return 0.03
+          return 0.01
         }}
         polygonsTransitionDuration={200}
         atmosphereColor="rgba(59,130,246,0.3)"
         atmosphereAltitude={0.1}
-        // Arcs — compare country connection
+        // ── Arc — vivid cyan flow between compared countries ─────────────
         arcsData={arcsData}
-        arcColor={() => ['rgba(255,255,255,0.1)', 'rgba(255,200,50,0.9)', 'rgba(255,255,255,0.1)']}
-        arcDashLength={0.4}
-        arcDashGap={0.15}
-        arcDashAnimateTime={2000}
-        arcStroke={0.8}
-        arcAltitude={0.3}
-        // Rings — top-burden hotspots
+        arcColor={() => '#00e5ff'}
+        arcStroke={2}
+        arcDashLength={0.5}
+        arcDashGap={0.2}
+        arcDashAnimateTime={1200}
+        arcAltitude={0.35}
+        arcsTransitionDuration={400}
+        // ── Points — glowing markers at selected + compare ───────────────
+        pointsData={comparePointsData}
+        pointLat={(d: object) => (d as PointDatum).lat}
+        pointLng={(d: object) => (d as PointDatum).lng}
+        pointAltitude={0.1}
+        pointRadius={0.55}
+        pointColor={() => 'rgba(0,229,255,0.9)'}
+        pointsMerge={false}
+        // ── Rings — red for burden hotspots, cyan for compare endpoints ──
         ringsData={ringsData}
-        ringColor={() => (t: number) => `rgba(239,68,68,${1 - t})`}
-        ringMaxRadius={3}
-        ringPropagationSpeed={1.5}
-        ringRepeatPeriod={1200}
-        // Labels — top-burden country names
+        ringLat={(d: object) => (d as RingDatum).lat}
+        ringLng={(d: object) => (d as RingDatum).lng}
+        ringColor={(d: object) =>
+          (d as RingDatum).kind === 'compare'
+            ? (t: number) => `rgba(0,229,255,${1 - t})`
+            : (t: number) => `rgba(239,68,68,${1 - t})`
+        }
+        ringMaxRadius={(d: object) => ((d as RingDatum).kind === 'compare' ? 4 : 3)}
+        ringPropagationSpeed={(d: object) => ((d as RingDatum).kind === 'compare' ? 2 : 1.5)}
+        ringRepeatPeriod={(d: object) => ((d as RingDatum).kind === 'compare' ? 900 : 1200)}
+        // ── Labels — floating country names on top-burden ────────────────
         labelsData={labelsData}
-        labelText={(d: object) => (d as { name: string }).name}
+        labelText={(d: object) => (d as LabelDatum).name}
+        labelLat={(d: object) => (d as LabelDatum).lat}
+        labelLng={(d: object) => (d as LabelDatum).lng}
         labelSize={0.45}
         labelColor={() => 'rgba(255,255,255,0.85)'}
         labelDotRadius={0.3}
         labelAltitude={0.015}
         labelResolution={3}
       />
+
       {tooltip.visible && (
         <GlobeTooltip
           countryName={tooltip.countryName}
