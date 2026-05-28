@@ -32,6 +32,10 @@ const makeRecord = (year: number, value: number): WHORecord => ({
   NumericValue: value,
   Low: null,
   High: null,
+  Dim1Type: null,
+  Dim1: null,
+  Dim2Type: null,
+  Dim2: null,
 })
 
 const disease = {

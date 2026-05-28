@@ -25,6 +25,10 @@ describe('useCountryDisease', () => {
         NumericValue: 68400000,
         Low: null,
         High: null,
+        Dim1Type: null,
+        Dim1: null,
+        Dim2Type: null,
+        Dim2: null,
       },
     ])
     const { result } = renderHook(() => useCountryDisease('NGA', 'MALARIA_CASES'), { wrapper })

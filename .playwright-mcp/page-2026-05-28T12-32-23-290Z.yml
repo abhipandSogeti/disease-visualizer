@@ -1,0 +1,212 @@
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - link "Skip to main content" [ref=e4] [cursor=pointer]:
+      - /url: "#main-content"
+    - banner [ref=e5]:
+      - generic [ref=e6]:
+        - img [ref=e7]
+        - generic [ref=e9]: Disease Visualizer
+      - navigation "Persona selection" [ref=e10]:
+        - button "Analyst" [pressed] [ref=e11] [cursor=pointer]
+        - button "Epidemiologist" [ref=e12] [cursor=pointer]
+        - button "Clinical" [ref=e13] [cursor=pointer]
+      - generic [ref=e14]:
+        - button "Open search" [ref=e15] [cursor=pointer]:
+          - img [ref=e16]
+          - generic [ref=e19]: Search countries, diseases, drugs...
+        - button "Switch to light mode" [ref=e20] [cursor=pointer]:
+          - img [ref=e21]
+    - generic [ref=e27]:
+      - complementary "Controls" [ref=e28]:
+        - generic [ref=e29]:
+          - button "3D Globe" [pressed] [ref=e30] [cursor=pointer]:
+            - img [ref=e31]
+            - text: 3D Globe
+          - button "2D Map" [ref=e34] [cursor=pointer]:
+            - img [ref=e35]
+            - text: 2D Map
+        - generic [ref=e37]:
+          - generic [ref=e38]: Active Diseases
+          - button "Add disease" [ref=e39] [cursor=pointer]:
+            - img [ref=e40]
+        - list [ref=e41]:
+          - listitem [ref=e42]:
+            - generic [ref=e43]:
+              - img [ref=e44]
+              - generic [ref=e46]: Malaria
+            - button "Remove Malaria" [ref=e47] [cursor=pointer]:
+              - img [ref=e48]
+          - listitem [ref=e51]:
+            - generic [ref=e52]:
+              - img [ref=e53]
+              - generic [ref=e55]: Tuberculosis
+            - button "Remove Tuberculosis" [ref=e56] [cursor=pointer]:
+              - img [ref=e57]
+          - listitem [ref=e60]:
+            - generic [ref=e61]:
+              - img [ref=e62]
+              - generic [ref=e64]: HIV / AIDS
+            - button "Remove HIV / AIDS" [ref=e65] [cursor=pointer]:
+              - img [ref=e66]
+          - listitem [ref=e69]:
+            - generic [ref=e70]:
+              - img [ref=e71]
+              - generic [ref=e73]: Cholera
+            - button "Remove Cholera" [ref=e74] [cursor=pointer]:
+              - img [ref=e75]
+          - listitem [ref=e78]:
+            - generic [ref=e79]:
+              - img [ref=e80]
+              - generic [ref=e82]: Polio
+            - button "Remove Polio" [ref=e83] [cursor=pointer]:
+              - img [ref=e84]
+          - listitem [ref=e87]:
+            - generic [ref=e88]:
+              - img [ref=e89]
+              - generic [ref=e91]: Dengue
+            - button "Remove Dengue" [ref=e92] [cursor=pointer]:
+              - img [ref=e93]
+          - listitem [ref=e96]:
+            - generic [ref=e97]:
+              - img [ref=e98]
+              - generic [ref=e100]: COVID-19
+            - button "Remove COVID-19" [ref=e101] [cursor=pointer]:
+              - img [ref=e102]
+          - listitem [ref=e105]:
+            - generic [ref=e106]:
+              - img [ref=e107]
+              - generic [ref=e109]: Ebola
+            - button "Remove Ebola" [ref=e110] [cursor=pointer]:
+              - img [ref=e111]
+        - generic [ref=e114]:
+          - generic [ref=e115]: Year
+          - generic [ref=e116]: "2024"
+          - slider "Select year between 2019 and 2024" [ref=e118] [cursor=pointer]: "2024"
+          - generic [ref=e119]:
+            - generic [ref=e120]: "2019"
+            - generic [ref=e121]: "2020"
+            - generic [ref=e122]: "2024"
+      - main [ref=e123]:
+        - generic [ref=e124]:
+          - tooltip "Sudan Malaria — 2024 556,471":
+            - paragraph: Sudan
+            - paragraph: Malaria — 2024
+            - paragraph: 556,471
+          - generic "Map colour legend" [ref=e130]:
+            - paragraph [ref=e131]: Malaria — Cases
+            - generic [ref=e132]:
+              - generic [ref=e135]: No data
+              - generic [ref=e138]: Very low
+              - generic [ref=e141]: Low
+              - generic [ref=e144]: Medium
+              - generic [ref=e147]: High
+              - generic [ref=e150]: Critical
+          - button "Reset globe view" [ref=e152] [cursor=pointer]:
+            - img [ref=e153]
+      - complementary "Disease intelligence panel" [ref=e156]:
+        - generic [ref=e157]:
+          - generic [ref=e158]:
+            - generic [ref=e159]:
+              - heading "Malaria" [level=2] [ref=e160]
+              - paragraph [ref=e161]: Nigeria · A life-threatening disease spread by infected mosquito bites.
+            - button "Close panel" [ref=e162] [cursor=pointer]:
+              - img [ref=e163]
+          - generic [ref=e166]:
+            - tablist "Disease information sections" [ref=e167]:
+              - tab "Overview" [ref=e168] [cursor=pointer]
+              - tab "History" [active] [selected] [ref=e169] [cursor=pointer]
+              - tab "Compare" [ref=e170] [cursor=pointer]
+              - tab "Drugs" [ref=e171] [cursor=pointer]
+            - tabpanel "History" [ref=e325]:
+              - generic [ref=e326]:
+                - generic [ref=e327]:
+                  - generic [ref=e328]:
+                    - paragraph [ref=e329]: Data span
+                    - paragraph [ref=e330]: 2015–2024
+                  - generic [ref=e331]:
+                    - paragraph [ref=e332]: Peak year
+                    - paragraph [ref=e333]: "2023"
+                    - paragraph [ref=e334]: 24,098,323
+                  - generic [ref=e335]:
+                    - paragraph [ref=e336]: Cumulative
+                    - paragraph [ref=e337]: 178.6M
+                    - paragraph [ref=e338]: all years
+                - generic [ref=e339]:
+                  - heading "Cases — full recorded history" [level=3] [ref=e340]
+                  - img "Malaria cases over time" [ref=e341]:
+                    - img [ref=e344]:
+                      - generic [ref=e348]:
+                        - generic [ref=e350]: "2015"
+                        - generic [ref=e352]: "2016"
+                        - generic [ref=e354]: "2017"
+                        - generic [ref=e356]: "2018"
+                        - generic [ref=e358]: "2019"
+                        - generic [ref=e360]: "2020"
+                        - generic [ref=e362]: "2021"
+                        - generic [ref=e364]: "2022"
+                        - generic [ref=e366]: "2024"
+                      - generic [ref=e368]:
+                        - generic [ref=e370]: "0"
+                        - generic [ref=e372]: 6.5Million
+                        - generic [ref=e374]: 13.0Million
+                        - generic [ref=e376]: 19.5Million
+                        - generic [ref=e378]: 26.0Million
+                - generic "Malaria historical timeline" [ref=e385]:
+                  - heading "Malaria — Historical Timeline" [level=3] [ref=e386]
+                  - generic [ref=e387]:
+                    - generic [ref=e388]:
+                      - img [ref=e391]
+                      - generic [ref=e394]:
+                        - generic [ref=e395]:
+                          - generic [ref=e396]: "1897"
+                          - generic [ref=e397]: Discovery
+                        - paragraph [ref=e398]: Mosquito transmission discovered
+                        - paragraph [ref=e399]: Ronald Ross proved malaria is transmitted by the Anopheles mosquito, winning the Nobel Prize.
+                    - generic [ref=e400]:
+                      - img [ref=e403]
+                      - generic [ref=e406]:
+                        - generic [ref=e407]:
+                          - generic [ref=e408]: "1955"
+                          - generic [ref=e409]: Intervention
+                        - paragraph [ref=e410]: WHO Global Eradication Programme
+                        - paragraph [ref=e411]: WHO launched a programme to eradicate malaria using DDT and chloroquine. Succeeded in 11 countries.
+                    - generic [ref=e412]:
+                      - img [ref=e415]
+                      - generic [ref=e418]:
+                        - generic [ref=e419]:
+                          - generic [ref=e420]: "1972"
+                          - generic [ref=e421]: Milestone
+                        - paragraph [ref=e422]: DDT banned in the US
+                        - paragraph [ref=e423]: Environmental concerns led to the US ban on DDT, slowing eradication efforts.
+                    - generic [ref=e424]:
+                      - img [ref=e427]
+                      - generic [ref=e430]:
+                        - generic [ref=e431]:
+                          - generic [ref=e432]: "1990"
+                          - generic [ref=e433]: Warning
+                        - paragraph [ref=e434]: Chloroquine resistance spreads
+                        - paragraph [ref=e435]: Resistance to chloroquine spread to nearly all malaria-endemic regions.
+                    - generic [ref=e436]:
+                      - img [ref=e439]
+                      - generic [ref=e442]:
+                        - generic [ref=e443]:
+                          - generic [ref=e444]: "2006"
+                          - generic [ref=e445]: Intervention
+                        - paragraph [ref=e446]: RTS,S vaccine trials begin
+                        - paragraph [ref=e447]: Phase 3 trials of the first malaria vaccine candidate began in sub-Saharan Africa.
+                    - generic [ref=e448]:
+                      - img [ref=e451]
+                      - generic [ref=e453]:
+                        - generic [ref=e454]:
+                          - generic [ref=e455]: "2021"
+                          - generic [ref=e456]: Milestone
+                        - paragraph [ref=e457]: RTS,S vaccine approved
+                        - paragraph [ref=e458]: WHO recommended the RTS,S/AS01 vaccine for broad use — the first malaria vaccine approved.
+    - contentinfo [ref=e224]:
+      - generic [ref=e225]:
+        - img [ref=e226]
+        - generic [ref=e230]: "Data: WHO GHO · disease.sh · World Bank · OpenFDA · PubChem · RxNorm · ChEMBL"
+      - generic [ref=e231]:
+        - img [ref=e232]
+        - generic [ref=e237]: No data loaded yet
+  - generic [ref=e238]: "19.5"

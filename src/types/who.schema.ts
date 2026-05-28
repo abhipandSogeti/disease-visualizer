@@ -8,6 +8,10 @@ export const WHORecordSchema = z.object({
   NumericValue: z.number().nullable(),
   Low: z.number().nullable(),
   High: z.number().nullable(),
+  Dim1Type: z.string().nullable(),
+  Dim1: z.string().nullable(),
+  Dim2Type: z.string().nullable(),
+  Dim2: z.string().nullable(),
 })
 
 export const WHOResponseSchema = z.object({

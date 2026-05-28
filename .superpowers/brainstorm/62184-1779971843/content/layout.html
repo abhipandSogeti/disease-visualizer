@@ -1,0 +1,110 @@
+<style>
+  .panel-mock {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: 8px;
+    padding: 16px;
+    font-family: ui-monospace, monospace;
+    font-size: 12px;
+    color: #94a3b8;
+    width: 320px;
+  }
+  .tab-row { display: flex; gap: 4px; margin-bottom: 16px; border-bottom: 1px solid #1e293b; padding-bottom: 8px; }
+  .tab { padding: 4px 10px; border-radius: 4px; font-size: 11px; background: #1e293b; color: #64748b; }
+  .tab.active { background: #2563eb; color: #fff; }
+  .section-label { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: #475569; margin-bottom: 8px; font-weight: 600; }
+  .bar-group { margin-bottom: 12px; }
+  .bar-row { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+  .bar-label { width: 52px; text-align: right; font-size: 10px; color: #64748b; flex-shrink: 0; }
+  .bar-track { flex: 1; height: 8px; background: #1e293b; border-radius: 3px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 3px; }
+  .bar-val { width: 36px; font-size: 10px; color: #94a3b8; }
+  .chart-area { height: 64px; background: #0f172a; border: 1px solid #1e293b; border-radius: 4px; display: flex; align-items: flex-end; padding: 4px 6px; gap: 3px; margin-bottom: 4px; }
+  .chart-bar { flex: 1; border-radius: 2px 2px 0 0; background: #ef4444; opacity: 0.7; }
+  .cfr-line { position: relative; height: 64px; background: #0f172a; border: 1px solid #1e293b; border-radius: 4px; overflow: hidden; }
+  .cfr-svg { width: 100%; height: 100%; }
+  .divider { border: none; border-top: 1px solid #1e293b; margin: 14px 0; }
+  .badge { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 10px; background: #1e293b; color: #94a3b8; margin-left: 6px; }
+</style>
+
+<h2>Epidemiology Detail — layout options</h2>
+<p class="subtitle">How should age/sex breakdown and CFR sit in the panel?</p>
+
+<div class="cards">
+
+  <!-- Option A: Stacked vertical -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="display:flex;justify-content:center;padding:16px 12px;background:#070f1e;border-radius:6px;">
+      <div class="panel-mock">
+        <div class="tab-row">
+          <div class="tab">Overview</div>
+          <div class="tab active">Epidemiology</div>
+          <div class="tab">History</div>
+        </div>
+
+        <div class="section-label">Age / Sex breakdown</div>
+        <div class="bar-group">
+          <div class="bar-row"><span class="bar-label">0–4</span><div class="bar-track"><div class="bar-fill" style="width:65%;background:#f97316"></div></div><span class="bar-val">18%</span></div>
+          <div class="bar-row"><span class="bar-label">5–14</span><div class="bar-track"><div class="bar-fill" style="width:40%;background:#f97316"></div></div><span class="bar-val">11%</span></div>
+          <div class="bar-row"><span class="bar-label">15–49</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:#ef4444"></div></div><span class="bar-val">28%</span></div>
+          <div class="bar-row"><span class="bar-label">50+</span><div class="bar-track"><div class="bar-fill" style="width:55%;background:#ef4444"></div></div><span class="bar-val">15%</span></div>
+        </div>
+        <div style="display:flex;gap:6px;margin-bottom:14px;">
+          <div style="display:flex;align-items:center;gap:3px;font-size:10px;"><div style="width:8px;height:8px;border-radius:2px;background:#60a5fa"></div>Male</div>
+          <div style="display:flex;align-items:center;gap:3px;font-size:10px;"><div style="width:8px;height:8px;border-radius:2px;background:#f472b6"></div>Female</div>
+        </div>
+
+        <hr class="divider"/>
+
+        <div class="section-label">Case Fatality Rate over time</div>
+        <div class="cfr-line">
+          <svg class="cfr-svg" viewBox="0 0 280 60" preserveAspectRatio="none">
+            <polyline points="0,48 40,42 80,38 120,30 160,25 200,20 240,18 280,14" fill="none" stroke="#ef4444" stroke-width="1.5" opacity="0.8"/>
+            <polyline points="0,48 40,42 80,38 120,30 160,25 200,20 240,18 280,14" fill="none" stroke="#ef444433" stroke-width="6"/>
+          </svg>
+        </div>
+        <div style="font-size:9px;color:#334155;margin-top:3px;">CFR % · WHO GHO · 2010–2023</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Stacked vertical</h3>
+      <p>Age/sex chart on top, CFR line below. Simple scroll — both charts always visible in sequence.</p>
+    </div>
+  </div>
+
+  <!-- Option B: Sub-tabs -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="display:flex;justify-content:center;padding:16px 12px;background:#070f1e;border-radius:6px;">
+      <div class="panel-mock">
+        <div class="tab-row">
+          <div class="tab">Overview</div>
+          <div class="tab active">Epidemiology</div>
+          <div class="tab">History</div>
+        </div>
+
+        <div style="display:flex;gap:4px;margin-bottom:12px;">
+          <div style="padding:3px 10px;border-radius:4px;background:#1e3a5f;color:#60a5fa;font-size:10px;font-weight:600;border:1px solid #2563eb">Age / Sex</div>
+          <div style="padding:3px 10px;border-radius:4px;background:#1e293b;color:#64748b;font-size:10px;">CFR</div>
+        </div>
+
+        <div class="section-label">Cases by age group — 2022<span class="badge">Nigeria · Malaria</span></div>
+        <div class="bar-group">
+          <div class="bar-row"><span class="bar-label">0–4</span><div class="bar-track"><div class="bar-fill" style="width:65%;background:#f97316"></div></div><span class="bar-val">18%</span></div>
+          <div class="bar-row"><span class="bar-label">5–14</span><div class="bar-track"><div class="bar-fill" style="width:40%;background:#f97316"></div></div><span class="bar-val">11%</span></div>
+          <div class="bar-row"><span class="bar-label">15–49</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:#ef4444"></div></div><span class="bar-val">28%</span></div>
+          <div class="bar-row"><span class="bar-label">50+</span><div class="bar-track"><div class="bar-fill" style="width:55%;background:#ef4444"></div></div><span class="bar-val">15%</span></div>
+        </div>
+        <div style="display:flex;gap:6px;">
+          <div style="display:flex;align-items:center;gap:3px;font-size:10px;"><div style="width:8px;height:8px;border-radius:2px;background:#60a5fa"></div>Male</div>
+          <div style="display:flex;align-items:center;gap:3px;font-size:10px;"><div style="width:8px;height:8px;border-radius:2px;background:#f472b6"></div>Female</div>
+        </div>
+        <div style="font-size:9px;color:#334155;margin-top:8px;">Source: WHO GHO · Switch to CFR tab for fatality trends</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Sub-tabs inside the section</h3>
+      <p>Age/Sex and CFR as two sub-tabs. Keeps the panel compact — only one chart visible at a time.</p>
+    </div>
+  </div>
+
+</div>

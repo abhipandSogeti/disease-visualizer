@@ -1,0 +1,185 @@
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - link "Skip to main content" [ref=e4] [cursor=pointer]:
+      - /url: "#main-content"
+    - banner [ref=e5]:
+      - generic [ref=e6]:
+        - img [ref=e7]
+        - generic [ref=e9]: Disease Visualizer
+      - navigation "Persona selection" [ref=e10]:
+        - button "Analyst" [pressed] [ref=e11] [cursor=pointer]
+        - button "Epidemiologist" [ref=e12] [cursor=pointer]
+        - button "Clinical" [ref=e13] [cursor=pointer]
+      - generic [ref=e14]:
+        - button "Open search" [ref=e15] [cursor=pointer]:
+          - img [ref=e16]
+          - generic [ref=e19]: Search countries, diseases, drugs...
+        - button "Switch to light mode" [ref=e20] [cursor=pointer]:
+          - img [ref=e21]
+    - generic [ref=e27]:
+      - complementary "Controls" [ref=e28]:
+        - generic [ref=e29]:
+          - button "3D Globe" [pressed] [ref=e30] [cursor=pointer]:
+            - img [ref=e31]
+            - text: 3D Globe
+          - button "2D Map" [ref=e34] [cursor=pointer]:
+            - img [ref=e35]
+            - text: 2D Map
+        - generic [ref=e37]:
+          - generic [ref=e38]: Active Diseases
+          - button "Add disease" [ref=e39] [cursor=pointer]:
+            - img [ref=e40]
+        - list [ref=e41]:
+          - listitem [ref=e42]:
+            - generic [ref=e43]:
+              - img [ref=e44]
+              - generic [ref=e46]: Malaria
+            - button "Remove Malaria" [ref=e47] [cursor=pointer]:
+              - img [ref=e48]
+          - listitem [ref=e51]:
+            - generic [ref=e52]:
+              - img [ref=e53]
+              - generic [ref=e55]: Tuberculosis
+            - button "Remove Tuberculosis" [ref=e56] [cursor=pointer]:
+              - img [ref=e57]
+          - listitem [ref=e60]:
+            - generic [ref=e61]:
+              - img [ref=e62]
+              - generic [ref=e64]: HIV / AIDS
+            - button "Remove HIV / AIDS" [ref=e65] [cursor=pointer]:
+              - img [ref=e66]
+          - listitem [ref=e69]:
+            - generic [ref=e70]:
+              - img [ref=e71]
+              - generic [ref=e73]: Cholera
+            - button "Remove Cholera" [ref=e74] [cursor=pointer]:
+              - img [ref=e75]
+          - listitem [ref=e78]:
+            - generic [ref=e79]:
+              - img [ref=e80]
+              - generic [ref=e82]: Polio
+            - button "Remove Polio" [ref=e83] [cursor=pointer]:
+              - img [ref=e84]
+          - listitem [ref=e87]:
+            - generic [ref=e88]:
+              - img [ref=e89]
+              - generic [ref=e91]: Dengue
+            - button "Remove Dengue" [ref=e92] [cursor=pointer]:
+              - img [ref=e93]
+          - listitem [ref=e96]:
+            - generic [ref=e97]:
+              - img [ref=e98]
+              - generic [ref=e100]: COVID-19
+            - button "Remove COVID-19" [ref=e101] [cursor=pointer]:
+              - img [ref=e102]
+          - listitem [ref=e105]:
+            - generic [ref=e106]:
+              - img [ref=e107]
+              - generic [ref=e109]: Ebola
+            - button "Remove Ebola" [ref=e110] [cursor=pointer]:
+              - img [ref=e111]
+        - generic [ref=e114]:
+          - generic [ref=e115]: Year
+          - generic [ref=e116]: "2024"
+          - slider "Select year between 2019 and 2024" [ref=e118] [cursor=pointer]: "2024"
+          - generic [ref=e119]:
+            - generic [ref=e120]: "2019"
+            - generic [ref=e121]: "2020"
+            - generic [ref=e122]: "2024"
+      - main [ref=e123]:
+        - generic [ref=e124]:
+          - tooltip "Sudan Malaria — 2024 556,471":
+            - paragraph: Sudan
+            - paragraph: Malaria — 2024
+            - paragraph: 556,471
+          - generic "Map colour legend" [ref=e130]:
+            - paragraph [ref=e131]: Malaria — Cases
+            - generic [ref=e132]:
+              - generic [ref=e135]: No data
+              - generic [ref=e138]: Very low
+              - generic [ref=e141]: Low
+              - generic [ref=e144]: Medium
+              - generic [ref=e147]: High
+              - generic [ref=e150]: Critical
+          - button "Reset globe view" [ref=e152] [cursor=pointer]:
+            - img [ref=e153]
+      - complementary "Disease intelligence panel" [ref=e156]:
+        - generic [ref=e157]:
+          - generic [ref=e158]:
+            - generic [ref=e159]:
+              - heading "Malaria" [level=2] [ref=e160]
+              - paragraph [ref=e161]: Nigeria · A life-threatening disease spread by infected mosquito bites.
+            - button "Close panel" [ref=e162] [cursor=pointer]:
+              - img [ref=e163]
+          - generic [ref=e166]:
+            - tablist "Disease information sections" [ref=e167]:
+              - tab "Overview" [active] [selected] [ref=e168] [cursor=pointer]
+              - tab "History" [ref=e169] [cursor=pointer]
+              - tab "Compare" [ref=e170] [cursor=pointer]
+              - tab "Drugs" [ref=e171] [cursor=pointer]
+            - tabpanel "Overview" [ref=e239]:
+              - generic [ref=e240]:
+                - generic [ref=e241]:
+                  - generic [ref=e242]:
+                    - paragraph [ref=e243]: Most Recent Cases
+                    - paragraph [ref=e244]: 22.7 Million
+                    - generic [ref=e246]:
+                      - img [ref=e247]
+                      - text: "-5.9% from last year"
+                    - paragraph [ref=e250]: Recorded in 2024
+                  - generic [ref=e251]:
+                    - paragraph [ref=e252]: Incidence Rate
+                    - paragraph [ref=e253]: 9,749per 100k people
+                    - paragraph [ref=e254]: Cases per 100,000 population
+                - generic [ref=e255]:
+                  - generic [ref=e256]: Peak recorded year
+                  - generic [ref=e257]:
+                    - text: "2023"
+                    - generic [ref=e258]: 24,098,323 cases
+                - generic [ref=e259]:
+                  - heading "Cases over time" [level=3] [ref=e260]
+                  - img "Malaria cases over time" [ref=e261]:
+                    - img [ref=e264]:
+                      - generic [ref=e268]:
+                        - generic [ref=e270]: "2015"
+                        - generic [ref=e272]: "2016"
+                        - generic [ref=e274]: "2017"
+                        - generic [ref=e276]: "2018"
+                        - generic [ref=e278]: "2019"
+                        - generic [ref=e280]: "2020"
+                        - generic [ref=e282]: "2021"
+                        - generic [ref=e284]: "2022"
+                        - generic [ref=e286]: "2024"
+                      - generic [ref=e288]:
+                        - generic [ref=e290]: "0"
+                        - generic [ref=e292]: 6.5Million
+                        - generic [ref=e294]: 13.0Million
+                        - generic [ref=e296]: 19.5Million
+                        - generic [ref=e298]: 26.0Million
+                  - paragraph [ref=e305]: "Source: WHO Global Health Observatory · Data from 2015 to 2024"
+                - generic [ref=e306]:
+                  - heading "Country health context" [level=3] [ref=e307]
+                  - generic [ref=e308]:
+                    - generic [ref=e309]:
+                      - paragraph [ref=e310]: Hospital Beds
+                      - paragraph [ref=e311]: 1per 1k
+                      - paragraph [ref=e312]: World Bank
+                    - generic [ref=e313]:
+                      - paragraph [ref=e314]: Life Expectancy
+                      - paragraph [ref=e315]: 55yrs
+                      - paragraph [ref=e316]: World Bank
+                    - generic [ref=e317]:
+                      - paragraph [ref=e318]: GDP / Capita
+                      - paragraph [ref=e319]: 1,084USD
+                      - paragraph [ref=e320]: World Bank
+                - button "Export data as CSV" [ref=e321] [cursor=pointer]:
+                  - img [ref=e322]
+                  - text: Export data as CSV
+    - contentinfo [ref=e224]:
+      - generic [ref=e225]:
+        - img [ref=e226]
+        - generic [ref=e230]: "Data: WHO GHO · disease.sh · World Bank · OpenFDA · PubChem · RxNorm · ChEMBL"
+      - generic [ref=e231]:
+        - img [ref=e232]
+        - generic [ref=e237]: No data loaded yet
+  - generic [ref=e238]: "19.5"
