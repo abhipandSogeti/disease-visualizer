@@ -12,6 +12,7 @@ import { LoadingSkeleton } from '@/components/ui/LoadingSkeleton'
 import { ErrorState } from '@/components/ui/ErrorState'
 import { MetricCard } from './MetricCard'
 import { EpidemicCurveChart } from './EpidemicCurveChart'
+import { EpidemiologyDetailSection } from './EpidemiologyDetailSection'
 import { exportAsCsv } from '@/lib/export'
 import type { Disease, Persona } from '@/types/app.types'
 
@@ -138,15 +139,7 @@ export function DiseaseOverviewTab({ iso3, disease, persona }: DiseaseOverviewTa
         </div>
       </div>
       {(persona === 'epidemiologist' || persona === 'clinical') && (
-        <div className="rounded border border-slate-800 bg-slate-900/40 p-3">
-          <h3 className="mb-1 text-xs font-semibold uppercase tracking-wider text-slate-500">
-            Epidemiology Detail
-          </h3>
-          <p className="text-xs leading-relaxed text-slate-400">
-            Extended epidemiological breakdown — age cohort data, seasonality, and R-naught curves —
-            will appear here when WHO sub-indicator data is available for the selected country.
-          </p>
-        </div>
+        <EpidemiologyDetailSection iso3={iso3} disease={disease} />
       )}
       {persona === 'analyst' && chartData.length > 0 && (
         <button
