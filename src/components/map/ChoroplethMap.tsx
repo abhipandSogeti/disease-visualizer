@@ -55,7 +55,7 @@ export function ChoroplethMap() {
                     key={geo.rsmKey}
                     geography={geo}
                     fill={getBurdenColour(value, maxValue)}
-                    stroke="#1e293b"
+                    stroke="#e5e7eb"
                     strokeWidth={0.5}
                     style={{
                       default: { outline: 'none' },
@@ -87,10 +87,10 @@ export function ChoroplethMap() {
       {tooltip && (
         <div
           role="tooltip"
-          className="pointer-events-none absolute z-50 rounded border border-slate-700 bg-navy-900/95 p-2.5 shadow-xl"
+          className="pointer-events-none absolute z-50 rounded border border-stone-300 bg-navy-900/95 p-2.5 shadow-xl"
           style={{ left: tooltip.x + 12, top: tooltip.y - 8 }}
         >
-          <p className="text-xs font-semibold text-slate-100">{tooltip.name}</p>
+          <p className="text-xs font-semibold text-gray-900">{tooltip.name}</p>
           <p className="mt-1 text-sm font-bold text-white">{formatCount(tooltip.value)}</p>
         </div>
       )}

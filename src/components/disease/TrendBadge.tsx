@@ -11,9 +11,9 @@ export function TrendBadge({ previous, current }: TrendBadgeProps) {
   const label = formatTrend(previous, current)
 
   const config = {
-    increasing: { icon: TrendingUp, color: 'text-red-400', bg: 'bg-red-950/40' },
-    decreasing: { icon: TrendingDown, color: 'text-green-400', bg: 'bg-green-950/40' },
-    stable: { icon: Minus, color: 'text-slate-400', bg: 'bg-slate-800/60' },
+    increasing: { icon: TrendingUp, color: 'text-red-600', bg: 'bg-red-950/40' },
+    decreasing: { icon: TrendingDown, color: 'text-green-700', bg: 'bg-green-950/40' },
+    stable: { icon: Minus, color: 'text-gray-500', bg: 'bg-stone-200/60' },
   }[direction]
 
   const Icon = config.icon

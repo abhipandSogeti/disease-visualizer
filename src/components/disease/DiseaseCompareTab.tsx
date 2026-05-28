@@ -62,25 +62,23 @@ function CountryColumn({ iso3, disease }: { iso3: string; disease: Disease }) {
   }, [latest, latestPop])
 
   return (
-    <div className="flex-1 rounded border border-slate-800 bg-slate-900/40 p-3">
-      <p className="mb-2 text-xs font-bold text-slate-300">{countryName}</p>
-      <p className="text-lg font-bold text-slate-100">
-        {formatCount(latest?.NumericValue ?? null)}
-      </p>
+    <div className="flex-1 rounded border border-stone-300 bg-stone-200/40 p-3">
+      <p className="mb-2 text-xs font-bold text-gray-700">{countryName}</p>
+      <p className="text-lg font-bold text-gray-900">{formatCount(latest?.NumericValue ?? null)}</p>
       {trend && (
         <p
-          className={`mt-0.5 text-xs ${trend === 'increasing' ? 'text-red-400' : trend === 'decreasing' ? 'text-green-400' : 'text-slate-500'}`}
+          className={`mt-0.5 text-xs ${trend === 'increasing' ? 'text-red-600' : trend === 'decreasing' ? 'text-green-700' : 'text-gray-400'}`}
         >
           {trend === 'increasing' ? 'Increasing' : trend === 'decreasing' ? 'Decreasing' : 'Stable'}
         </p>
       )}
       {incidencePer100k !== null && (
-        <p className="mt-1 text-[11px] text-slate-500">
-          <span className="font-semibold text-slate-400">{incidencePer100k.toLocaleString()}</span>{' '}
+        <p className="mt-1 text-[11px] text-gray-400">
+          <span className="font-semibold text-gray-500">{incidencePer100k.toLocaleString()}</span>{' '}
           per 100k
         </p>
       )}
-      {latest && <p className="text-[10px] text-slate-600">as of {latest.TimeDim}</p>}
+      {latest && <p className="text-[10px] text-gray-400">as of {latest.TimeDim}</p>}
       <div className="mt-3">
         <EpidemicCurveChart
           data={chartData}
@@ -107,14 +105,14 @@ export function DiseaseCompareTab({ iso3Primary, iso3Compare, disease }: Disease
   if (!iso3Compare) {
     return (
       <div className="flex flex-col gap-3">
-        <p className="text-xs text-slate-400">
+        <p className="text-xs text-gray-500">
           Pick a country to compare against{' '}
-          <span className="font-semibold text-slate-300">{iso3Primary}</span>. You can also
+          <span className="font-semibold text-gray-700">{iso3Primary}</span>. You can also
           right-click any country on the globe or map.
         </p>
         <div className="relative">
           <Search
-            className="absolute left-2.5 top-2 h-3.5 w-3.5 text-slate-500"
+            className="absolute left-2.5 top-2 h-3.5 w-3.5 text-gray-400"
             aria-hidden="true"
           />
           <input
@@ -122,7 +120,7 @@ export function DiseaseCompareTab({ iso3Primary, iso3Compare, disease }: Disease
             placeholder="Filter countries…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full rounded border border-slate-700 bg-slate-900 py-1.5 pl-8 pr-3 text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-violet-500"
+            className="w-full rounded border border-stone-300 bg-stone-100 py-1.5 pl-8 pr-3 text-xs text-gray-800 placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-gray-900"
           />
         </div>
         <ul className="flex flex-col gap-1">
@@ -130,11 +128,11 @@ export function DiseaseCompareTab({ iso3Primary, iso3Compare, disease }: Disease
             <li key={c.iso3}>
               <button
                 onClick={() => setCompareCountry(c.iso3)}
-                className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-xs text-slate-400 hover:bg-slate-800 hover:text-slate-100"
+                className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-xs text-gray-500 hover:bg-stone-200 hover:text-gray-900"
               >
                 <MapPin className="h-3 w-3 flex-shrink-0" aria-hidden="true" />
                 {c.name}
-                <span className="ml-auto text-slate-600">{c.iso3}</span>
+                <span className="ml-auto text-gray-400">{c.iso3}</span>
               </button>
             </li>
           ))}
@@ -146,13 +144,13 @@ export function DiseaseCompareTab({ iso3Primary, iso3Compare, disease }: Disease
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1.5 text-xs text-slate-500">
+        <div className="flex items-center gap-1.5 text-xs text-gray-400">
           <MapPin className="h-3 w-3" aria-hidden="true" />
           Comparing {disease.name} burden
         </div>
         <button
           onClick={() => setCompareCountry(null)}
-          className="text-[10px] text-slate-600 hover:text-slate-400"
+          className="text-[10px] text-gray-400 hover:text-gray-500"
         >
           Clear
         </button>

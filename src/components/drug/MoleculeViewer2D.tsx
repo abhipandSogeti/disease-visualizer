@@ -27,22 +27,22 @@ export function MoleculeViewer2D({ cid, drugName }: MoleculeViewer2DProps) {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+        <span className="text-xs font-semibold uppercase tracking-wider text-gray-400">
           2D Structure
         </span>
         <a
           href={imageUrl}
           download={`${drugName}-2d.png`}
           aria-label={`Download 2D structure of ${drugName}`}
-          className="flex items-center gap-1 rounded px-2 py-1 text-xs text-slate-500 hover:bg-slate-800 hover:text-slate-300"
+          className="flex items-center gap-1 rounded px-2 py-1 text-xs text-gray-400 hover:bg-stone-200 hover:text-gray-700"
         >
           <Download className="h-3 w-3" aria-hidden="true" />
           Download
         </a>
       </div>
-      <div className="relative flex items-center justify-center rounded border border-slate-800 bg-white p-2">
+      <div className="relative flex items-center justify-center rounded border border-stone-300 bg-white p-2">
         {!loaded && !errored && (
-          <div className="absolute inset-0 flex items-center justify-center rounded bg-slate-900">
+          <div className="absolute inset-0 flex items-center justify-center rounded bg-stone-100">
             <LoadingSkeleton label="Loading 2D structure..." rows={2} />
           </div>
         )}
@@ -61,9 +61,9 @@ export function MoleculeViewer2D({ cid, drugName }: MoleculeViewer2DProps) {
           />
         )}
       </div>
-      <div className="flex items-start gap-1.5 rounded bg-slate-900/40 p-2">
-        <Info className="mt-0.5 h-3 w-3 flex-shrink-0 text-slate-600" aria-hidden="true" />
-        <p className="text-xs leading-relaxed text-slate-600">
+      <div className="flex items-start gap-1.5 rounded bg-stone-200/40 p-2">
+        <Info className="mt-0.5 h-3 w-3 flex-shrink-0 text-gray-400" aria-hidden="true" />
+        <p className="text-xs leading-relaxed text-gray-400">
           This is a flat map of the molecule — like a floor plan of its chemical structure. Each
           letter represents an atom; lines represent the bonds holding atoms together.
         </p>

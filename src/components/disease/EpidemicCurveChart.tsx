@@ -31,9 +31,9 @@ function CustomTooltip({
 }) {
   if (!active || !payload?.length) return null
   return (
-    <div className="rounded border border-slate-700 bg-slate-900 p-2 text-xs shadow-xl">
-      <p className="font-semibold text-slate-200">{label}</p>
-      <p className="mt-0.5 text-slate-400">{formatCount(payload[0].value)}</p>
+    <div className="rounded border border-stone-300 bg-stone-100 p-2 text-xs shadow-xl">
+      <p className="font-semibold text-gray-800">{label}</p>
+      <p className="mt-0.5 text-gray-500">{formatCount(payload[0].value)}</p>
     </div>
   )
 }
@@ -57,7 +57,7 @@ export function EpidemicCurveChart({ data, diseaseName, colour }: EpidemicCurveC
               <stop offset="95%" stopColor={colour} stopOpacity={0} />
             </linearGradient>
           </defs>
-          <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
+          <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
           <XAxis
             dataKey="year"
             tick={{ fill: '#64748b', fontSize: 10 }}

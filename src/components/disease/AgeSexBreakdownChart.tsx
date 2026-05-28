@@ -53,8 +53,8 @@ function CustomTooltip({
 }) {
   if (!active || !payload?.length) return null
   return (
-    <div className="rounded border border-slate-700 bg-slate-900 p-2 text-xs shadow-xl">
-      <p className="mb-1 font-semibold text-slate-200">{label}</p>
+    <div className="rounded border border-stone-300 bg-stone-100 p-2 text-xs shadow-xl">
+      <p className="mb-1 font-semibold text-gray-800">{label}</p>
       {payload.map((entry) => (
         <p key={entry.dataKey} style={{ color: entry.color }} className="mt-0.5">
           {entry.dataKey === 'male' ? 'Male' : 'Female'}: {formatCount(entry.value)}
@@ -69,7 +69,7 @@ export function AgeSexBreakdownChart({ iso3, diseaseId }: AgeSexBreakdownChartPr
 
   if (!hasData && !isLoading && !isError) {
     return (
-      <div className="rounded border border-slate-800 bg-slate-900/40 p-3 text-xs text-slate-500">
+      <div className="rounded border border-stone-300 bg-stone-200/40 p-3 text-xs text-gray-400">
         WHO does not currently publish age-stratified {getDiseaseName(diseaseId)} data. Age
         breakdowns are available for tuberculosis.
       </div>
@@ -93,7 +93,7 @@ export function AgeSexBreakdownChart({ iso3, diseaseId }: AgeSexBreakdownChartPr
       <div role="img" aria-label="TB cases by age and sex">
         <ResponsiveContainer width="100%" height={200}>
           <BarChart data={data} layout="vertical" margin={{ top: 4, right: 8, left: 0, bottom: 4 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" horizontal={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" horizontal={false} />
             <YAxis
               type="category"
               dataKey="ageGroup"
@@ -119,7 +119,7 @@ export function AgeSexBreakdownChart({ iso3, diseaseId }: AgeSexBreakdownChartPr
           </BarChart>
         </ResponsiveContainer>
       </div>
-      <p className="mt-1 text-xs text-slate-600">
+      <p className="mt-1 text-xs text-gray-400">
         Source: WHO GHO · TB_Notification_agesex_num{year !== undefined ? ` · ${year}` : ''}
       </p>
     </div>

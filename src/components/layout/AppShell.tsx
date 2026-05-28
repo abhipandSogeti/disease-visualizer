@@ -11,7 +11,7 @@ interface AppShellProps {
 
 export function AppShell({ children, rightPanel }: AppShellProps) {
   return (
-    <div className="flex h-screen w-screen flex-col overflow-hidden bg-navy-950 text-slate-100">
+    <div className="flex h-screen w-screen flex-col overflow-hidden bg-navy-950 text-gray-900">
       <SkipLink />
       <Header />
       <div className="relative flex flex-1 overflow-hidden">
@@ -21,7 +21,7 @@ export function AppShell({ children, rightPanel }: AppShellProps) {
         </main>
         {rightPanel && (
           <aside
-            className="w-[460px] overflow-y-auto border-l border-white/[0.06] bg-navy-900 shadow-2xl transition-all duration-300"
+            className="w-[460px] overflow-y-auto border-l border-black/[0.1] bg-navy-900 shadow-2xl transition-all duration-300"
             aria-label="Disease intelligence panel"
           >
             {rightPanel}

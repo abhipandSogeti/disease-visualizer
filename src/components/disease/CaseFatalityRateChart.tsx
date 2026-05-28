@@ -45,9 +45,9 @@ function CfrTooltip({
 }) {
   if (!active || !payload?.length) return null
   return (
-    <div className="rounded border border-slate-700 bg-slate-900 p-2 text-xs shadow-xl">
-      <p className="font-semibold text-slate-200">{label}</p>
-      <p className="mt-0.5 text-slate-400">{payload[0].value.toFixed(2)}%</p>
+    <div className="rounded border border-stone-300 bg-stone-100 p-2 text-xs shadow-xl">
+      <p className="font-semibold text-gray-800">{label}</p>
+      <p className="mt-0.5 text-gray-500">{payload[0].value.toFixed(2)}%</p>
     </div>
   )
 }
@@ -68,7 +68,7 @@ export function CaseFatalityRateChart({ iso3, diseaseId }: CaseFatalityRateChart
   if (!hasData) {
     const diseaseName = DISEASE_DISPLAY_NAMES[diseaseId] ?? diseaseId
     return (
-      <div className="rounded border border-slate-800 bg-slate-900/40 p-3 text-xs text-slate-500">
+      <div className="rounded border border-stone-300 bg-stone-200/40 p-3 text-xs text-gray-400">
         WHO does not publish a case fatality rate for {diseaseName} via the GHO API.
       </div>
     )
@@ -93,7 +93,7 @@ export function CaseFatalityRateChart({ iso3, diseaseId }: CaseFatalityRateChart
                 <stop offset="95%" stopColor={COLOUR} stopOpacity={0} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
             <XAxis
               dataKey="year"
               tick={{ fill: '#64748b', fontSize: 10 }}
@@ -127,7 +127,7 @@ export function CaseFatalityRateChart({ iso3, diseaseId }: CaseFatalityRateChart
           </AreaChart>
         </ResponsiveContainer>
       </div>
-      <p className="text-center text-xs text-slate-600">
+      <p className="text-center text-xs text-gray-400">
         Derived from WHO GHO deaths / incidence · {firstYear}–{lastYear}
       </p>
     </div>

@@ -6,13 +6,13 @@
 
 @layer base {
   :root {
-    color-scheme: dark;
+    color-scheme: light;
   }
   body {
-    @apply bg-navy-950 text-slate-100 antialiased;
+    @apply bg-navy-950 text-gray-900 antialiased;
   }
   * {
-    @apply border-slate-700;
+    @apply border-gray-300;
   }
 }
 

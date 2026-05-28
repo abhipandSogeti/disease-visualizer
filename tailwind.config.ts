@@ -7,10 +7,10 @@ const config: Config = {
     extend: {
       colors: {
         navy: {
-          950: '#06060d',
-          900: '#0d0c1a',
-          800: '#141228',
-          700: '#1c1a3a',
+          950: '#f5f4f0',
+          900: '#eae9e4',
+          800: '#d4d3ce',
+          700: '#bfbeba',
         },
         disease: {
           viral: '#ef4444',

@@ -15,10 +15,10 @@ const LEVELS = [
 export function MapLegend({ diseaseName, unit }: MapLegendProps) {
   return (
     <div
-      className="absolute bottom-4 left-4 rounded border border-slate-700 bg-navy-900/90 p-3 backdrop-blur"
+      className="absolute bottom-4 left-4 rounded border border-stone-300 bg-navy-900/90 p-3 backdrop-blur"
       aria-label="Map colour legend"
     >
-      <p className="mb-2 text-xs font-semibold text-slate-300">
+      <p className="mb-2 text-xs font-semibold text-gray-700">
         {diseaseName} — {unit}
       </p>
       <div className="flex gap-1">
@@ -29,7 +29,7 @@ export function MapLegend({ diseaseName, unit }: MapLegendProps) {
               style={{ backgroundColor: level.colour }}
               aria-hidden="true"
             />
-            <span className="text-[9px] text-slate-500">{level.label}</span>
+            <span className="text-[9px] text-gray-400">{level.label}</span>
           </div>
         ))}
       </div>

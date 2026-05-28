@@ -11,15 +11,15 @@ interface MetricCardProps {
 
 export function MetricCard({ label, value, context, previous, unit }: MetricCardProps) {
   return (
-    <div className="rounded border border-slate-800 bg-slate-900/60 p-3">
-      <p className="text-xs font-medium uppercase tracking-wider text-slate-500">{label}</p>
-      <p className="mt-1 text-xl font-bold text-slate-100">
+    <div className="rounded border border-stone-300 bg-stone-200/60 p-3">
+      <p className="text-xs font-medium uppercase tracking-wider text-gray-400">{label}</p>
+      <p className="mt-1 text-xl font-bold text-gray-900">
         {value === null ? (
           'No data available'
         ) : (
           <>
             {formatCount(value)}
-            {unit && <span className="ml-1 text-sm font-normal text-slate-400">{unit}</span>}
+            {unit && <span className="ml-1 text-sm font-normal text-gray-500">{unit}</span>}
           </>
         )}
       </p>
@@ -28,7 +28,7 @@ export function MetricCard({ label, value, context, previous, unit }: MetricCard
           <TrendBadge previous={previous} current={value} />
         </div>
       )}
-      {context && <p className="mt-1.5 text-xs leading-relaxed text-slate-500">{context}</p>}
+      {context && <p className="mt-1.5 text-xs leading-relaxed text-gray-400">{context}</p>}
     </div>
   )
 }

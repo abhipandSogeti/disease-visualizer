@@ -1,0 +1,74 @@
+- generic [ref=e3]:
+  - link "Skip to main content" [ref=e4] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - img [ref=e7]
+      - generic [ref=e9]: Disease Visualizer
+    - navigation "Persona selection" [ref=e10]:
+      - button "Analyst" [ref=e11] [cursor=pointer]
+      - button "Epidemiologist" [pressed] [ref=e12] [cursor=pointer]
+      - button "Clinical" [ref=e13] [cursor=pointer]
+    - generic [ref=e14]:
+      - button "Open search" [ref=e15] [cursor=pointer]:
+        - img [ref=e16]
+        - generic [ref=e19]: Search countries, diseases, drugs...
+      - button "Switch to light mode" [ref=e20] [cursor=pointer]:
+        - img [ref=e21]
+  - dialog "Search" [ref=e115]:
+    - generic [ref=e116]:
+      - generic [ref=e117]:
+        - img [ref=e118]
+        - searchbox "Search countries, diseases and drugs" [active] [ref=e121]
+        - button "Close search" [ref=e122] [cursor=pointer]:
+          - img [ref=e123]
+      - generic [ref=e126]: Type to search across 30+ countries, 8 diseases, and 12 drugs. Use arrow keys to navigate, Enter to select, Escape to close.
+  - generic [ref=e27]:
+    - complementary "Controls" [ref=e28]:
+      - generic [ref=e29]:
+        - button "3D Globe" [pressed] [ref=e30] [cursor=pointer]:
+          - img [ref=e31]
+          - text: 3D Globe
+        - button "2D Map" [ref=e34] [cursor=pointer]:
+          - img [ref=e35]
+          - text: 2D Map
+      - generic [ref=e37]:
+        - generic [ref=e38]: Active Diseases
+        - button "Add disease" [ref=e39] [cursor=pointer]:
+          - img [ref=e40]
+      - list [ref=e41]:
+        - listitem [ref=e42]:
+          - generic [ref=e43]:
+            - img [ref=e44]
+            - generic [ref=e46]: Cholera
+          - button "Remove Cholera" [ref=e47] [cursor=pointer]:
+            - img [ref=e48]
+      - generic [ref=e51]:
+        - generic [ref=e52]: Year
+        - generic [ref=e107]: "2016"
+        - slider "Select year between 2006 and 2016" [ref=e109] [cursor=pointer]: "2016"
+        - generic [ref=e110]:
+          - generic [ref=e111]: "2006"
+          - generic [ref=e112]: "2010"
+          - generic [ref=e113]: "2015"
+          - generic [ref=e114]: "2016"
+    - main [ref=e59]:
+      - generic [ref=e60]:
+        - generic "Map colour legend" [ref=e66]:
+          - paragraph [ref=e67]: Cholera — Cases
+          - generic [ref=e68]:
+            - generic [ref=e71]: No data
+            - generic [ref=e74]: Very low
+            - generic [ref=e77]: Low
+            - generic [ref=e80]: Medium
+            - generic [ref=e83]: High
+            - generic [ref=e86]: Critical
+        - button "Reset globe view" [ref=e88] [cursor=pointer]:
+          - img [ref=e89]
+  - contentinfo [ref=e92]:
+    - generic [ref=e93]:
+      - img [ref=e94]
+      - generic [ref=e98]: "Data: WHO GHO · disease.sh · World Bank · OpenFDA · PubChem · RxNorm · ChEMBL"
+    - generic [ref=e99]:
+      - img [ref=e100]
+      - generic [ref=e105]: No data loaded yet

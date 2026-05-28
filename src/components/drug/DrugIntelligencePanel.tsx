@@ -31,7 +31,7 @@ export function DrugIntelligencePanel({ drugName, pubchemId }: DrugIntelligenceP
       <div
         role="tablist"
         aria-label="Drug information sections"
-        className="flex gap-1 border-b border-slate-800 pb-2"
+        className="flex gap-1 border-b border-stone-300 pb-2"
       >
         {TABS.map((tab) => (
           <button
@@ -45,7 +45,7 @@ export function DrugIntelligencePanel({ drugName, pubchemId }: DrugIntelligenceP
               'rounded px-3 py-1 text-xs font-medium transition-colors',
               activeTab === tab.id
                 ? 'bg-blue-600 text-white'
-                : 'text-slate-500 hover:bg-slate-800 hover:text-slate-200',
+                : 'text-gray-400 hover:bg-stone-200 hover:text-gray-800',
             ].join(' ')}
           >
             {tab.label}

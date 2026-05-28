@@ -45,24 +45,24 @@ function DrugPageContent() {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex items-center gap-3 border-b border-slate-800 px-6 py-3">
+      <div className="flex items-center gap-3 border-b border-stone-300 px-6 py-3">
         <Link
           to="/"
-          className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-slate-100"
+          className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-gray-900"
         >
           <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
           Back to globe
         </Link>
-        <span className="text-slate-700" aria-hidden="true">
+        <span className="text-gray-500" aria-hidden="true">
           /
         </span>
         <div className="flex items-center gap-2">
-          <Pill className="h-4 w-4 text-blue-400" aria-hidden="true" />
-          <h1 className="text-sm font-semibold text-slate-100">{drugName}</h1>
+          <Pill className="h-4 w-4 text-gray-700" aria-hidden="true" />
+          <h1 className="text-sm font-semibold text-gray-900">{drugName}</h1>
         </div>
       </div>
       <div className="flex flex-1 overflow-hidden">
-        <aside className="flex w-72 flex-col gap-4 overflow-y-auto border-r border-slate-800 bg-slate-900 p-4">
+        <aside className="flex w-72 flex-col gap-4 overflow-y-auto border-r border-stone-300 bg-stone-100 p-4">
           <Suspense fallback={<LoadingSkeleton label="Loading 3D molecule..." rows={3} />}>
             <MoleculeViewer3D cid={molecule?.cid ?? null} drugName={drugName} />
           </Suspense>

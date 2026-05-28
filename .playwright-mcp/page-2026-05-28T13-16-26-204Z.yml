@@ -1,0 +1,67 @@
+- generic [ref=e3]:
+  - link "Skip to main content" [ref=e4] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - img [ref=e7]
+      - generic [ref=e9]: Disease Visualizer
+    - navigation "Persona selection" [ref=e10]:
+      - button "Analyst" [ref=e11] [cursor=pointer]
+      - button "Epidemiologist" [pressed] [ref=e12] [cursor=pointer]
+      - button "Clinical" [ref=e13] [cursor=pointer]
+    - generic [ref=e14]:
+      - button "Open search" [ref=e15] [cursor=pointer]:
+        - img [ref=e16]
+        - generic [ref=e19]: Search countries, diseases, drugs...
+      - button "Switch to light mode" [ref=e20] [cursor=pointer]:
+        - img [ref=e21]
+  - generic [ref=e27]:
+    - complementary "Controls" [ref=e28]:
+      - generic [ref=e29]:
+        - button "3D Globe" [pressed] [ref=e30] [cursor=pointer]:
+          - img [ref=e31]
+          - text: 3D Globe
+        - button "2D Map" [ref=e34] [cursor=pointer]:
+          - img [ref=e35]
+          - text: 2D Map
+      - generic [ref=e37]:
+        - generic [ref=e38]: Active Diseases
+        - button "Add disease" [ref=e39] [cursor=pointer]:
+          - img [ref=e40]
+      - list [ref=e41]:
+        - listitem [ref=e42]:
+          - generic [ref=e43]:
+            - img [ref=e44]
+            - generic [ref=e46]: Cholera
+          - button "Remove Cholera" [ref=e47] [cursor=pointer]:
+            - img [ref=e48]
+      - generic [ref=e51]:
+        - generic [ref=e52]: Year
+        - generic [ref=e53]: "2016"
+        - slider "Select year between 2006 and 2016" [ref=e55] [cursor=pointer]: "2016"
+        - generic [ref=e56]:
+          - generic [ref=e57]: "2006"
+          - generic [ref=e58]: "2010"
+          - generic [ref=e59]: "2015"
+          - generic [ref=e60]: "2016"
+    - main [ref=e61]:
+      - generic [ref=e62]:
+        - generic "Map colour legend" [ref=e68]:
+          - paragraph [ref=e69]: Cholera — Cases
+          - generic [ref=e70]:
+            - generic [ref=e73]: No data
+            - generic [ref=e76]: Very low
+            - generic [ref=e79]: Low
+            - generic [ref=e82]: Medium
+            - generic [ref=e85]: High
+            - generic [ref=e88]: Critical
+        - button "Reset globe view" [ref=e90] [cursor=pointer]:
+          - img [ref=e91]
+  - contentinfo [ref=e94]:
+    - generic [ref=e95]:
+      - img [ref=e96]
+      - generic [ref=e100]: "Data: WHO GHO · disease.sh · World Bank · OpenFDA · PubChem · RxNorm · ChEMBL"
+    - generic [ref=e101]:
+      - img [ref=e102]
+      - generic [ref=e107]: No data loaded yet
+      - generic [ref=e108]: Fetching 1 source...

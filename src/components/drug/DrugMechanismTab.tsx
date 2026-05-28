@@ -24,7 +24,7 @@ export function DrugMechanismTab({ drugName }: DrugMechanismTabProps) {
   return (
     <div className="flex flex-col gap-5">
       <div>
-        <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-500">
+        <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
           How {drugName} works — step by step
         </h3>
         {steps.length === 0 ? (
@@ -39,18 +39,16 @@ export function DrugMechanismTab({ drugName }: DrugMechanismTabProps) {
               return (
                 <div
                   key={step.step}
-                  className="flex gap-3 rounded border border-slate-800 bg-slate-900/40 p-3"
+                  className="flex gap-3 rounded border border-stone-300 bg-stone-200/40 p-3"
                 >
                   <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-blue-950/50">
-                    <Icon className="h-3.5 w-3.5 text-blue-400" aria-hidden="true" />
+                    <Icon className="h-3.5 w-3.5 text-gray-700" aria-hidden="true" />
                   </div>
                   <div>
-                    <p className="text-xs font-semibold text-slate-200">
+                    <p className="text-xs font-semibold text-gray-800">
                       Step {step.step} of {steps.length} — {step.title}
                     </p>
-                    <p className="mt-1 text-xs leading-relaxed text-slate-500">
-                      {step.description}
-                    </p>
+                    <p className="mt-1 text-xs leading-relaxed text-gray-400">{step.description}</p>
                   </div>
                 </div>
               )
@@ -63,10 +61,10 @@ export function DrugMechanismTab({ drugName }: DrugMechanismTabProps) {
       ) : (
         activities.length > 0 && (
           <div>
-            <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
+            <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-400">
               Known protein targets (ChEMBL)
             </h3>
-            <p className="mb-2 text-xs text-slate-600">
+            <p className="mb-2 text-xs text-gray-400">
               Proteins in the body or pathogen that this drug interacts with. A target is like a
               lock — the drug is the key.
             </p>
@@ -74,18 +72,18 @@ export function DrugMechanismTab({ drugName }: DrugMechanismTabProps) {
               {activities.slice(0, 8).map((a) => (
                 <li
                   key={a.activity_id}
-                  className="flex items-start gap-2 rounded bg-slate-900/40 px-3 py-2"
+                  className="flex items-start gap-2 rounded bg-stone-200/40 px-3 py-2"
                 >
                   <Target
-                    className="mt-0.5 h-3 w-3 flex-shrink-0 text-purple-400"
+                    className="mt-0.5 h-3 w-3 flex-shrink-0 text-purple-700"
                     aria-hidden="true"
                   />
                   <div>
-                    <p className="text-xs font-medium text-slate-300">
+                    <p className="text-xs font-medium text-gray-700">
                       {a.target_pref_name ?? 'Unknown target'}
                     </p>
                     {a.standard_type && a.standard_value && (
-                      <p className="text-xs text-slate-600">
+                      <p className="text-xs text-gray-400">
                         {a.standard_type}: {a.standard_value} {a.standard_units ?? ''}
                       </p>
                     )}
@@ -93,7 +91,7 @@ export function DrugMechanismTab({ drugName }: DrugMechanismTabProps) {
                 </li>
               ))}
             </ul>
-            <p className="mt-2 text-xs text-slate-600">
+            <p className="mt-2 text-xs text-gray-400">
               Source: ChEMBL bioactivity database · European Bioinformatics Institute
             </p>
           </div>

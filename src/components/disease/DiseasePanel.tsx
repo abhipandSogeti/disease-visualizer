@@ -32,7 +32,7 @@ export function DiseasePanel({ iso3, disease }: DiseasePanelProps) {
       <div
         role="tablist"
         aria-label="Disease information sections"
-        className="-mt-2 mb-4 flex gap-1 border-b border-white/[0.06] pb-2"
+        className="-mt-2 mb-4 flex gap-1 border-b border-black/[0.1] pb-2"
       >
         {TABS.map((tab) => (
           <button
@@ -45,8 +45,8 @@ export function DiseasePanel({ iso3, disease }: DiseasePanelProps) {
             className={[
               'rounded px-3 py-1 text-xs font-medium transition-colors',
               activeTab === tab.id
-                ? 'bg-violet-600 text-white'
-                : 'text-slate-500 hover:bg-white/[0.06] hover:text-slate-200',
+                ? 'bg-gray-900 text-white'
+                : 'text-gray-400 hover:bg-black/[0.05] hover:text-gray-800',
             ].join(' ')}
           >
             {tab.label}

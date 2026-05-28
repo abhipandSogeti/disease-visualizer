@@ -96,7 +96,7 @@ export function MoleculeViewer3D({ cid, drugName }: MoleculeViewer3DProps) {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+        <span className="text-xs font-semibold uppercase tracking-wider text-gray-400">
           3D Molecule
         </span>
         <div className="flex items-center gap-1">
@@ -109,7 +109,7 @@ export function MoleculeViewer3D({ cid, drugName }: MoleculeViewer3DProps) {
                 'rounded px-2 py-0.5 text-xs transition-colors',
                 viewStyle === s
                   ? 'bg-blue-600 text-white'
-                  : 'text-slate-500 hover:bg-slate-800 hover:text-slate-300',
+                  : 'text-gray-400 hover:bg-stone-200 hover:text-gray-700',
               ].join(' ')}
             >
               {s.charAt(0).toUpperCase() + s.slice(1)}
@@ -119,7 +119,7 @@ export function MoleculeViewer3D({ cid, drugName }: MoleculeViewer3DProps) {
             onClick={() => setSpinning((s) => !s)}
             aria-pressed={spinning}
             aria-label={spinning ? 'Stop rotation' : 'Start rotation'}
-            className="ml-1 rounded p-1 text-slate-500 hover:bg-slate-800 hover:text-slate-300"
+            className="ml-1 rounded p-1 text-gray-400 hover:bg-stone-200 hover:text-gray-700"
           >
             <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
           </button>
@@ -127,13 +127,13 @@ export function MoleculeViewer3D({ cid, drugName }: MoleculeViewer3DProps) {
             href={get3DStructureUrl(cid)}
             download={`${drugName}-3d.sdf`}
             aria-label={`Download 3D structure of ${drugName}`}
-            className="rounded p-1 text-slate-500 hover:bg-slate-800 hover:text-slate-300"
+            className="rounded p-1 text-gray-400 hover:bg-stone-200 hover:text-gray-700"
           >
             <Download className="h-3.5 w-3.5" aria-hidden="true" />
           </a>
         </div>
       </div>
-      <div className="relative h-52 w-full overflow-hidden rounded border border-slate-800 bg-slate-950">
+      <div className="relative h-52 w-full overflow-hidden rounded border border-stone-300 bg-slate-950">
         {loading && !errored && (
           <div className="absolute inset-0 flex items-center justify-center">
             <LoadingSkeleton label="Loading 3D molecule..." rows={1} />
@@ -154,9 +154,9 @@ export function MoleculeViewer3D({ cid, drugName }: MoleculeViewer3DProps) {
           />
         )}
       </div>
-      <div className="flex items-start gap-1.5 rounded bg-slate-900/40 p-2">
-        <Info className="mt-0.5 h-3 w-3 flex-shrink-0 text-slate-600" aria-hidden="true" />
-        <p className="text-xs leading-relaxed text-slate-600">
+      <div className="flex items-start gap-1.5 rounded bg-stone-200/40 p-2">
+        <Info className="mt-0.5 h-3 w-3 flex-shrink-0 text-gray-400" aria-hidden="true" />
+        <p className="text-xs leading-relaxed text-gray-400">
           Each sphere is an atom. Sticks connecting them are chemical bonds — the forces holding the
           molecule together. Colours follow the CPK standard: grey = carbon, red = oxygen, blue =
           nitrogen, white = hydrogen.

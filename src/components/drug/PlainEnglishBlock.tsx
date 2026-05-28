@@ -12,7 +12,7 @@ export function PlainEnglishBlock({ drugName, text }: PlainEnglishBlockProps) {
     <div className="rounded border border-blue-900/50 bg-blue-950/20 p-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <BookOpen className="h-4 w-4 text-blue-400" aria-hidden="true" />
+          <BookOpen className="h-4 w-4 text-gray-700" aria-hidden="true" />
           <h2 className="text-sm font-semibold text-blue-300">
             What is {drugName} — in plain English
           </h2>
@@ -31,7 +31,7 @@ export function PlainEnglishBlock({ drugName, text }: PlainEnglishBlockProps) {
           )}
         </button>
       </div>
-      {!collapsed && <p className="mt-3 text-sm leading-relaxed text-slate-300">{text}</p>}
+      {!collapsed && <p className="mt-3 text-sm leading-relaxed text-gray-700">{text}</p>}
     </div>
   )
 }

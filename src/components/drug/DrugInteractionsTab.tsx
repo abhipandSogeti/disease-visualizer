@@ -7,23 +7,23 @@ const SEVERITY_CONFIG = {
   high: {
     label: 'Severe — Avoid combining',
     Icon: AlertOctagon,
-    colour: 'text-red-400',
+    colour: 'text-red-600',
     bg: 'bg-red-950/30 border-red-900/50',
     textBg: 'bg-red-950/20',
   },
   medium: {
     label: 'Moderate — Use with caution',
     Icon: AlertTriangle,
-    colour: 'text-amber-400',
+    colour: 'text-amber-700',
     bg: 'bg-amber-950/30 border-amber-900/50',
     textBg: 'bg-amber-950/20',
   },
   low: {
     label: 'Mild — Monitor',
     Icon: Info,
-    colour: 'text-slate-400',
-    bg: 'bg-slate-800/60 border-slate-700/50',
-    textBg: 'bg-slate-800/40',
+    colour: 'text-gray-500',
+    bg: 'bg-stone-200/60 border-stone-300/50',
+    textBg: 'bg-stone-200/40',
   },
 } as const
 
@@ -81,7 +81,7 @@ export function DrugInteractionsTab({ drugName }: DrugInteractionsTabProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <p className="text-xs text-slate-500">
+      <p className="text-xs text-gray-400">
         Drug interactions sourced from NIH RxNorm database. Always consult a healthcare professional
         before combining medications.
       </p>
@@ -98,8 +98,8 @@ export function DrugInteractionsTab({ drugName }: DrugInteractionsTabProps) {
               <ul className="flex flex-col gap-1.5">
                 {pairs.map((pair, i) => (
                   <li key={i} className={`rounded p-2.5 text-xs ${textBg}`}>
-                    <p className="font-semibold text-slate-200">{pair.name}</p>
-                    <p className="mt-0.5 leading-relaxed text-slate-500">{pair.description}</p>
+                    <p className="font-semibold text-gray-800">{pair.name}</p>
+                    <p className="mt-0.5 leading-relaxed text-gray-400">{pair.description}</p>
                   </li>
                 ))}
               </ul>

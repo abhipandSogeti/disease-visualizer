@@ -149,27 +149,27 @@ const STATUS_CONFIG: Record<
 > = {
   'first-line': {
     label: 'First-line',
-    className: 'bg-green-900/40 text-green-400 border-green-800',
+    className: 'bg-green-50 text-green-700 border-green-300',
     icon: <ShieldCheck className="h-3 w-3" aria-hidden="true" />,
   },
   'second-line': {
     label: 'Second-line',
-    className: 'bg-blue-900/40 text-blue-400 border-blue-800',
+    className: 'bg-blue-50 text-gray-700 border-blue-300',
     icon: <Pill className="h-3 w-3" aria-hidden="true" />,
   },
   supportive: {
     label: 'Supportive',
-    className: 'bg-slate-800/60 text-slate-400 border-slate-700',
+    className: 'bg-stone-200/60 text-gray-500 border-stone-300',
     icon: <Pill className="h-3 w-3" aria-hidden="true" />,
   },
   experimental: {
     label: 'Experimental',
-    className: 'bg-amber-900/30 text-amber-400 border-amber-800',
+    className: 'bg-amber-50 text-amber-700 border-amber-300',
     icon: <FlaskConical className="h-3 w-3" aria-hidden="true" />,
   },
   vaccine: {
     label: 'Vaccine',
-    className: 'bg-purple-900/40 text-purple-400 border-purple-800',
+    className: 'bg-purple-50 text-purple-700 border-purple-300',
     icon: <ShieldCheck className="h-3 w-3" aria-hidden="true" />,
   },
 }
@@ -189,7 +189,7 @@ function LiveDrugSearch({ diseaseName }: { diseaseName: string }) {
 
   if (isLoading) {
     return (
-      <div className="flex items-center gap-2 text-xs text-slate-500">
+      <div className="flex items-center gap-2 text-xs text-gray-400">
         <Loader2 className="h-3 w-3 animate-spin" aria-hidden="true" />
         Searching ChEMBL for {diseaseName} treatments…
       </div>
@@ -198,14 +198,14 @@ function LiveDrugSearch({ diseaseName }: { diseaseName: string }) {
   if (!molecule) return null
 
   return (
-    <div className="rounded border border-slate-700/50 bg-slate-900/40 p-2.5">
-      <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+    <div className="rounded border border-stone-300/50 bg-stone-200/40 p-2.5">
+      <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-gray-400">
         Live — ChEMBL
       </p>
-      <p className="text-xs font-semibold text-slate-300">
+      <p className="text-xs font-semibold text-gray-700">
         {molecule.pref_name ?? molecule.molecule_chembl_id}
       </p>
-      <p className="mt-0.5 text-[10px] text-slate-500">
+      <p className="mt-0.5 text-[10px] text-gray-400">
         Phase {molecule.max_phase ?? '?'} · {molecule.molecule_type ?? 'Unknown type'}
       </p>
     </div>
@@ -223,19 +223,19 @@ export function DiseaseDrugsTab({ disease }: DiseaseDrugsTabProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <p className="text-xs leading-relaxed text-slate-400">
-        Treatment options for <span className="font-medium text-slate-300">{disease.name}</span>.
+      <p className="text-xs leading-relaxed text-gray-500">
+        Treatment options for <span className="font-medium text-gray-700">{disease.name}</span>.
         Click any drug card to open the full molecular visualiser — 3D structure, mechanism of
         action, and drug interaction data.
       </p>
 
       {noCureNote && (
-        <div className="flex gap-2 rounded border border-amber-800/50 bg-amber-900/20 p-2.5">
+        <div className="flex gap-2 rounded border border-amber-300 bg-amber-50 p-2.5">
           <AlertTriangle
-            className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-amber-400"
+            className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-amber-700"
             aria-hidden="true"
           />
-          <p className="text-xs leading-relaxed text-amber-300/80">{noCureNote}</p>
+          <p className="text-xs leading-relaxed text-amber-700">{noCureNote}</p>
         </div>
       )}
 
@@ -247,17 +247,17 @@ export function DiseaseDrugsTab({ disease }: DiseaseDrugsTabProps) {
               <li key={drug.name}>
                 <button
                   onClick={() => navigate(`/drug/${drug.pubchemId}`)}
-                  className="group flex w-full items-center justify-between rounded border border-slate-800 bg-slate-900/60 p-3 text-left transition-colors hover:border-violet-700 hover:bg-slate-800 focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-500"
+                  className="group flex w-full items-center justify-between rounded border border-stone-300 bg-stone-200/60 p-3 text-left transition-colors hover:border-gray-900 hover:bg-stone-200 focus:outline-none focus-visible:ring-1 focus-visible:ring-gray-900"
                   aria-label={`Open ${drug.name} drug visualiser`}
                 >
                   <div className="flex items-center gap-3">
                     <Pill
-                      className="h-4 w-4 flex-shrink-0 text-blue-400 group-hover:text-blue-300"
+                      className="h-4 w-4 flex-shrink-0 text-gray-700 group-hover:text-blue-300"
                       aria-hidden="true"
                     />
                     <div>
                       <div className="flex items-center gap-2">
-                        <p className="text-xs font-semibold text-slate-200 group-hover:text-white">
+                        <p className="text-xs font-semibold text-gray-800 group-hover:text-white">
                           {drug.name}
                         </p>
                         <span
@@ -267,11 +267,11 @@ export function DiseaseDrugsTab({ disease }: DiseaseDrugsTabProps) {
                           {statusCfg.label}
                         </span>
                       </div>
-                      <p className="mt-0.5 text-[11px] leading-snug text-slate-500">{drug.role}</p>
+                      <p className="mt-0.5 text-[11px] leading-snug text-gray-400">{drug.role}</p>
                     </div>
                   </div>
                   <ChevronRight
-                    className="h-3.5 w-3.5 flex-shrink-0 text-slate-600 group-hover:text-slate-400"
+                    className="h-3.5 w-3.5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                     aria-hidden="true"
                   />
                 </button>
