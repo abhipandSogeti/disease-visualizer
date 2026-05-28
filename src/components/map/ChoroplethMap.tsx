@@ -14,7 +14,7 @@ interface GeoFeature {
 }
 
 export function ChoroplethMap() {
-  const { activeDiseases, selectedYear, setCountry } = useAppStore()
+  const { activeDiseases, selectedYear, setCountry, setCompareCountry } = useAppStore()
   const primaryDisease = activeDiseases[0]
   const [tooltip, setTooltip] = useState<{
     name: string
@@ -63,6 +63,10 @@ export function ChoroplethMap() {
                       pressed: { outline: 'none' },
                     }}
                     onClick={() => setCountry(iso3)}
+                    onContextMenu={(e: React.MouseEvent) => {
+                      e.preventDefault()
+                      setCompareCountry(iso3)
+                    }}
                     onMouseEnter={(e: React.MouseEvent) => {
                       setTooltip({
                         name: props.name ?? '',

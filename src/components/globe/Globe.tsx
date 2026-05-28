@@ -19,7 +19,7 @@ interface TooltipState {
 export function Globe() {
   const globeRef = useRef<GlobeMethods | undefined>(undefined)
   const containerRef = useRef<HTMLDivElement>(null)
-  const { activeDiseases, selectedYear, setCountry } = useAppStore()
+  const { activeDiseases, selectedYear, setCountry, setCompareCountry } = useAppStore()
   const prefersReducedMotion = useReducedMotion()
   const [countries, setCountries] = useState<object[]>([])
   const [size, setSize] = useState({ width: 800, height: 600 })
@@ -91,6 +91,14 @@ export function Globe() {
     [setCountry],
   )
 
+  const handleRightClick = useCallback(
+    (d: object) => {
+      const feature = d as { properties: { iso_a3: string } }
+      setCompareCountry(feature.properties.iso_a3)
+    },
+    [setCompareCountry],
+  )
+
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     setTooltip((t) => (t.visible ? { ...t, x: e.clientX, y: e.clientY } : t))
   }, [])
@@ -118,6 +126,7 @@ export function Globe() {
         polygonLabel={() => ''}
         onPolygonHover={handleHover}
         onPolygonClick={handleClick}
+        onPolygonRightClick={handleRightClick}
         polygonAltitude={0.006}
         atmosphereColor="rgba(59,130,246,0.3)"
         atmosphereAltitude={0.1}
