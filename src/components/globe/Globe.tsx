@@ -334,10 +334,26 @@ export function Globe() {
         polygonsData={countries}
         polygonCapColor={(d: object) => {
           const f = d as GeoFeature
-          return getBurdenColour(burdenMap.get(f.properties.iso_a3) ?? null, maxValue)
+          const iso = f.properties.iso_a3
+          const base = getBurdenColour(burdenMap.get(iso) ?? null, maxValue)
+          // Boost opacity on hover so the cap looks solid and vibrant
+          if (iso === hoveredIso3) return base.replace(',0.72)', ',0.98)')
+          return base
         }}
-        polygonSideColor={() => 'rgba(30,30,30,0.6)'}
-        polygonStrokeColor={() => '#222222'}
+        polygonSideColor={(d: object) => {
+          const f = d as GeoFeature
+          const val = burdenMap.get(f.properties.iso_a3)
+          // No-data countries are transparent — hide their sides too
+          if (val === undefined || val === null) return 'rgba(0,0,0,0)'
+          // Earthy terrain cross-section: sandstone/rock tone
+          return 'rgba(140,110,75,0.92)'
+        }}
+        polygonStrokeColor={(d: object) => {
+          const f = d as GeoFeature
+          const iso = f.properties.iso_a3
+          if (iso === hoveredIso3) return 'rgba(255,255,255,0.9)'
+          return 'rgba(60,45,25,0.35)'
+        }}
         polygonLabel={() => ''}
         onPolygonHover={handleHover}
         onPolygonClick={handleClick}
@@ -345,11 +361,11 @@ export function Globe() {
         polygonAltitude={(d: object) => {
           const f = d as GeoFeature
           const iso = f.properties.iso_a3
-          if (iso === hoveredIso3) return 0.06
-          if (iso === selectedCountry || iso === compareCountry) return 0.03
-          return 0.01
+          if (iso === hoveredIso3) return 0.04
+          if (iso === selectedCountry || iso === compareCountry) return 0.02
+          return 0.005
         }}
-        polygonsTransitionDuration={200}
+        polygonsTransitionDuration={250}
         atmosphereColor="rgba(100,160,255,0.8)"
         atmosphereAltitude={0.22}
         // ── Arc — vivid cyan flow between compared countries ─────────────
