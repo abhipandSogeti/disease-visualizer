@@ -62,7 +62,7 @@ function DrugPageContent() {
         </div>
       </div>
       <div className="flex flex-1 overflow-hidden">
-        <aside className="flex w-72 flex-col gap-4 overflow-y-auto border-r border-stone-300 bg-stone-100 p-4">
+        <aside className="flex w-[420px] flex-col gap-4 overflow-y-auto border-r border-stone-300 bg-stone-100 p-4">
           <Suspense fallback={<LoadingSkeleton label="Loading 3D molecule..." rows={3} />}>
             <MoleculeViewer3D cid={molecule?.cid ?? null} drugName={drugName} />
           </Suspense>

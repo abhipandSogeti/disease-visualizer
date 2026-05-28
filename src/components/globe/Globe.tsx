@@ -122,13 +122,13 @@ export function Globe() {
           const f = d as { properties: { iso_a3: string } }
           return getBurdenColour(burdenMap.get(f.properties.iso_a3) ?? null, maxValue)
         }}
-        polygonSideColor={() => 'rgba(0,0,0,0.2)'}
-        polygonStrokeColor={() => 'rgba(255,255,255,0.7)'}
+        polygonSideColor={() => 'rgba(30,30,30,0.6)'}
+        polygonStrokeColor={() => '#222222'}
         polygonLabel={() => ''}
         onPolygonHover={handleHover}
         onPolygonClick={handleClick}
         onPolygonRightClick={handleRightClick}
-        polygonAltitude={0.006}
+        polygonAltitude={0.01}
         atmosphereColor="rgba(59,130,246,0.3)"
         atmosphereAltitude={0.1}
       />
