@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useAppStore } from '@/stores/app.store'
+import { useCountryName } from '@/hooks/useCountryName'
 import { RightPanel } from '@/components/layout/RightPanel'
 import { DiseaseOverviewTab } from './DiseaseOverviewTab'
 import { DiseaseHistoryTab } from './DiseaseHistoryTab'
@@ -24,9 +25,10 @@ interface DiseasePanelProps {
 export function DiseasePanel({ iso3, disease }: DiseasePanelProps) {
   const [activeTab, setActiveTab] = useState<Tab>('overview')
   const { persona, compareCountry } = useAppStore()
+  const countryName = useCountryName(iso3)
 
   return (
-    <RightPanel title={disease.name} subtitle={`${iso3} · ${disease.description}`}>
+    <RightPanel title={disease.name} subtitle={`${countryName} · ${disease.description}`}>
       <div
         role="tablist"
         aria-label="Disease information sections"

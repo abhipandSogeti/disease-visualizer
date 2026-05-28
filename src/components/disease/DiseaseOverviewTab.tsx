@@ -21,7 +21,7 @@ export function DiseaseOverviewTab({ iso3, disease, persona }: DiseaseOverviewTa
     iso3,
     disease.whoIndicator,
   )
-  const { data: popData } = usePopulation(iso3.slice(0, 2))
+  const { data: popData } = usePopulation(iso3)
 
   const latestPop = useMemo(() => popData?.find((d) => d.value !== null)?.value ?? null, [popData])
 
@@ -37,9 +37,9 @@ export function DiseaseOverviewTab({ iso3, disease, persona }: DiseaseOverviewTa
     [sorted],
   )
 
-  const incidenceRate = useMemo(() => {
+  const incidencePer100k = useMemo(() => {
     if (!latest?.NumericValue || !latestPop) return null
-    return latest.NumericValue / latestPop
+    return (latest.NumericValue / latestPop) * 100_000
   }, [latest, latestPop])
 
   if (isLoading)
@@ -66,9 +66,9 @@ export function DiseaseOverviewTab({ iso3, disease, persona }: DiseaseOverviewTa
         />
         <MetricCard
           label="Incidence Rate"
-          value={incidenceRate}
-          unit="per person"
-          context="Cases relative to total population"
+          value={incidencePer100k !== null ? Math.round(incidencePer100k) : null}
+          unit="per 100k people"
+          context="Cases per 100,000 population"
         />
       </div>
       <div>
