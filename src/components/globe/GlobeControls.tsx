@@ -12,7 +12,7 @@ export function GlobeControls({ globeRef }: GlobeControlsProps) {
       <button
         onClick={() => globeRef.current?.pointOfView({ lat: 20, lng: 0, altitude: 2.5 }, 1000)}
         aria-label="Reset globe view"
-        className="rounded border border-stone-300 bg-navy-900/90 p-2 text-gray-500 backdrop-blur hover:text-gray-900"
+        className="rounded border border-stone-300 bg-white/95 p-2 text-gray-600 backdrop-blur hover:text-gray-900"
       >
         <RotateCcw className="h-4 w-4" aria-hidden="true" />
       </button>

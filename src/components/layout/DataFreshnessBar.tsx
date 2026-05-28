@@ -10,15 +10,15 @@ export function DataFreshnessBar() {
   return (
     <footer className="flex h-8 items-center justify-between border-t border-stone-300 bg-stone-100 px-4">
       <div className="flex items-center gap-2">
-        <Database className="h-3 w-3 text-gray-400" aria-hidden="true" />
-        <span className="text-xs text-gray-400">Data: {sources.join(' · ')}</span>
+        <Database className="h-3 w-3 text-gray-600" aria-hidden="true" />
+        <span className="text-xs text-gray-600">Data: {sources.join(' · ')}</span>
       </div>
       <div className="flex items-center gap-1.5" aria-live="polite" aria-atomic="true">
         <RefreshCw
-          className={['h-3 w-3 text-gray-400', isFetching > 0 ? 'animate-spin' : ''].join(' ')}
+          className={['h-3 w-3 text-gray-600', isFetching > 0 ? 'animate-spin' : ''].join(' ')}
           aria-hidden="true"
         />
-        <span className="text-xs text-gray-400">{freshness}</span>
+        <span className="text-xs text-gray-600">{freshness}</span>
         {isFetching > 0 && (
           <span className="text-xs text-gray-700">
             Fetching {isFetching} source{isFetching === 1 ? '' : 's'}...

@@ -44,8 +44,8 @@ export function DrugIntelligencePanel({ drugName, pubchemId }: DrugIntelligenceP
             className={[
               'rounded px-3 py-1 text-xs font-medium transition-colors',
               activeTab === tab.id
-                ? 'bg-blue-600 text-white'
-                : 'text-gray-400 hover:bg-stone-200 hover:text-gray-800',
+                ? 'bg-gray-900 text-white'
+                : 'text-gray-600 hover:bg-stone-200 hover:text-gray-800',
             ].join(' ')}
           >
             {tab.label}

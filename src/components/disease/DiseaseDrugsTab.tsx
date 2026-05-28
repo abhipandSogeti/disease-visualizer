@@ -159,7 +159,7 @@ const STATUS_CONFIG: Record<
   },
   supportive: {
     label: 'Supportive',
-    className: 'bg-stone-200/60 text-gray-500 border-stone-300',
+    className: 'bg-stone-200/60 text-gray-600 border-stone-300',
     icon: <Pill className="h-3 w-3" aria-hidden="true" />,
   },
   experimental: {
@@ -189,7 +189,7 @@ function LiveDrugSearch({ diseaseName }: { diseaseName: string }) {
 
   if (isLoading) {
     return (
-      <div className="flex items-center gap-2 text-xs text-gray-400">
+      <div className="flex items-center gap-2 text-xs text-gray-600">
         <Loader2 className="h-3 w-3 animate-spin" aria-hidden="true" />
         Searching ChEMBL for {diseaseName} treatments…
       </div>
@@ -199,13 +199,13 @@ function LiveDrugSearch({ diseaseName }: { diseaseName: string }) {
 
   return (
     <div className="rounded border border-stone-300/50 bg-stone-200/40 p-2.5">
-      <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-gray-400">
+      <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-gray-600">
         Live — ChEMBL
       </p>
       <p className="text-xs font-semibold text-gray-700">
         {molecule.pref_name ?? molecule.molecule_chembl_id}
       </p>
-      <p className="mt-0.5 text-[10px] text-gray-400">
+      <p className="mt-0.5 text-[10px] text-gray-600">
         Phase {molecule.max_phase ?? '?'} · {molecule.molecule_type ?? 'Unknown type'}
       </p>
     </div>
@@ -223,7 +223,7 @@ export function DiseaseDrugsTab({ disease }: DiseaseDrugsTabProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <p className="text-xs leading-relaxed text-gray-500">
+      <p className="text-xs leading-relaxed text-gray-600">
         Treatment options for <span className="font-medium text-gray-700">{disease.name}</span>.
         Click any drug card to open the full molecular visualiser — 3D structure, mechanism of
         action, and drug interaction data.
@@ -267,11 +267,11 @@ export function DiseaseDrugsTab({ disease }: DiseaseDrugsTabProps) {
                           {statusCfg.label}
                         </span>
                       </div>
-                      <p className="mt-0.5 text-[11px] leading-snug text-gray-400">{drug.role}</p>
+                      <p className="mt-0.5 text-[11px] leading-snug text-gray-600">{drug.role}</p>
                     </div>
                   </div>
                   <ChevronRight
-                    className="h-3.5 w-3.5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                    className="h-3.5 w-3.5 flex-shrink-0 text-gray-600 group-hover:text-gray-600"
                     aria-hidden="true"
                   />
                 </button>

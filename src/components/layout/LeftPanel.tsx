@@ -41,7 +41,7 @@ export function LeftPanel() {
             'flex flex-1 items-center justify-center gap-1.5 rounded py-1.5 text-xs font-medium transition-colors',
             view === 'globe'
               ? 'bg-gray-900 text-white'
-              : 'text-gray-500 hover:bg-black/[0.05] hover:text-gray-900',
+              : 'text-gray-600 hover:bg-black/[0.05] hover:text-gray-900',
           ].join(' ')}
         >
           <Globe className="h-3.5 w-3.5" aria-hidden="true" />
@@ -54,7 +54,7 @@ export function LeftPanel() {
             'flex flex-1 items-center justify-center gap-1.5 rounded py-1.5 text-xs font-medium transition-colors',
             view === 'map'
               ? 'bg-gray-900 text-white'
-              : 'text-gray-500 hover:bg-black/[0.05] hover:text-gray-900',
+              : 'text-gray-600 hover:bg-black/[0.05] hover:text-gray-900',
           ].join(' ')}
         >
           <Map className="h-3.5 w-3.5" aria-hidden="true" />
@@ -64,14 +64,14 @@ export function LeftPanel() {
 
       {/* Disease list */}
       <div className="flex items-center justify-between">
-        <span className="text-xs font-semibold uppercase tracking-wider text-gray-400">
+        <span className="text-xs font-semibold uppercase tracking-wider text-gray-600">
           Active Diseases
         </span>
         <button
           onClick={() => setShowPicker((v) => !v)}
           aria-label="Add disease"
           aria-expanded={showPicker}
-          className="rounded p-1 text-gray-500 hover:bg-stone-200 hover:text-gray-900"
+          className="rounded p-1 text-gray-600 hover:bg-stone-200 hover:text-gray-900"
         >
           <Plus className="h-3.5 w-3.5" aria-hidden="true" />
         </button>
@@ -89,7 +89,7 @@ export function LeftPanel() {
                   addDisease(d)
                   setShowPicker(false)
                 }}
-                className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-xs text-gray-500 hover:bg-stone-200 hover:text-gray-900"
+                className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-xs text-gray-600 hover:bg-stone-200 hover:text-gray-900"
               >
                 <Circle
                   className="h-2.5 w-2.5 flex-shrink-0"
@@ -120,7 +120,7 @@ export function LeftPanel() {
             <button
               onClick={() => removeDisease(disease.id)}
               aria-label={`Remove ${disease.name}`}
-              className="rounded p-0.5 text-gray-400 hover:text-gray-700"
+              className="rounded p-0.5 text-gray-600 hover:text-gray-700"
             >
               <X className="h-3 w-3" aria-hidden="true" />
             </button>
@@ -129,16 +129,16 @@ export function LeftPanel() {
       </ul>
 
       {activeDiseases.length === 0 && (
-        <p className="text-xs text-gray-400">No diseases selected. Use + to add.</p>
+        <p className="text-xs text-gray-600">No diseases selected. Use + to add.</p>
       )}
 
       {/* Year selector — range comes from actual WHO data for the active disease */}
       <div className="mt-auto flex flex-col gap-2 border-t border-stone-300 pt-3">
-        <span className="text-xs font-semibold uppercase tracking-wider text-gray-400">Year</span>
+        <span className="text-xs font-semibold uppercase tracking-wider text-gray-600">Year</span>
 
         {/* No WHO indicator for this disease */}
         {!primaryDisease?.whoIndicator && (
-          <p className="text-[10px] leading-snug text-gray-400">
+          <p className="text-[10px] leading-snug text-gray-600">
             No time-series data available for this disease
           </p>
         )}
@@ -176,7 +176,7 @@ export function LeftPanel() {
               <>
                 {/* Large year display */}
                 <div
-                  className="text-3xl font-bold tabular-nums text-white"
+                  className="text-3xl font-bold tabular-nums text-gray-900"
                   aria-live="polite"
                   aria-atomic="true"
                 >
@@ -195,7 +195,7 @@ export function LeftPanel() {
                     aria-label={`Select year between ${minYear} and ${maxYear}`}
                     aria-valuetext={String(clampedYear)}
                     style={{
-                      background: `linear-gradient(to right, #3b82f6 ${pct}%, #334155 ${pct}%)`,
+                      background: `linear-gradient(to right, #111827 ${pct}%, #d1d5db ${pct}%)`,
                     }}
                     className={[
                       'w-full cursor-pointer appearance-none rounded-full',
@@ -208,7 +208,7 @@ export function LeftPanel() {
                       '[&::-webkit-slider-thumb]:bg-white',
                       '[&::-webkit-slider-thumb]:shadow-md',
                       '[&::-webkit-slider-thumb]:ring-2',
-                      '[&::-webkit-slider-thumb]:ring-violet-500',
+                      '[&::-webkit-slider-thumb]:ring-gray-900',
                       '[&::-webkit-slider-thumb]:transition-transform',
                       '[&::-webkit-slider-thumb]:hover:scale-125',
                       '[&::-moz-range-thumb]:h-4',
@@ -218,7 +218,7 @@ export function LeftPanel() {
                       '[&::-moz-range-thumb]:bg-white',
                       '[&::-moz-range-thumb]:shadow-md',
                       '[&::-moz-range-thumb]:ring-2',
-                      '[&::-moz-range-thumb]:ring-violet-500',
+                      '[&::-moz-range-thumb]:ring-gray-900',
                       // Track (moz)
                       '[&::-moz-range-track]:rounded-full',
                       '[&::-moz-range-track]:h-2',
@@ -241,7 +241,7 @@ export function LeftPanel() {
                         style={{ left: `${pos}%` }}
                         className={[
                           'absolute -translate-x-1/2 text-[9px] tabular-nums',
-                          y === clampedYear ? 'font-bold text-gray-700' : 'text-gray-400',
+                          y === clampedYear ? 'font-bold text-gray-700' : 'text-gray-600',
                         ].join(' ')}
                       >
                         {y}
@@ -255,7 +255,7 @@ export function LeftPanel() {
 
         {/* Edge case: indicator present but only one data point */}
         {primaryDisease?.whoIndicator && !yearsLoading && years && years.length === 1 && (
-          <p className="text-[10px] text-gray-400">Only one year of data: {years[0]}</p>
+          <p className="text-[10px] text-gray-600">Only one year of data: {years[0]}</p>
         )}
       </div>
     </aside>

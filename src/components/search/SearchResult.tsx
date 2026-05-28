@@ -21,12 +21,12 @@ export function SearchResultRow({ result, onSelect, focused }: SearchResultProps
       ].join(' ')}
       aria-label={`${result.label} — ${result.description}`}
     >
-      <Icon className="h-4 w-4 flex-shrink-0 text-gray-400" aria-hidden="true" />
+      <Icon className="h-4 w-4 flex-shrink-0 text-gray-600" aria-hidden="true" />
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm text-gray-800">{result.label}</p>
-        <p className="truncate text-xs text-gray-400">{result.description}</p>
+        <p className="truncate text-xs text-gray-600">{result.description}</p>
       </div>
-      <span className="flex-shrink-0 rounded bg-stone-200 px-1.5 py-0.5 text-xs text-gray-400">
+      <span className="flex-shrink-0 rounded bg-stone-200 px-1.5 py-0.5 text-xs text-gray-600">
         {TYPE_LABEL[result.type]}
       </span>
     </button>

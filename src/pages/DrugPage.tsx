@@ -48,12 +48,12 @@ function DrugPageContent() {
       <div className="flex items-center gap-3 border-b border-stone-300 px-6 py-3">
         <Link
           to="/"
-          className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-gray-900"
+          className="flex items-center gap-1.5 text-xs text-gray-600 hover:text-gray-900"
         >
           <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
           Back to globe
         </Link>
-        <span className="text-gray-500" aria-hidden="true">
+        <span className="text-gray-600" aria-hidden="true">
           /
         </span>
         <div className="flex items-center gap-2">

@@ -24,7 +24,7 @@ export function DrugMechanismTab({ drugName }: DrugMechanismTabProps) {
   return (
     <div className="flex flex-col gap-5">
       <div>
-        <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
+        <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-600">
           How {drugName} works — step by step
         </h3>
         {steps.length === 0 ? (
@@ -48,7 +48,7 @@ export function DrugMechanismTab({ drugName }: DrugMechanismTabProps) {
                     <p className="text-xs font-semibold text-gray-800">
                       Step {step.step} of {steps.length} — {step.title}
                     </p>
-                    <p className="mt-1 text-xs leading-relaxed text-gray-400">{step.description}</p>
+                    <p className="mt-1 text-xs leading-relaxed text-gray-600">{step.description}</p>
                   </div>
                 </div>
               )
@@ -61,10 +61,10 @@ export function DrugMechanismTab({ drugName }: DrugMechanismTabProps) {
       ) : (
         activities.length > 0 && (
           <div>
-            <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-400">
+            <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-600">
               Known protein targets (ChEMBL)
             </h3>
-            <p className="mb-2 text-xs text-gray-400">
+            <p className="mb-2 text-xs text-gray-600">
               Proteins in the body or pathogen that this drug interacts with. A target is like a
               lock — the drug is the key.
             </p>
@@ -83,7 +83,7 @@ export function DrugMechanismTab({ drugName }: DrugMechanismTabProps) {
                       {a.target_pref_name ?? 'Unknown target'}
                     </p>
                     {a.standard_type && a.standard_value && (
-                      <p className="text-xs text-gray-400">
+                      <p className="text-xs text-gray-600">
                         {a.standard_type}: {a.standard_value} {a.standard_units ?? ''}
                       </p>
                     )}
@@ -91,7 +91,7 @@ export function DrugMechanismTab({ drugName }: DrugMechanismTabProps) {
                 </li>
               ))}
             </ul>
-            <p className="mt-2 text-xs text-gray-400">
+            <p className="mt-2 text-xs text-gray-600">
               Source: ChEMBL bioactivity database · European Bioinformatics Institute
             </p>
           </div>

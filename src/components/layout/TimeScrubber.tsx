@@ -12,7 +12,7 @@ export function TimeScrubber({ value, min, max, onChange }: TimeScrubberProps) {
 
   return (
     <div className="flex items-center gap-3 px-4 py-2">
-      <span className="w-10 text-right text-xs text-gray-400">{min}</span>
+      <span className="w-10 text-right text-xs text-gray-600">{min}</span>
       <div className="relative flex-1">
         <input
           type="range"
@@ -48,7 +48,7 @@ export function TimeScrubber({ value, min, max, onChange }: TimeScrubberProps) {
           </span>
         </div>
       </div>
-      <span className="w-10 text-xs text-gray-400">{max}</span>
+      <span className="w-10 text-xs text-gray-600">{max}</span>
     </div>
   )
 }

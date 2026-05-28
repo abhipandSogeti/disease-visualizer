@@ -68,7 +68,7 @@ export function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
           onKeyDown={handleKeyDown}
         >
           <div className="flex items-center gap-3 border-b border-stone-300 px-4 py-3">
-            <Search className="h-4 w-4 flex-shrink-0 text-gray-400" aria-hidden="true" />
+            <Search className="h-4 w-4 flex-shrink-0 text-gray-600" aria-hidden="true" />
             <input
               ref={inputRef}
               type="search"
@@ -79,12 +79,12 @@ export function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
               }}
               placeholder="Search countries, diseases, drugs..."
               aria-label="Search countries, diseases and drugs"
-              className="flex-1 bg-transparent text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none"
+              className="flex-1 bg-transparent text-sm text-gray-900 placeholder:text-gray-600 focus:outline-none"
             />
             <button
               onClick={onClose}
               aria-label="Close search"
-              className="rounded p-1 text-gray-400 hover:text-gray-700"
+              className="rounded p-1 text-gray-600 hover:text-gray-700"
             >
               <X className="h-4 w-4" aria-hidden="true" />
             </button>
@@ -96,7 +96,7 @@ export function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
               className="max-h-80 overflow-y-auto py-1"
             >
               {results.length === 0 ? (
-                <li className="px-4 py-6 text-center text-sm text-gray-400">
+                <li className="px-4 py-6 text-center text-sm text-gray-600">
                   No results for &ldquo;{query}&rdquo;
                 </li>
               ) : (
@@ -113,7 +113,7 @@ export function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
             </ul>
           )}
           {!query && (
-            <div className="px-4 py-4 text-xs text-gray-400">
+            <div className="px-4 py-4 text-xs text-gray-600">
               Type to search across 30+ countries, 8 diseases, and 12 drugs. Use arrow keys to
               navigate, Enter to select, Escape to close.
             </div>

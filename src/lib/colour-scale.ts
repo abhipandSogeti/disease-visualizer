@@ -6,7 +6,7 @@ export function createBurdenColourScale(maxValue: number) {
 }
 
 export function getBurdenColour(value: number | null, maxValue: number): string {
-  if (value === null) return '#1e293b'
+  if (value === null) return '#d1d5db'
   return createBurdenColourScale(maxValue)(value)
 }
 

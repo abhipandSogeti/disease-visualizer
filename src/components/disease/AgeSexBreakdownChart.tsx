@@ -69,7 +69,7 @@ export function AgeSexBreakdownChart({ iso3, diseaseId }: AgeSexBreakdownChartPr
 
   if (!hasData && !isLoading && !isError) {
     return (
-      <div className="rounded border border-stone-300 bg-stone-200/40 p-3 text-xs text-gray-400">
+      <div className="rounded border border-stone-300 bg-stone-200/40 p-3 text-xs text-gray-600">
         WHO does not currently publish age-stratified {getDiseaseName(diseaseId)} data. Age
         breakdowns are available for tuberculosis.
       </div>
@@ -98,14 +98,14 @@ export function AgeSexBreakdownChart({ iso3, diseaseId }: AgeSexBreakdownChartPr
               type="category"
               dataKey="ageGroup"
               width={40}
-              tick={{ fill: '#64748b', fontSize: 10 }}
+              tick={{ fill: '#374151', fontSize: 10 }}
               axisLine={false}
               tickLine={false}
             />
             <XAxis
               type="number"
               tickFormatter={(v: number) => formatCount(v)}
-              tick={{ fill: '#64748b', fontSize: 10 }}
+              tick={{ fill: '#374151', fontSize: 10 }}
               axisLine={false}
               tickLine={false}
             />
@@ -119,7 +119,7 @@ export function AgeSexBreakdownChart({ iso3, diseaseId }: AgeSexBreakdownChartPr
           </BarChart>
         </ResponsiveContainer>
       </div>
-      <p className="mt-1 text-xs text-gray-400">
+      <p className="mt-1 text-xs text-gray-600">
         Source: WHO GHO · TB_Notification_agesex_num{year !== undefined ? ` · ${year}` : ''}
       </p>
     </div>

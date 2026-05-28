@@ -47,7 +47,7 @@ function CfrTooltip({
   return (
     <div className="rounded border border-stone-300 bg-stone-100 p-2 text-xs shadow-xl">
       <p className="font-semibold text-gray-800">{label}</p>
-      <p className="mt-0.5 text-gray-500">{payload[0].value.toFixed(2)}%</p>
+      <p className="mt-0.5 text-gray-600">{payload[0].value.toFixed(2)}%</p>
     </div>
   )
 }
@@ -68,7 +68,7 @@ export function CaseFatalityRateChart({ iso3, diseaseId }: CaseFatalityRateChart
   if (!hasData) {
     const diseaseName = DISEASE_DISPLAY_NAMES[diseaseId] ?? diseaseId
     return (
-      <div className="rounded border border-stone-300 bg-stone-200/40 p-3 text-xs text-gray-400">
+      <div className="rounded border border-stone-300 bg-stone-200/40 p-3 text-xs text-gray-600">
         WHO does not publish a case fatality rate for {diseaseName} via the GHO API.
       </div>
     )
@@ -96,13 +96,13 @@ export function CaseFatalityRateChart({ iso3, diseaseId }: CaseFatalityRateChart
             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
             <XAxis
               dataKey="year"
-              tick={{ fill: '#64748b', fontSize: 10 }}
+              tick={{ fill: '#374151', fontSize: 10 }}
               axisLine={false}
               tickLine={false}
             />
             <YAxis
               tickFormatter={(v: number) => `${v.toFixed(1)}%`}
-              tick={{ fill: '#64748b', fontSize: 10 }}
+              tick={{ fill: '#374151', fontSize: 10 }}
               axisLine={false}
               tickLine={false}
               width={52}
@@ -111,7 +111,7 @@ export function CaseFatalityRateChart({ iso3, diseaseId }: CaseFatalityRateChart
                 angle: -90,
                 position: 'insideLeft',
                 offset: 10,
-                style: { fill: '#64748b', fontSize: 10 },
+                style: { fill: '#374151', fontSize: 10 },
               }}
             />
             <Tooltip content={<CfrTooltip />} />
@@ -127,7 +127,7 @@ export function CaseFatalityRateChart({ iso3, diseaseId }: CaseFatalityRateChart
           </AreaChart>
         </ResponsiveContainer>
       </div>
-      <p className="text-center text-xs text-gray-400">
+      <p className="text-center text-xs text-gray-600">
         Derived from WHO GHO deaths / incidence · {firstYear}–{lastYear}
       </p>
     </div>

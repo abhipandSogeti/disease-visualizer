@@ -27,14 +27,14 @@ export function MoleculeViewer2D({ cid, drugName }: MoleculeViewer2DProps) {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <span className="text-xs font-semibold uppercase tracking-wider text-gray-400">
+        <span className="text-xs font-semibold uppercase tracking-wider text-gray-600">
           2D Structure
         </span>
         <a
           href={imageUrl}
           download={`${drugName}-2d.png`}
           aria-label={`Download 2D structure of ${drugName}`}
-          className="flex items-center gap-1 rounded px-2 py-1 text-xs text-gray-400 hover:bg-stone-200 hover:text-gray-700"
+          className="flex items-center gap-1 rounded px-2 py-1 text-xs text-gray-600 hover:bg-stone-200 hover:text-gray-700"
         >
           <Download className="h-3 w-3" aria-hidden="true" />
           Download
@@ -62,8 +62,8 @@ export function MoleculeViewer2D({ cid, drugName }: MoleculeViewer2DProps) {
         )}
       </div>
       <div className="flex items-start gap-1.5 rounded bg-stone-200/40 p-2">
-        <Info className="mt-0.5 h-3 w-3 flex-shrink-0 text-gray-400" aria-hidden="true" />
-        <p className="text-xs leading-relaxed text-gray-400">
+        <Info className="mt-0.5 h-3 w-3 flex-shrink-0 text-gray-600" aria-hidden="true" />
+        <p className="text-xs leading-relaxed text-gray-600">
           This is a flat map of the molecule — like a floor plan of its chemical structure. Each
           letter represents an atom; lines represent the bonds holding atoms together.
         </p>

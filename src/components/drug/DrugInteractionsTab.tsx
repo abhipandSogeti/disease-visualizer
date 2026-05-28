@@ -21,7 +21,7 @@ const SEVERITY_CONFIG = {
   low: {
     label: 'Mild — Monitor',
     Icon: Info,
-    colour: 'text-gray-500',
+    colour: 'text-gray-600',
     bg: 'bg-stone-200/60 border-stone-300/50',
     textBg: 'bg-stone-200/40',
   },
@@ -81,7 +81,7 @@ export function DrugInteractionsTab({ drugName }: DrugInteractionsTabProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <p className="text-xs text-gray-400">
+      <p className="text-xs text-gray-600">
         Drug interactions sourced from NIH RxNorm database. Always consult a healthcare professional
         before combining medications.
       </p>
@@ -99,7 +99,7 @@ export function DrugInteractionsTab({ drugName }: DrugInteractionsTabProps) {
                 {pairs.map((pair, i) => (
                   <li key={i} className={`rounded p-2.5 text-xs ${textBg}`}>
                     <p className="font-semibold text-gray-800">{pair.name}</p>
-                    <p className="mt-0.5 leading-relaxed text-gray-400">{pair.description}</p>
+                    <p className="mt-0.5 leading-relaxed text-gray-600">{pair.description}</p>
                   </li>
                 ))}
               </ul>

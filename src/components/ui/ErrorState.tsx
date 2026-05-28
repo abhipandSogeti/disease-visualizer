@@ -12,7 +12,7 @@ export function ErrorState({ message, detail, onRetry }: ErrorStateProps) {
       <AlertTriangle className="h-5 w-5 text-red-600" aria-hidden="true" />
       <div>
         <p className="text-sm font-medium text-red-300">{message}</p>
-        {detail && <p className="mt-1 text-xs text-gray-400">{detail}</p>}
+        {detail && <p className="mt-1 text-xs text-gray-600">{detail}</p>}
       </div>
       {onRetry && (
         <button

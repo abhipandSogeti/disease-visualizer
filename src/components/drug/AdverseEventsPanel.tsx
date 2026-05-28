@@ -27,8 +27,8 @@ export function AdverseEventsPanel({ drugName }: AdverseEventsPanelProps) {
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center gap-2">
-        <AlertCircle className="h-4 w-4 text-gray-400" aria-hidden="true" />
-        <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-400">
+        <AlertCircle className="h-4 w-4 text-gray-600" aria-hidden="true" />
+        <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-600">
           Most Reported Side Effects (FDA)
         </h3>
       </div>
@@ -41,7 +41,7 @@ export function AdverseEventsPanel({ drugName }: AdverseEventsPanelProps) {
                 <span className="text-xs capitalize text-gray-700">
                   {event.reaction.toLowerCase()}
                 </span>
-                <span className="text-xs text-gray-400">
+                <span className="text-xs text-gray-600">
                   {event.count.toLocaleString()} reports
                 </span>
               </div>
@@ -60,7 +60,7 @@ export function AdverseEventsPanel({ drugName }: AdverseEventsPanelProps) {
           )
         })}
       </div>
-      <p className="text-xs leading-relaxed text-gray-400">
+      <p className="text-xs leading-relaxed text-gray-600">
         These events are self-reported by patients and healthcare providers to the FDA. Many may be
         symptoms of the disease being treated rather than caused by the drug itself. Source: FDA
         Adverse Event Reporting System (FAERS).

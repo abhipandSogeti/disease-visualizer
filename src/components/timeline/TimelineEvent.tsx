@@ -49,7 +49,7 @@ export function TimelineEvent({ event, isLast }: TimelineEventProps) {
           </span>
         </div>
         <p className="mt-0.5 text-xs font-semibold text-gray-800">{event.title}</p>
-        <p className="mt-1 text-xs leading-relaxed text-gray-400">{event.description}</p>
+        <p className="mt-1 text-xs leading-relaxed text-gray-600">{event.description}</p>
       </div>
     </div>
   )

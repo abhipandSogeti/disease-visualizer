@@ -46,7 +46,7 @@ export function DiseasePanel({ iso3, disease }: DiseasePanelProps) {
               'rounded px-3 py-1 text-xs font-medium transition-colors',
               activeTab === tab.id
                 ? 'bg-gray-900 text-white'
-                : 'text-gray-400 hover:bg-black/[0.05] hover:text-gray-800',
+                : 'text-gray-600 hover:bg-black/[0.05] hover:text-gray-800',
             ].join(' ')}
           >
             {tab.label}

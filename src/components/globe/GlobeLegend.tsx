@@ -4,7 +4,7 @@ interface GlobeLegendProps {
 }
 
 const LEVELS = [
-  { label: 'No data', colour: '#1e293b' },
+  { label: 'No data', colour: '#d1d5db' },
   { label: 'Very low', colour: '#fef9c3' },
   { label: 'Low', colour: '#fde68a' },
   { label: 'Medium', colour: '#f97316' },
@@ -15,7 +15,7 @@ const LEVELS = [
 export function GlobeLegend({ diseaseName, unit }: GlobeLegendProps) {
   return (
     <div
-      className="absolute bottom-12 left-4 rounded border border-stone-300 bg-navy-900/90 p-3 backdrop-blur"
+      className="absolute bottom-12 left-4 rounded border border-stone-300 bg-white/95 p-3 backdrop-blur"
       aria-label="Map colour legend"
     >
       <p className="mb-2 text-xs font-semibold text-gray-700">
@@ -29,7 +29,7 @@ export function GlobeLegend({ diseaseName, unit }: GlobeLegendProps) {
               style={{ backgroundColor: level.colour }}
               aria-hidden="true"
             />
-            <span className="text-[9px] text-gray-400">{level.label}</span>
+            <span className="text-[9px] text-gray-600">{level.label}</span>
           </div>
         ))}
       </div>

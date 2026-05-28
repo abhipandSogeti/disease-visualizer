@@ -19,7 +19,7 @@ export function EpidemicTimeline({ events, diseaseName }: EpidemicTimelineProps)
   const sorted = [...events].sort((a, b) => a.year - b.year)
   return (
     <div aria-label={`${diseaseName} historical timeline`}>
-      <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-gray-400">
+      <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-gray-600">
         {diseaseName} — Historical Timeline
       </h3>
       <div className="flex flex-col">

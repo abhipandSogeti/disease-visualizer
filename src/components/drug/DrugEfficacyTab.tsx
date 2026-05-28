@@ -27,10 +27,10 @@ export function DrugEfficacyTab({ drugName }: DrugEfficacyTabProps) {
   return (
     <div className="flex flex-col gap-5">
       <div>
-        <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
+        <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-600">
           Clinical cure rates
         </h3>
-        <p className="mb-3 text-xs text-gray-400">
+        <p className="mb-3 text-xs text-gray-600">
           These percentages show how often the drug works in clinical trials for each condition.
           Higher is better.
         </p>
@@ -52,7 +52,7 @@ export function DrugEfficacyTab({ drugName }: DrugEfficacyTabProps) {
                   aria-label={`${entry.condition}: ${entry.efficacyPercent}% efficacy`}
                 />
               </div>
-              <p className="mt-0.5 text-xs text-gray-400">{entry.note}</p>
+              <p className="mt-0.5 text-xs text-gray-600">{entry.note}</p>
             </div>
           ))}
         </div>
@@ -65,7 +65,7 @@ export function DrugEfficacyTab({ drugName }: DrugEfficacyTabProps) {
           />
           <div>
             <p className="text-xs font-semibold text-amber-300">Drug Resistance</p>
-            <p className="mt-1 text-xs leading-relaxed text-gray-500">{resistanceNote}</p>
+            <p className="mt-1 text-xs leading-relaxed text-gray-600">{resistanceNote}</p>
           </div>
         </div>
       )}
@@ -74,7 +74,7 @@ export function DrugEfficacyTab({ drugName }: DrugEfficacyTabProps) {
           <Info className="mt-0.5 h-4 w-4 flex-shrink-0 text-gray-700" aria-hidden="true" />
           <div>
             <p className="text-xs font-semibold text-blue-300">Combination Therapy</p>
-            <p className="mt-1 text-xs leading-relaxed text-gray-500">{combinationNote}</p>
+            <p className="mt-1 text-xs leading-relaxed text-gray-600">{combinationNote}</p>
           </div>
         </div>
       )}

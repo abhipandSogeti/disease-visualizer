@@ -94,27 +94,27 @@ export function DiseaseOverviewTab({ iso3, disease, persona }: DiseaseOverviewTa
       </div>
       {peakEntry && (
         <div className="flex items-center justify-between rounded border border-stone-300 bg-stone-200/40 px-3 py-2">
-          <span className="text-xs text-gray-400">Peak recorded year</span>
+          <span className="text-xs text-gray-600">Peak recorded year</span>
           <div className="text-right">
             <span className="text-xs font-bold text-gray-800">{peakEntry.year}</span>
-            <span className="ml-2 text-xs text-gray-500">
+            <span className="ml-2 text-xs text-gray-600">
               {peakEntry.value.toLocaleString()} cases
             </span>
           </div>
         </div>
       )}
       <div>
-        <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-400">
+        <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-600">
           Cases over time
         </h3>
         <EpidemicCurveChart data={chartData} diseaseName={disease.name} colour={colour} />
-        <p className="mt-1 text-xs text-gray-400">
+        <p className="mt-1 text-xs text-gray-600">
           Source: WHO Global Health Observatory · Data from {chartData[0]?.year ?? '—'} to{' '}
           {chartData.at(-1)?.year ?? '—'}
         </p>
       </div>
       <div>
-        <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-400">
+        <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-600">
           Country health context
         </h3>
         <div className="grid grid-cols-3 gap-2">
@@ -150,7 +150,7 @@ export function DiseaseOverviewTab({ iso3, disease, persona }: DiseaseOverviewTa
               chartData.map((d) => [String(d.year), String(d.value)]),
             )
           }}
-          className="flex w-full items-center justify-center gap-1.5 rounded border border-stone-300 py-2 text-xs text-gray-500 hover:bg-stone-200 hover:text-gray-900"
+          className="flex w-full items-center justify-center gap-1.5 rounded border border-stone-300 py-2 text-xs text-gray-600 hover:bg-stone-200 hover:text-gray-900"
         >
           <Download className="h-3.5 w-3.5" aria-hidden="true" />
           Export data as CSV

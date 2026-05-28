@@ -33,7 +33,7 @@ export function Header() {
                 'rounded px-3 py-1 text-xs font-medium transition-colors',
                 persona === p.id
                   ? 'bg-gray-900 text-white'
-                  : 'text-gray-500 hover:bg-black/[0.05] hover:text-gray-900',
+                  : 'text-gray-600 hover:bg-black/[0.05] hover:text-gray-900',
               ].join(' ')}
             >
               {p.label}
@@ -44,7 +44,7 @@ export function Header() {
           <button
             onClick={() => setSearchOpen(true)}
             aria-label="Open search"
-            className="flex w-56 items-center gap-2 rounded bg-black/[0.04] py-1 pl-3 pr-3 text-xs text-gray-400 hover:bg-black/[0.07] hover:text-gray-700"
+            className="flex w-56 items-center gap-2 rounded bg-black/[0.04] py-1 pl-3 pr-3 text-xs text-gray-600 hover:bg-black/[0.07] hover:text-gray-700"
           >
             <Search className="h-3.5 w-3.5 flex-shrink-0" aria-hidden="true" />
             <span>Search countries, diseases, drugs...</span>
@@ -52,7 +52,7 @@ export function Header() {
           <button
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-            className="rounded p-1.5 text-gray-500 hover:bg-stone-200 hover:text-gray-900"
+            className="rounded p-1.5 text-gray-600 hover:bg-stone-200 hover:text-gray-900"
           >
             {theme === 'dark' ? (
               <Sun className="h-4 w-4" aria-hidden="true" />

@@ -49,20 +49,20 @@ export function DiseaseHistoryTab({ iso3, disease }: DiseaseHistoryTabProps) {
         <div className="grid grid-cols-3 gap-2">
           {yearSpan && (
             <div className="rounded border border-stone-300 bg-stone-200/40 p-2.5 text-center">
-              <p className="text-[10px] uppercase tracking-wider text-gray-400">Data span</p>
+              <p className="text-[10px] uppercase tracking-wider text-gray-600">Data span</p>
               <p className="mt-1 text-xs font-bold text-gray-800">{yearSpan}</p>
             </div>
           )}
           {peakEntry && (
             <div className="rounded border border-stone-300 bg-stone-200/40 p-2.5 text-center">
-              <p className="text-[10px] uppercase tracking-wider text-gray-400">Peak year</p>
+              <p className="text-[10px] uppercase tracking-wider text-gray-600">Peak year</p>
               <p className="mt-1 text-xs font-bold text-gray-800">{peakEntry.year}</p>
-              <p className="text-[10px] text-gray-400">{peakEntry.value.toLocaleString()}</p>
+              <p className="text-[10px] text-gray-600">{peakEntry.value.toLocaleString()}</p>
             </div>
           )}
           {totalCases !== null && (
             <div className="rounded border border-stone-300 bg-stone-200/40 p-2.5 text-center">
-              <p className="text-[10px] uppercase tracking-wider text-gray-400">Cumulative</p>
+              <p className="text-[10px] uppercase tracking-wider text-gray-600">Cumulative</p>
               <p className="mt-1 text-xs font-bold text-gray-800">
                 {totalCases >= 1_000_000
                   ? `${(totalCases / 1_000_000).toFixed(1)}M`
@@ -70,13 +70,13 @@ export function DiseaseHistoryTab({ iso3, disease }: DiseaseHistoryTabProps) {
                     ? `${(totalCases / 1_000).toFixed(0)}K`
                     : totalCases.toLocaleString()}
               </p>
-              <p className="text-[10px] text-gray-400">all years</p>
+              <p className="text-[10px] text-gray-600">all years</p>
             </div>
           )}
         </div>
       )}
       <div>
-        <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-400">
+        <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-600">
           Cases — full recorded history
         </h3>
         <EpidemicCurveChart

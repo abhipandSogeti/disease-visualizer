@@ -33,7 +33,7 @@ function CustomTooltip({
   return (
     <div className="rounded border border-stone-300 bg-stone-100 p-2 text-xs shadow-xl">
       <p className="font-semibold text-gray-800">{label}</p>
-      <p className="mt-0.5 text-gray-500">{formatCount(payload[0].value)}</p>
+      <p className="mt-0.5 text-gray-600">{formatCount(payload[0].value)}</p>
     </div>
   )
 }
@@ -60,13 +60,13 @@ export function EpidemicCurveChart({ data, diseaseName, colour }: EpidemicCurveC
           <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
           <XAxis
             dataKey="year"
-            tick={{ fill: '#64748b', fontSize: 10 }}
+            tick={{ fill: '#374151', fontSize: 10 }}
             axisLine={false}
             tickLine={false}
           />
           <YAxis
             tickFormatter={(v: number) => formatCount(v)}
-            tick={{ fill: '#64748b', fontSize: 10 }}
+            tick={{ fill: '#374151', fontSize: 10 }}
             axisLine={false}
             tickLine={false}
             width={52}
