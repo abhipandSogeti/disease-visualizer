@@ -5,6 +5,7 @@ import { formatCount, getTrendDirection } from '@/lib/format'
 import { DISEASE_COLOURS } from '@/lib/colour-scale'
 import { EpidemicCurveChart } from './EpidemicCurveChart'
 import { useAppStore } from '@/stores/app.store'
+import { useCountryName } from '@/hooks/useCountryName'
 import type { Disease } from '@/types/app.types'
 
 // Common ISO3 codes for quick selection
@@ -34,6 +35,7 @@ interface DiseaseCompareTabProps {
 }
 
 function CountryColumn({ iso3, disease }: { iso3: string; disease: Disease }) {
+  const countryName = useCountryName(iso3)
   const { data } = useCountryDisease(iso3, disease.whoIndicator)
   const { data: series } = useCountryDiseaseTimeSeries(iso3, disease.whoIndicator)
   const sorted = useMemo(() => (data ?? []).slice().sort((a, b) => b.TimeDim - a.TimeDim), [data])
@@ -53,7 +55,7 @@ function CountryColumn({ iso3, disease }: { iso3: string; disease: Disease }) {
   )
   return (
     <div className="flex-1 rounded border border-slate-800 bg-slate-900/40 p-3">
-      <p className="mb-2 text-xs font-bold text-slate-300">{iso3}</p>
+      <p className="mb-2 text-xs font-bold text-slate-300">{countryName}</p>
       <p className="text-lg font-bold text-slate-100">
         {formatCount(latest?.NumericValue ?? null)}
       </p>

@@ -249,6 +249,293 @@ export const DRUG_INTELLIGENCE: Record<string, DrugIntelligence> = {
     combinationNote:
       'Used alongside antivirals in hospitalised patients. Only recommended when the patient requires supplemental oxygen — harmful if given to patients who do not need oxygen.',
   },
+  quinine: {
+    plainEnglish: `Quinine is one of the oldest malaria medicines, originally extracted from the bark of the Cinchona tree in South America. It has been used since the 17th century. Today it is mainly used for severe malaria that requires intravenous (IV) treatment in hospital, or when newer drugs are not available. It works by interfering with the malaria parasite's ability to digest blood inside red blood cells.`,
+    mechanismSteps: [
+      {
+        step: 1,
+        title: 'Enters red blood cells',
+        description:
+          'Quinine accumulates inside red blood cells infected by the Plasmodium parasite.',
+        icon: 'activity',
+      },
+      {
+        step: 2,
+        title: 'Blocks haem detoxification',
+        description:
+          'The parasite digests haemoglobin and must neutralise toxic haem byproducts. Quinine blocks this process, causing toxic haem to accumulate.',
+        icon: 'zap',
+      },
+      {
+        step: 3,
+        title: 'Parasite dies from toxin build-up',
+        description: 'The accumulation of toxic haem kills the parasite within 24–48 hours.',
+        icon: 'shield',
+      },
+    ],
+    efficacyData: [
+      {
+        condition: 'Severe falciparum malaria (IV)',
+        efficacyPercent: 85,
+        note: 'Used when artesunate is unavailable',
+      },
+      {
+        condition: 'Uncomplicated malaria (oral)',
+        efficacyPercent: 72,
+        note: 'Longer course required — 7 days',
+      },
+    ],
+    resistanceNote:
+      'Resistance to quinine is emerging in South-East Asia. It remains effective in most of Africa and South America.',
+    combinationNote:
+      'Often combined with doxycycline or clindamycin to shorten the treatment course and reduce side effects.',
+  },
+  rifampicin: {
+    plainEnglish: `Rifampicin (also called rifampin) is one of the most important antibiotics used to treat tuberculosis (TB). It has been a cornerstone of TB treatment since the 1960s. It works by blocking the machinery that bacteria use to copy their genetic instructions, effectively stopping TB bacteria from reproducing. It is always used with other antibiotics to prevent resistance.`,
+    mechanismSteps: [
+      {
+        step: 1,
+        title: 'Enters the bacterium',
+        description: 'Rifampicin passes through the cell wall of Mycobacterium tuberculosis.',
+        icon: 'activity',
+      },
+      {
+        step: 2,
+        title: 'Blocks RNA polymerase',
+        description:
+          'It binds tightly to RNA polymerase — the enzyme bacteria use to read their DNA and make proteins. With this enzyme blocked, the bacteria cannot make the proteins they need to survive.',
+        icon: 'zap',
+      },
+      {
+        step: 3,
+        title: 'Bacteria cannot reproduce',
+        description:
+          'Without functional RNA polymerase, TB bacteria stop growing and die over the course of treatment.',
+        icon: 'shield',
+      },
+    ],
+    efficacyData: [
+      {
+        condition: 'Drug-sensitive TB (6-month course)',
+        efficacyPercent: 95,
+        note: 'Combined with isoniazid, pyrazinamide, ethambutol',
+      },
+      {
+        condition: 'TB preventive therapy',
+        efficacyPercent: 78,
+        note: '4-month rifampicin course for latent TB',
+      },
+    ],
+    resistanceNote:
+      'Rifampicin-resistant TB (RR-TB) is a major global health crisis. A single mutation in the rpoB gene is sufficient to cause high-level resistance. MDR-TB requires 9–20 months of second-line treatment.',
+    combinationNote:
+      'Always used in combination — never as monotherapy. Standard DOTS regimen: Rifampicin + Isoniazid + Pyrazinamide + Ethambutol for 2 months, then Rifampicin + Isoniazid for 4 months.',
+  },
+  pyrazinamide: {
+    plainEnglish: `Pyrazinamide is a key drug in the first two months of tuberculosis treatment. It is especially effective at killing TB bacteria that are hiding inside cells in an acidic environment — a type of bacteria that other TB drugs struggle to reach. This makes it essential for shortening TB treatment from 9 months to just 6 months.`,
+    mechanismSteps: [
+      {
+        step: 1,
+        title: 'Activated inside bacteria',
+        description:
+          'Pyrazinamide is a prodrug — it is inactive until converted to pyrazinoic acid inside TB bacteria by an enzyme called PncA.',
+        icon: 'flask',
+      },
+      {
+        step: 2,
+        title: 'Disrupts membrane function',
+        description:
+          'Pyrazinoic acid acidifies the interior of the bacterium and disrupts its cell membrane, interfering with energy production.',
+        icon: 'zap',
+      },
+      {
+        step: 3,
+        title: 'Kills dormant bacteria',
+        description:
+          'It is uniquely effective against slow-growing or dormant TB bacteria inside macrophages (immune cells), which other drugs cannot easily reach.',
+        icon: 'shield',
+      },
+    ],
+    efficacyData: [
+      {
+        condition: 'Active TB (first 2 months)',
+        efficacyPercent: 90,
+        note: 'As part of 4-drug regimen — critical for sterilisation',
+      },
+    ],
+    resistanceNote:
+      'Resistance occurs when mutations inactivate the PncA enzyme. Pyrazinamide-resistant strains are harder to treat and require longer regimens.',
+    combinationNote:
+      'Used only in the first 2 months of standard TB treatment. It allows the total treatment duration to be shortened from 9 months to 6 months.',
+  },
+  efavirenz: {
+    plainEnglish: `Efavirenz is an antiretroviral drug used to treat HIV. It belongs to a class called non-nucleoside reverse transcriptase inhibitors (NNRTIs). It works by blocking the HIV virus's ability to copy its genetic material inside human cells. It was a first-line HIV treatment for many years and is still widely used, especially in low- and middle-income countries, as part of combination therapy.`,
+    mechanismSteps: [
+      {
+        step: 1,
+        title: 'HIV enters the cell',
+        description:
+          'HIV attaches to CD4 T-cells and injects its RNA genetic material into the human cell.',
+        icon: 'activity',
+      },
+      {
+        step: 2,
+        title: 'Blocks reverse transcriptase',
+        description:
+          'HIV needs to convert its RNA into DNA using an enzyme called reverse transcriptase. Efavirenz binds to a site on this enzyme and locks it in an inactive shape.',
+        icon: 'target',
+      },
+      {
+        step: 3,
+        title: 'HIV cannot replicate',
+        description:
+          'Without functional reverse transcriptase, HIV cannot make DNA copies of itself, so it cannot reproduce and infect new cells.',
+        icon: 'shield',
+      },
+    ],
+    efficacyData: [
+      {
+        condition: 'HIV viral suppression (1 year)',
+        efficacyPercent: 73,
+        note: 'Proportion achieving viral load < 50 copies/mL',
+      },
+      {
+        condition: 'HIV viral suppression (2 years)',
+        efficacyPercent: 68,
+        note: 'Combined with tenofovir and lamivudine',
+      },
+    ],
+    resistanceNote:
+      'A single mutation (K103N) in reverse transcriptase causes high-level resistance to all NNRTIs. Efavirenz is being phased out in favour of dolutegravir, which has a higher genetic barrier to resistance.',
+    combinationNote:
+      'Used as TDF/3TC/EFV (tenofovir + lamivudine + efavirenz) — a once-daily single-pill combination widely used in sub-Saharan Africa.',
+  },
+  dolutegravir: {
+    plainEnglish: `Dolutegravir is currently the preferred first-line HIV treatment recommended by the WHO. It belongs to a class called integrase strand transfer inhibitors (INSTIs). It works by blocking the step where HIV inserts its DNA into the human cell's chromosome — the critical moment when the virus establishes a permanent infection. It is highly effective, well-tolerated, and has a very high barrier to resistance.`,
+    mechanismSteps: [
+      {
+        step: 1,
+        title: 'HIV makes a DNA copy',
+        description:
+          'After entering a CD4 T-cell, HIV converts its RNA to DNA using reverse transcriptase.',
+        icon: 'activity',
+      },
+      {
+        step: 2,
+        title: 'Blocks integrase enzyme',
+        description:
+          "HIV uses an enzyme called integrase to cut the human cell's DNA and insert its own DNA. Dolutegravir binds to integrase and blocks this insertion step.",
+        icon: 'target',
+      },
+      {
+        step: 3,
+        title: 'HIV cannot establish permanent infection',
+        description:
+          "Without DNA integration, the virus cannot use the cell's machinery to make copies of itself. Viral replication halts.",
+        icon: 'shield',
+      },
+    ],
+    efficacyData: [
+      {
+        condition: 'HIV viral suppression (48 weeks)',
+        efficacyPercent: 90,
+        note: 'GEMINI trials — non-inferior to standard of care',
+      },
+      {
+        condition: 'Treatment-naive patients (1 year)',
+        efficacyPercent: 88,
+        note: 'WHO 2023 guidelines preferred first-line',
+      },
+    ],
+    resistanceNote:
+      'Dolutegravir has an exceptionally high genetic barrier to resistance — resistance mutations are extremely rare when taken correctly. This is a major advantage over older antiretrovirals.',
+    combinationNote:
+      "Recommended as TLD (Tenofovir + Lamivudine + Dolutegravir) — a once-daily single pill. WHO's preferred first-line regimen for adults and adolescents globally since 2019.",
+  },
+  doxycycline: {
+    plainEnglish: `Doxycycline is a broad-spectrum antibiotic used to treat many bacterial infections, including cholera. It belongs to the tetracycline family and works by stopping bacteria from making the proteins they need to grow and multiply. For cholera, it is the first-line antibiotic recommended by the WHO when patients are severely dehydrated and need more than oral rehydration salts.`,
+    mechanismSteps: [
+      {
+        step: 1,
+        title: 'Enters the bacterium',
+        description:
+          'Doxycycline is transported into bacterial cells using the same protein channels the bacterium uses to import nutrients.',
+        icon: 'activity',
+      },
+      {
+        step: 2,
+        title: 'Binds to ribosomes',
+        description:
+          'Inside the bacterium, doxycycline binds to the 30S ribosomal subunit — the molecular machine that reads genetic instructions and builds proteins.',
+        icon: 'target',
+      },
+      {
+        step: 3,
+        title: 'Protein synthesis halted',
+        description:
+          'With ribosomes blocked, the bacterium cannot make essential proteins. It stops growing and dies. This effect is bacteriostatic — it halts growth rather than directly killing bacteria.',
+        icon: 'shield',
+      },
+    ],
+    efficacyData: [
+      {
+        condition: 'Cholera (single dose)',
+        efficacyPercent: 91,
+        note: 'Reduces stool volume and duration by ~50%',
+      },
+      {
+        condition: 'Cholera in children',
+        efficacyPercent: 78,
+        note: 'Azithromycin preferred under 8 years',
+      },
+    ],
+    resistanceNote:
+      'Doxycycline resistance in Vibrio cholerae is increasing in some regions. Susceptibility testing is recommended when available.',
+    combinationNote:
+      'Used alongside oral rehydration therapy (ORT) — antibiotics reduce duration but ORT saves lives by replacing fluids.',
+  },
+  remdesivir: {
+    plainEnglish: `Remdesivir is an antiviral drug originally developed for Ebola, later found to be effective against COVID-19. It works by disguising itself as a building block that viruses use to copy their genetic material. When the virus incorporates remdesivir instead of the real building block, its replication machinery grinds to a halt. It is given by IV infusion in hospital settings.`,
+    mechanismSteps: [
+      {
+        step: 1,
+        title: 'Converted to active form',
+        description:
+          'Remdesivir is a prodrug — after entering cells it is converted to its active form, GS-443902, a nucleoside triphosphate analogue.',
+        icon: 'flask',
+      },
+      {
+        step: 2,
+        title: 'Disguises itself as RNA building block',
+        description:
+          'GS-443902 mimics adenosine triphosphate (ATP), a natural building block RNA polymerase uses to copy viral RNA.',
+        icon: 'zap',
+      },
+      {
+        step: 3,
+        title: 'Halts viral RNA replication',
+        description:
+          "When the virus's RNA polymerase incorporates remdesivir instead of ATP, replication stalls. The virus cannot make complete copies of itself.",
+        icon: 'shield',
+      },
+    ],
+    efficacyData: [
+      {
+        condition: 'COVID-19 hospitalised (5-day course)',
+        efficacyPercent: 62,
+        note: 'Reduces time to recovery vs placebo — ACTT-1 trial',
+      },
+      {
+        condition: 'COVID-19 outpatient (early treatment)',
+        efficacyPercent: 87,
+        note: 'Reduces hospitalisation risk — PINETREE trial',
+      },
+    ],
+    resistanceNote:
+      'Resistance mutations in the viral RNA polymerase have been identified in vitro but are not yet a major clinical concern. Monitoring continues.',
+    combinationNote:
+      'For hospitalised COVID-19: combined with dexamethasone when patients require oxygen. Remdesivir alone is insufficient for severe disease — the inflammatory response must also be treated.',
+  },
 }
 
 export function getDrugPlainEnglish(drugName: string): string {

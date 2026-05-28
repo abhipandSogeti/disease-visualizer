@@ -84,9 +84,10 @@ export function Globe() {
   )
 
   const handleClick = useCallback(
-    (d: object, _event: MouseEvent, _coords: { lat: number; lng: number; altitude: number }) => {
+    (d: object, _event: MouseEvent, coords: { lat: number; lng: number; altitude: number }) => {
       const feature = d as { properties: { iso_a3: string } }
       setCountry(feature.properties.iso_a3)
+      globeRef.current?.pointOfView({ lat: coords.lat, lng: coords.lng, altitude: 1.5 }, 800)
     },
     [setCountry],
   )
