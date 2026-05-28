@@ -6,8 +6,10 @@ export function createBurdenColourScale(maxValue: number) {
 }
 
 export function getBurdenColour(value: number | null, maxValue: number): string {
-  if (value === null) return '#d1d5db'
-  return createBurdenColourScale(maxValue)(value)
+  if (value === null) return 'rgba(0,0,0,0)'
+  // d3 returns "rgb(r,g,b)" — add alpha so the earth texture shows through
+  const rgb = createBurdenColourScale(maxValue)(value)
+  return rgb.replace('rgb(', 'rgba(').replace(')', ',0.72)')
 }
 
 export const DISEASE_COLOURS: Record<string, string> = {

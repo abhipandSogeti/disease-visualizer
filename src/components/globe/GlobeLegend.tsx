@@ -3,13 +3,18 @@ interface GlobeLegendProps {
   unit: string
 }
 
-const LEVELS = [
-  { label: 'No data', colour: '#d1d5db' },
-  { label: 'Very low', colour: '#fef9c3' },
-  { label: 'Low', colour: '#fde68a' },
-  { label: 'Medium', colour: '#f97316' },
-  { label: 'High', colour: '#dc2626' },
-  { label: 'Critical', colour: '#450a0a' },
+interface Level {
+  label: string
+  colour: string
+  border?: boolean
+}
+const LEVELS: Level[] = [
+  { label: 'No data', colour: 'transparent', border: true },
+  { label: 'Very low', colour: 'rgba(254,229,217,0.72)' },
+  { label: 'Low', colour: 'rgba(252,174,145,0.72)' },
+  { label: 'Medium', colour: 'rgba(251,106,74,0.72)' },
+  { label: 'High', colour: 'rgba(203,24,29,0.72)' },
+  { label: 'Critical', colour: 'rgba(103,0,13,0.72)' },
 ]
 
 export function GlobeLegend({ diseaseName, unit }: GlobeLegendProps) {
@@ -25,8 +30,14 @@ export function GlobeLegend({ diseaseName, unit }: GlobeLegendProps) {
         {LEVELS.map((level) => (
           <div key={level.label} className="flex flex-col items-center gap-1">
             <div
-              className="h-3 w-6 rounded-sm"
-              style={{ backgroundColor: level.colour }}
+              className="h-3 w-6 rounded-sm border border-stone-300"
+              style={{
+                backgroundColor: level.colour,
+                backgroundImage: level.border
+                  ? 'repeating-linear-gradient(45deg,#ccc 0,#ccc 1px,transparent 0,transparent 50%)'
+                  : undefined,
+                backgroundSize: level.border ? '4px 4px' : undefined,
+              }}
               aria-hidden="true"
             />
             <span className="text-[9px] text-gray-600">{level.label}</span>

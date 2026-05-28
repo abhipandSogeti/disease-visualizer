@@ -326,7 +326,8 @@ export function Globe() {
         ref={globeRef}
         width={size.width}
         height={size.height}
-        globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
+        globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
+        bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
         backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
         animateIn={!prefersReducedMotion}
         // ── Polygons ────────────────────────────────────────────────────────
@@ -349,8 +350,8 @@ export function Globe() {
           return 0.01
         }}
         polygonsTransitionDuration={200}
-        atmosphereColor="rgba(59,130,246,0.3)"
-        atmosphereAltitude={0.1}
+        atmosphereColor="rgba(100,160,255,0.8)"
+        atmosphereAltitude={0.22}
         // ── Arc — vivid cyan flow between compared countries ─────────────
         arcsData={arcsData}
         arcColor={() => '#00e5ff'}
