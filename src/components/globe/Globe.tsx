@@ -30,7 +30,6 @@ type RingDatum = {
   kind: 'burden' | 'compare'
   rank: number
 }
-type PointDatum = { lat: number; lng: number; iso3: string }
 type ArcDatum = { startLat: number; startLng: number; endLat: number; endLng: number }
 type LabelDatum = { lat: number; lng: number; name: string }
 
@@ -156,6 +155,27 @@ export function Globe() {
     return () => cancelAnimationFrame(raf)
   }, [prefersReducedMotion, orbitControls])
 
+  // Fix: react-globe.gl HTML container intercepts pointer events — disable so clicks reach polygons
+  useEffect(() => {
+    const fix = () => {
+      const container = containerRef.current
+      if (!container) return
+      container
+        .querySelectorAll<HTMLElement>('.scene-container, [class*="html-layer"]')
+        .forEach((el) => {
+          el.style.pointerEvents = 'none'
+        })
+      // Broader fallback: any absolutely-positioned div inside the globe container
+      container.querySelectorAll<HTMLElement>('div[style*="position: absolute"]').forEach((el) => {
+        if (!el.classList.contains('globe-tooltip') && !el.getAttribute('aria-label')) {
+          el.style.pointerEvents = 'none'
+        }
+      })
+    }
+    const id = setTimeout(fix, 800) // after globe renders
+    return () => clearTimeout(id)
+  }, [countries.length])
+
   // Permanent lock tied to selectedCountry
   useEffect(() => {
     if (selectedCountry) {
@@ -223,16 +243,6 @@ export function Globe() {
   }, [selectedCountry, compareCountry, centroidMap])
 
   // ── Points: glowing markers at selected + compare ─────────────────────────
-  const comparePointsData = useMemo((): PointDatum[] => {
-    const pts: PointDatum[] = []
-    const add = (iso3: string) => {
-      const c = centroidMap.get(iso3)
-      if (c) pts.push({ ...c, iso3 })
-    }
-    if (selectedCountry) add(selectedCountry)
-    if (compareCountry) add(compareCountry)
-    return pts
-  }, [selectedCountry, compareCountry, centroidMap])
 
   // ── Rings: top-burden (red) + compare endpoints (cyan) ───────────────────
   const ringsData = useMemo((): RingDatum[] => {
@@ -377,14 +387,6 @@ export function Globe() {
         arcDashAnimateTime={1200}
         arcAltitude={0.35}
         arcsTransitionDuration={400}
-        // ── Points — glowing markers at selected + compare ───────────────
-        pointsData={comparePointsData}
-        pointLat={(d: object) => (d as PointDatum).lat}
-        pointLng={(d: object) => (d as PointDatum).lng}
-        pointAltitude={0.1}
-        pointRadius={0.55}
-        pointColor={() => 'rgba(0,229,255,0.9)'}
-        pointsMerge={false}
         // ── Rings — red for burden hotspots, cyan for compare endpoints ──
         ringsData={ringsData}
         ringLat={(d: object) => (d as RingDatum).lat}
@@ -398,8 +400,8 @@ export function Globe() {
         }}
         ringMaxRadius={(d: object) => {
           const r = d as RingDatum
-          if (r.kind === 'compare') return 5
-          return 8 - r.rank * 0.8 // rank 0→8, rank 4→4.8
+          if (r.kind === 'compare') return 3
+          return 4 - r.rank * 0.3 // rank 0→4, rank 4→2.8
         }}
         ringPropagationSpeed={(d: object) => {
           const r = d as RingDatum
