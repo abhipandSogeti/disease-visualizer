@@ -155,27 +155,6 @@ export function Globe() {
     return () => cancelAnimationFrame(raf)
   }, [prefersReducedMotion, orbitControls])
 
-  // Fix: react-globe.gl HTML container intercepts pointer events — disable so clicks reach polygons
-  useEffect(() => {
-    const fix = () => {
-      const container = containerRef.current
-      if (!container) return
-      container
-        .querySelectorAll<HTMLElement>('.scene-container, [class*="html-layer"]')
-        .forEach((el) => {
-          el.style.pointerEvents = 'none'
-        })
-      // Broader fallback: any absolutely-positioned div inside the globe container
-      container.querySelectorAll<HTMLElement>('div[style*="position: absolute"]').forEach((el) => {
-        if (!el.classList.contains('globe-tooltip') && !el.getAttribute('aria-label')) {
-          el.style.pointerEvents = 'none'
-        }
-      })
-    }
-    const id = setTimeout(fix, 800) // after globe renders
-    return () => clearTimeout(id)
-  }, [countries.length])
-
   // Permanent lock tied to selectedCountry
   useEffect(() => {
     if (selectedCountry) {
@@ -224,12 +203,41 @@ export function Globe() {
     return Math.max(...vals, 1)
   }, [burdenMap])
 
+  // Fix: react-globe.gl HTML container intercepts pointer events — disable so clicks reach polygons.
+  // Must re-run on burdenMap.size because htmlElementsData update injects new overlay containers
+  // AFTER disease data loads (second async fetch), after the initial countries-load fix already ran.
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
+    const fix = () => {
+      container
+        .querySelectorAll<HTMLElement>('.scene-container, [class*="html-layer"]')
+        .forEach((el) => {
+          el.style.pointerEvents = 'none'
+        })
+      container.querySelectorAll<HTMLElement>('div[style*="position: absolute"]').forEach((el) => {
+        if (!el.classList.contains('globe-tooltip') && !el.getAttribute('aria-label')) {
+          el.style.pointerEvents = 'none'
+        }
+      })
+    }
+    fix()
+    const id = setTimeout(fix, 400)
+    return () => clearTimeout(id)
+  }, [countries.length, burdenMap.size])
+
   const centroidMap = useMemo(() => {
     const map = new Map<string, { lat: number; lng: number }>()
     countries.forEach((f) => {
       const c = featureCentroid(f)
       if (c) map.set(f.properties.iso_a3, c)
     })
+    return map
+  }, [countries])
+
+  const nameMap = useMemo(() => {
+    const map = new Map<string, string>()
+    countries.forEach((f) => map.set(f.properties.iso_a3, f.properties.name))
     return map
   }, [countries])
 
@@ -278,11 +286,11 @@ export function Globe() {
       .slice(0, 8)
       .flatMap(([iso3]) => {
         const c = centroidMap.get(iso3)
-        const feature = countries.find((f) => f.properties.iso_a3 === iso3)
-        if (!c || !feature) return []
-        return [{ lat: c.lat, lng: c.lng, name: feature.properties.name }]
+        const name = nameMap.get(iso3)
+        if (!c || !name) return []
+        return [{ lat: c.lat, lng: c.lng, name }]
       })
-  }, [burdenMap, centroidMap, countries])
+  }, [burdenMap, centroidMap, nameMap])
 
   // ── Event handlers ────────────────────────────────────────────────────────
   const handleHover = useCallback(
