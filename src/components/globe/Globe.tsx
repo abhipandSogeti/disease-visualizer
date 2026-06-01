@@ -238,11 +238,15 @@ export function Globe() {
         ? Array.from(burdenMap.entries())
             .filter(([, v]) => v !== null && v > 0)
             .sort(([, a], [, b]) => (b ?? 0) - (a ?? 0))
-            .slice(0, 5)
-            .flatMap(([iso3], rank) => {
+            // Take more candidates so we always get 5 after centroid filtering
+            .slice(0, 15)
+            .reduce<RingDatum[]>((acc, [iso3]) => {
+              if (acc.length >= 5) return acc
               const c = centroidMap.get(iso3)
-              return c ? [{ lat: c.lat, lng: c.lng, iso3, kind: 'burden' as const, rank }] : []
-            })
+              if (!c) return acc
+              acc.push({ lat: c.lat, lng: c.lng, iso3, kind: 'burden', rank: acc.length })
+              return acc
+            }, [])
         : []
 
     const compare: RingDatum[] = []
@@ -262,13 +266,15 @@ export function Globe() {
     return Array.from(burdenMap.entries())
       .filter(([, v]) => v !== null && v > 0)
       .sort(([, a], [, b]) => (b ?? 0) - (a ?? 0))
-      .slice(0, 8)
-      .flatMap(([iso3]) => {
+      .slice(0, 20)
+      .reduce<LabelDatum[]>((acc, [iso3]) => {
+        if (acc.length >= 8) return acc
         const c = centroidMap.get(iso3)
         const name = nameMap.get(iso3)
-        if (!c || !name) return []
-        return [{ lat: c.lat, lng: c.lng, name }]
-      })
+        if (!c || !name) return acc
+        acc.push({ lat: c.lat, lng: c.lng, name })
+        return acc
+      }, [])
   }, [burdenMap, centroidMap, nameMap])
 
   // ── Event handlers ────────────────────────────────────────────────────────
