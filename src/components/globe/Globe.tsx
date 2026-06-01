@@ -83,8 +83,10 @@ export function Globe() {
   const globeRef = useRef<GlobeMethods | undefined>(undefined)
   const containerRef = useRef<HTMLDivElement>(null)
   const resumeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
-  // Permanent lock: true while a country is selected — hover alone cannot resume rotation
   const isLockedRef = useRef(false)
+  const pointerDownRef = useRef<{ x: number; y: number } | null>(null)
+  // Ref so click handlers always read latest hovered country without stale closures
+  const hoveredIso3Ref = useRef<string | null>(null)
 
   const {
     activeDiseases,
@@ -203,29 +205,6 @@ export function Globe() {
     return Math.max(...vals, 1)
   }, [burdenMap])
 
-  // Fix: react-globe.gl HTML container intercepts pointer events — disable so clicks reach polygons.
-  // Must re-run on burdenMap.size because htmlElementsData update injects new overlay containers
-  // AFTER disease data loads (second async fetch), after the initial countries-load fix already ran.
-  useEffect(() => {
-    const container = containerRef.current
-    if (!container) return
-    const fix = () => {
-      container
-        .querySelectorAll<HTMLElement>('.scene-container, [class*="html-layer"]')
-        .forEach((el) => {
-          el.style.pointerEvents = 'none'
-        })
-      container.querySelectorAll<HTMLElement>('div[style*="position: absolute"]').forEach((el) => {
-        if (!el.classList.contains('globe-tooltip') && !el.getAttribute('aria-label')) {
-          el.style.pointerEvents = 'none'
-        }
-      })
-    }
-    fix()
-    const id = setTimeout(fix, 400)
-    return () => clearTimeout(id)
-  }, [countries.length, burdenMap.size])
-
   const centroidMap = useMemo(() => {
     const map = new Map<string, { lat: number; lng: number }>()
     countries.forEach((f) => {
@@ -296,12 +275,14 @@ export function Globe() {
   const handleHover = useCallback(
     (d: object | null) => {
       if (!d) {
+        hoveredIso3Ref.current = null
         setHoveredIso3(null)
         setTooltip((t) => ({ ...t, visible: false }))
         scheduleResume()
         return
       }
       const f = d as GeoFeature
+      hoveredIso3Ref.current = f.properties.iso_a3
       setHoveredIso3(f.properties.iso_a3)
       setTooltip((t) => ({
         ...t,
@@ -314,21 +295,37 @@ export function Globe() {
     [burdenMap, stopRotation, scheduleResume],
   )
 
-  const handleClick = useCallback(
-    (d: object, _e: MouseEvent, coords: { lat: number; lng: number }) => {
-      const f = d as GeoFeature
-      setCountry(f.properties.iso_a3)
-      globeRef.current?.pointOfView({ lat: coords.lat, lng: coords.lng, altitude: 1.5 }, 800)
+  // react-globe.gl's internal clickAfterDrag defaults to false and treats ANY mouse
+  // movement while pressed as a drag — making onPolygonClick unreliable on a rotating
+  // sphere. We implement click detection ourselves using pointer delta on the container.
+  const handlePointerDown = useCallback((e: React.PointerEvent) => {
+    pointerDownRef.current = { x: e.clientX, y: e.clientY }
+  }, [])
+
+  const handlePointerUp = useCallback(
+    (e: React.PointerEvent) => {
+      const down = pointerDownRef.current
+      pointerDownRef.current = null
+      if (!down) return
+      const dx = e.clientX - down.x
+      const dy = e.clientY - down.y
+      if (dx * dx + dy * dy > 25) return // >5px movement = drag, not a click
+      const iso = hoveredIso3Ref.current
+      if (!iso) return
+      if (e.button === 0) {
+        setCountry(iso)
+        const c = centroidMap.get(iso)
+        if (c) globeRef.current?.pointOfView({ lat: c.lat, lng: c.lng, altitude: 1.5 }, 800)
+      } else if (e.button === 2) {
+        setCompareCountry(iso)
+      }
     },
-    [setCountry],
+    [setCountry, setCompareCountry, centroidMap],
   )
 
-  const handleRightClick = useCallback(
-    (d: object) => {
-      setCompareCountry((d as GeoFeature).properties.iso_a3)
-    },
-    [setCompareCountry],
-  )
+  const handleContextMenu = useCallback((e: React.MouseEvent) => {
+    e.preventDefault()
+  }, [])
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     setTooltip((t) => (t.visible ? { ...t, x: e.clientX, y: e.clientY } : t))
@@ -339,6 +336,9 @@ export function Globe() {
       ref={containerRef}
       className="relative h-full w-full bg-navy-950"
       onMouseMove={handleMouseMove}
+      onPointerDown={handlePointerDown}
+      onPointerUp={handlePointerUp}
+      onContextMenu={handleContextMenu}
     >
       <GlobeGL
         ref={globeRef}
@@ -374,8 +374,6 @@ export function Globe() {
         }}
         polygonLabel={() => ''}
         onPolygonHover={handleHover}
-        onPolygonClick={handleClick}
-        onPolygonRightClick={handleRightClick}
         polygonAltitude={(d: object) => {
           const f = d as GeoFeature
           const iso = f.properties.iso_a3
