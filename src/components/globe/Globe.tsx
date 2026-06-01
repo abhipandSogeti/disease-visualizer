@@ -2,6 +2,7 @@ import { useRef, useState, useCallback, useMemo, useEffect } from 'react'
 import GlobeGL, { type GlobeMethods } from 'react-globe.gl'
 import { useAppStore } from '@/stores/app.store'
 import { useGlobalDisease } from '@/hooks/useCountryDisease'
+import { useAvailableYears } from '@/hooks/useAvailableYears'
 import { getBurdenColour } from '@/lib/colour-scale'
 import { useReducedMotion } from '@/lib/use-reduced-motion'
 import { GlobeLegend } from './GlobeLegend'
@@ -190,7 +191,15 @@ export function Globe() {
 
   // ── Disease data ──────────────────────────────────────────────────────────
   const primaryDisease = activeDiseases[0]
-  const { data: diseaseData } = useGlobalDisease(primaryDisease?.whoIndicator ?? '', selectedYear)
+  const { data: availableYears } = useAvailableYears(primaryDisease?.whoIndicator ?? '')
+  // Fall back to latest year with data if selected year has no data yet
+  const effectiveYear =
+    availableYears && availableYears.length > 0
+      ? availableYears.includes(selectedYear)
+        ? selectedYear
+        : availableYears[0]
+      : selectedYear
+  const { data: diseaseData } = useGlobalDisease(primaryDisease?.whoIndicator ?? '', effectiveYear)
 
   const burdenMap = useMemo(() => {
     const map = new Map<string, number | null>()

@@ -13,16 +13,20 @@ export function LeftPanel() {
     primaryDisease?.whoIndicator ?? '',
   )
 
+  const DATA_MAX = 2026
   const minYear = years ? years[years.length - 1] : 2000
-  const maxYear = years ? years[0] : 2024
-  const clampedYear = years ? Math.min(Math.max(selectedYear, minYear), maxYear) : selectedYear
+  const maxYear = Math.max(years ? years[0] : 2024, DATA_MAX)
+  const clampedYear = Math.min(Math.max(selectedYear, minYear), maxYear)
+  // Latest year that actually has data for this disease
+  const latestDataYear = years?.[0] ?? null
+  const hasDataForYear = years?.includes(clampedYear) ?? false
 
   // Auto-select most recent year when disease changes or years load
   useEffect(() => {
-    if (years && years.length > 0 && !years.includes(selectedYear)) {
+    if (years && years.length > 0 && selectedYear < minYear) {
       setYear(years[0])
     }
-  }, [years, selectedYear, setYear])
+  }, [years, selectedYear, minYear, setYear])
 
   const handleSelectDisease = (id: string) => {
     const disease = DEFAULT_DISEASES.find((d) => d.id === id)
@@ -122,30 +126,37 @@ export function LeftPanel() {
         )}
 
         {years && years.length > 0 && (
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setYear(Math.max(clampedYear - 1, minYear))}
-              disabled={clampedYear <= minYear}
-              aria-label="Previous year"
-              className="rounded p-1 text-gray-600 hover:bg-stone-200 hover:text-gray-900 disabled:opacity-30"
-            >
-              <ChevronLeft className="h-4 w-4" aria-hidden="true" />
-            </button>
-            <span
-              className="flex-1 text-center text-2xl font-bold tabular-nums text-gray-900"
-              aria-live="polite"
-            >
-              {clampedYear}
-            </span>
-            <button
-              onClick={() => setYear(Math.min(clampedYear + 1, maxYear))}
-              disabled={clampedYear >= maxYear}
-              aria-label="Next year"
-              className="rounded p-1 text-gray-600 hover:bg-stone-200 hover:text-gray-900 disabled:opacity-30"
-            >
-              <ChevronRight className="h-4 w-4" aria-hidden="true" />
-            </button>
-          </div>
+          <>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setYear(Math.max(clampedYear - 1, minYear))}
+                disabled={clampedYear <= minYear}
+                aria-label="Previous year"
+                className="rounded p-1 text-gray-600 hover:bg-stone-200 hover:text-gray-900 disabled:opacity-30"
+              >
+                <ChevronLeft className="h-4 w-4" aria-hidden="true" />
+              </button>
+              <span
+                className="flex-1 text-center text-2xl font-bold tabular-nums text-gray-900"
+                aria-live="polite"
+              >
+                {clampedYear}
+              </span>
+              <button
+                onClick={() => setYear(Math.min(clampedYear + 1, maxYear))}
+                disabled={clampedYear >= maxYear}
+                aria-label="Next year"
+                className="rounded p-1 text-gray-600 hover:bg-stone-200 hover:text-gray-900 disabled:opacity-30"
+              >
+                <ChevronRight className="h-4 w-4" aria-hidden="true" />
+              </button>
+            </div>
+            {!hasDataForYear && latestDataYear && (
+              <p className="text-[10px] leading-snug text-gray-500">
+                No data yet — showing {latestDataYear}
+              </p>
+            )}
+          </>
         )}
 
         {primaryDisease?.whoIndicator && !yearsLoading && years && years.length === 1 && (
