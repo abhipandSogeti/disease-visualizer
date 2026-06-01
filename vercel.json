@@ -1,0 +1,36 @@
+{
+  "rewrites": [
+    {
+      "source": "/proxy/who/:path*",
+      "destination": "https://ghoapi.azureedge.net/api/:path*"
+    },
+    {
+      "source": "/proxy/disease/:path*",
+      "destination": "https://disease.sh/v3/:path*"
+    },
+    {
+      "source": "/proxy/worldbank/:path*",
+      "destination": "https://api.worldbank.org/v2/:path*"
+    },
+    {
+      "source": "/proxy/openfda/:path*",
+      "destination": "https://api.fda.gov/:path*"
+    },
+    {
+      "source": "/proxy/pubchem/:path*",
+      "destination": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/:path*"
+    },
+    {
+      "source": "/proxy/rxnorm/:path*",
+      "destination": "https://rxnav.nlm.nih.gov/REST/:path*"
+    },
+    {
+      "source": "/proxy/chembl/:path*",
+      "destination": "https://www.ebi.ac.uk/chembl/api/data/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
