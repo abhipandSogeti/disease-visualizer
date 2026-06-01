@@ -5,6 +5,7 @@ import { useCountryDiseaseTimeSeries } from '@/hooks/useCountryDisease'
 import { DISEASE_LANDMARKS } from '@/lib/disease-catalogue'
 import { DISEASE_COLOURS } from '@/lib/colour-scale'
 import { LoadingSkeleton } from '@/components/ui/LoadingSkeleton'
+import { EmptyState } from '@/components/ui/EmptyState'
 import type { Disease } from '@/types/app.types'
 
 interface DiseaseHistoryTabProps {
@@ -42,7 +43,21 @@ export function DiseaseHistoryTab({ iso3, disease }: DiseaseHistoryTabProps) {
         ? String(chartData[0].year)
         : null
 
+  if (!disease.whoIndicator)
+    return (
+      <EmptyState
+        message={`No historical data available for ${disease.name}.`}
+        suggestion="WHO does not publish country-level time-series for this disease."
+      />
+    )
   if (isLoading) return <LoadingSkeleton label={`Loading ${disease.name} history...`} rows={5} />
+  if (!isLoading && chartData.length === 0)
+    return (
+      <EmptyState
+        message={`No recorded history for ${disease.name} in this country.`}
+        suggestion="WHO has no reported cases for this country. Try a country in an endemic region."
+      />
+    )
   return (
     <div className="flex flex-col gap-6">
       {(peakEntry || totalCases !== null || yearSpan) && (

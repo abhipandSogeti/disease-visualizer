@@ -10,6 +10,7 @@ import {
 import { DISEASE_COLOURS } from '@/lib/colour-scale'
 import { LoadingSkeleton } from '@/components/ui/LoadingSkeleton'
 import { ErrorState } from '@/components/ui/ErrorState'
+import { EmptyState } from '@/components/ui/EmptyState'
 import { MetricCard } from './MetricCard'
 import { EpidemicCurveChart } from './EpidemicCurveChart'
 import { EpidemiologyDetailSection } from './EpidemiologyDetailSection'
@@ -63,6 +64,13 @@ export function DiseaseOverviewTab({ iso3, disease, persona }: DiseaseOverviewTa
     [chartData],
   )
 
+  if (!disease.whoIndicator)
+    return (
+      <EmptyState
+        message={`No WHO surveillance data available for ${disease.name}.`}
+        suggestion="WHO does not publish country-level time-series for this disease via the Global Health Observatory API."
+      />
+    )
   if (isLoading)
     return <LoadingSkeleton label={`Fetching ${disease.name} data for this country...`} />
   if (isError)
@@ -71,6 +79,13 @@ export function DiseaseOverviewTab({ iso3, disease, persona }: DiseaseOverviewTa
         message={`Could not load ${disease.name} data.`}
         detail="WHO servers may be temporarily unavailable."
         onRetry={() => void refetch()}
+      />
+    )
+  if (!isLoading && sorted.length === 0)
+    return (
+      <EmptyState
+        message={`No ${disease.name} cases recorded for this country.`}
+        suggestion="WHO has no reported cases for this country in their surveillance dataset. Try a country in an endemic region."
       />
     )
 

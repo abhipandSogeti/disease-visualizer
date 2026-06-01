@@ -4,6 +4,7 @@ import { useCountryDisease, useCountryDiseaseTimeSeries } from '@/hooks/useCount
 import { formatCount, getTrendDirection } from '@/lib/format'
 import { DISEASE_COLOURS } from '@/lib/colour-scale'
 import { EpidemicCurveChart } from './EpidemicCurveChart'
+import { EmptyState } from '@/components/ui/EmptyState'
 import { useAppStore } from '@/stores/app.store'
 import { useCountryName } from '@/hooks/useCountryName'
 import { usePopulation } from '@/hooks/useWorldBank'
@@ -61,6 +62,14 @@ function CountryColumn({ iso3, disease }: { iso3: string; disease: Disease }) {
     return Math.round((latest.NumericValue / latestPop) * 100_000)
   }, [latest, latestPop])
 
+  if (!latest && series !== undefined)
+    return (
+      <div className="flex-1 rounded border border-stone-300 bg-stone-200/40 p-3">
+        <p className="mb-2 text-xs font-bold text-gray-700">{countryName}</p>
+        <p className="text-xs text-gray-500">No {disease.name} cases recorded</p>
+      </div>
+    )
+
   return (
     <div className="flex-1 rounded border border-stone-300 bg-stone-200/40 p-3">
       <p className="mb-2 text-xs font-bold text-gray-700">{countryName}</p>
@@ -93,6 +102,14 @@ function CountryColumn({ iso3, disease }: { iso3: string; disease: Disease }) {
 export function DiseaseCompareTab({ iso3Primary, iso3Compare, disease }: DiseaseCompareTabProps) {
   const { setCompareCountry } = useAppStore()
   const [query, setQuery] = useState('')
+
+  if (!disease.whoIndicator)
+    return (
+      <EmptyState
+        message={`No WHO data available to compare for ${disease.name}.`}
+        suggestion="Comparison requires country-level surveillance data from WHO."
+      />
+    )
 
   const filtered = COMMON_COUNTRIES.filter(
     (c) =>
