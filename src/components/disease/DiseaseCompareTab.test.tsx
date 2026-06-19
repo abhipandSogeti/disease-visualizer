@@ -34,7 +34,7 @@ describe('DiseaseCompareTab', () => {
     render(createElement(DiseaseCompareTab, { iso3Primary: 'NGA', iso3Compare: null, disease }), {
       wrapper,
     })
-    expect(screen.getByText(/right-click a second country/i)).toBeInTheDocument()
+    expect(screen.getByText(/pick a country to compare against/i)).toBeInTheDocument()
   })
   it('renders two country columns when compare country is set', () => {
     vi.mocked(hooks.useCountryDisease).mockReturnValue({

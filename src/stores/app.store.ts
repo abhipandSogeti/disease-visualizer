@@ -14,8 +14,6 @@ interface AppState {
   setCountry: (iso3: string | null) => void
   compareCountry: string | null
   setCompareCountry: (iso3: string | null) => void
-  theme: 'dark' | 'light'
-  setTheme: (theme: 'dark' | 'light') => void
   view: 'globe' | 'map'
   setView: (view: 'globe' | 'map') => void
 }
@@ -28,7 +26,6 @@ export const useAppStore = create<AppState>()(
       persona: 'analyst',
       selectedCountry: null,
       compareCountry: null,
-      theme: 'dark',
       view: 'globe',
       addDisease: (disease) => {
         if (get().activeDiseases.some((d) => d.id === disease.id)) return
@@ -40,7 +37,6 @@ export const useAppStore = create<AppState>()(
       setPersona: (persona) => set({ persona }),
       setCountry: (iso3) => set({ selectedCountry: iso3 }),
       setCompareCountry: (iso3) => set({ compareCountry: iso3 }),
-      setTheme: (theme) => set({ theme }),
       setView: (view) => set({ view }),
     }),
     {
@@ -48,7 +44,6 @@ export const useAppStore = create<AppState>()(
       partialize: (state) => ({
         activeDiseases: state.activeDiseases,
         persona: state.persona,
-        theme: state.theme,
       }),
     },
   ),

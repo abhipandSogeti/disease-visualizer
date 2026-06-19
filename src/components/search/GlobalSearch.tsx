@@ -4,6 +4,8 @@ import { Search, X } from 'lucide-react'
 import { FocusScope } from '@react-aria/focus'
 import { buildSearchIndex, searchIndex } from '@/lib/search-index'
 import { SearchResultRow } from './SearchResult'
+import { useAppStore } from '@/stores/app.store'
+import { DEFAULT_DISEASES } from '@/types/app.types'
 import type { SearchResult } from '@/lib/search-index'
 
 interface GlobalSearchProps {
@@ -16,6 +18,7 @@ export function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
   const [focused, setFocused] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
   const navigate = useNavigate()
+  const { setCountry } = useAppStore()
 
   const index = useMemo(() => buildSearchIndex(), [])
   const results = useMemo(() => searchIndex(index, query), [index, query])
@@ -30,10 +33,24 @@ export function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
 
   const handleSelect = useCallback(
     (result: SearchResult) => {
-      navigate(result.href)
+      // Route by type — only drugs have a dedicated page. Countries and diseases
+      // drive the dashboard via the store, so navigate home and apply the selection.
+      if (result.type === 'drug') {
+        navigate(result.href)
+      } else if (result.type === 'country') {
+        setCountry(result.id)
+        navigate('/')
+      } else {
+        const disease = DEFAULT_DISEASES.find((d) => d.id === result.id)
+        if (disease) {
+          const others = useAppStore.getState().activeDiseases.filter((d) => d.id !== disease.id)
+          useAppStore.setState({ activeDiseases: [disease, ...others] })
+        }
+        navigate('/')
+      }
       onClose()
     },
-    [navigate, onClose],
+    [navigate, setCountry, onClose],
   )
 
   const handleKeyDown = (e: React.KeyboardEvent) => {

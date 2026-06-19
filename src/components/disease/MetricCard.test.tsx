@@ -14,7 +14,7 @@ describe('MetricCard', () => {
   })
   it('renders no data state gracefully', () => {
     render(<MetricCard label="Deaths" value={null} context="" />)
-    expect(screen.getByText('No data available')).toBeInTheDocument()
+    expect(screen.getByText('No data')).toBeInTheDocument()
   })
 })
 

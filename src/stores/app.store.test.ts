@@ -9,7 +9,6 @@ beforeEach(() => {
     persona: 'analyst',
     selectedCountry: null,
     compareCountry: null,
-    theme: 'dark',
   })
 })
 

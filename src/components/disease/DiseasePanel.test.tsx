@@ -14,6 +14,8 @@ vi.mock('@/hooks/useCountryDisease', () => ({
 vi.mock('@/hooks/useWorldBank', () => ({
   usePopulation: () => ({ data: [] }),
   useHospitalBeds: () => ({ data: [] }),
+  useLifeExpectancy: () => ({ data: [] }),
+  useGdpPerCapita: () => ({ data: [] }),
 }))
 
 global.ResizeObserver = class {

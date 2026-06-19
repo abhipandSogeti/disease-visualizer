@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { AppShell } from '@/components/layout/AppShell'
 import { Globe } from '@/components/globe/Globe'
 import { ChoroplethMap } from '@/components/map/ChoroplethMap'
@@ -38,6 +38,7 @@ export default function App() {
           </Suspense>
         }
       />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )
 }

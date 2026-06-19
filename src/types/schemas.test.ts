@@ -12,13 +12,17 @@ describe('WHOResponseSchema', () => {
     const raw = {
       value: [
         {
-          Id: '1',
+          Id: 1,
           IndicatorCode: 'MALARIA_CASES',
           SpatialDim: 'NGA',
           TimeDim: 2022,
           NumericValue: 68400000,
           Low: null,
           High: null,
+          Dim1Type: null,
+          Dim1: null,
+          Dim2Type: null,
+          Dim2: null,
         },
       ],
     }
@@ -30,13 +34,17 @@ describe('WHOResponseSchema', () => {
     const raw = {
       value: [
         {
-          Id: '2',
+          Id: 2,
           IndicatorCode: 'MALARIA_CASES',
           SpatialDim: 'USA',
           TimeDim: 2022,
           NumericValue: null,
           Low: null,
           High: null,
+          Dim1Type: null,
+          Dim1: null,
+          Dim2Type: null,
+          Dim2: null,
         },
       ],
     }
