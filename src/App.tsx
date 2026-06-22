@@ -9,6 +9,7 @@ import { LoadingSkeleton } from '@/components/ui/LoadingSkeleton'
 import { useAppStore } from '@/stores/app.store'
 
 const DrugPage = lazy(() => import('@/pages/DrugPage'))
+const PlacePage = lazy(() => import('@/pages/PlacePage'))
 
 function GlobePage() {
   const { selectedCountry, activeDiseases, view, persona } = useAppStore()
@@ -35,6 +36,14 @@ export default function App() {
         element={
           <Suspense fallback={<LoadingSkeleton label="Loading drug page..." rows={5} />}>
             <DrugPage />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/place"
+        element={
+          <Suspense fallback={<LoadingSkeleton label="Loading place check..." rows={5} />}>
+            <PlacePage />
           </Suspense>
         }
       />

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { Activity, Search } from 'lucide-react'
 import { useAppStore } from '@/stores/app.store'
 import { GlobalSearch } from '@/components/search/GlobalSearch'
@@ -53,6 +53,12 @@ export function Header() {
           ))}
         </nav>
         <div className="flex items-center gap-2">
+          <Link
+            to="/place"
+            className="rounded px-2 py-1 text-xs font-medium text-gray-600 hover:bg-black/[0.05] hover:text-gray-900"
+          >
+            Place check
+          </Link>
           <button
             onClick={() => setSearchOpen(true)}
             aria-label="Open search"
