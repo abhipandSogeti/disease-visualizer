@@ -49,3 +49,24 @@ describe('assessRisk — dengue', () => {
     expect(['low', 'moderate']).toContain(r.level)
   })
 })
+
+describe('assessRisk — cholera', () => {
+  it('returns elevated risk after heavy recent rain in warm conditions', () => {
+    const w = window({ tempC: 30, humidityPct: 80, rainMm: 10 }, makeHistory(56, 30, 12, 80))
+    const r = assessRisk(w, 'cholera')
+    expect(['moderate', 'high']).toContain(r.level)
+  })
+
+  it('always reports a sanitation data gap and caps confidence at moderate', () => {
+    const w = window({ tempC: 30, humidityPct: 80, rainMm: 10 }, makeHistory(56, 30, 12, 80))
+    const r = assessRisk(w, 'cholera')
+    expect(r.confidence).toBe('moderate')
+    expect(r.dataGaps.join(' ')).toMatch(/sanitation/i)
+  })
+
+  it('returns low risk in dry conditions', () => {
+    const w = window({ tempC: 22, humidityPct: 40, rainMm: 0 }, makeHistory(56, 22, 0, 40))
+    const r = assessRisk(w, 'cholera')
+    expect(r.level).toBe('low')
+  })
+})

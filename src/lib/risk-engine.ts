@@ -76,11 +76,47 @@ function assessDengue(w: ClimateWindow): RiskAssessment {
   return { diseaseId: 'dengue', level: levelFromScore(score), score, drivers, confidence, dataGaps }
 }
 
+function assessCholera(w: ClimateWindow): RiskAssessment {
+  const recentRain = cumulativeRain(w, 7, 28) // weeks 1–4
+  const rainScore = clamp01((recentRain - 30) / (200 - 30))
+  const tempScore = clamp01((w.current.tempC - 20) / (30 - 20))
+  const score = 0.7 * rainScore + 0.3 * tempScore
+
+  const drivers: Driver[] = [
+    {
+      factor: 'rainfall',
+      value: Math.round(recentRain),
+      contribution: rainScore,
+      note: `${Math.round(recentRain)}mm over the past 1–4 weeks (flood/contamination risk)`,
+    },
+    {
+      factor: 'temperature',
+      value: w.current.tempC,
+      contribution: tempScore,
+      note: `${w.current.tempC}°C — warmth aids bacterial growth`,
+    },
+  ]
+
+  const dataGaps = [
+    'Climate signal only — actual cholera risk depends on local water & sanitation, which is not measured here.',
+  ]
+  if (w.history.length < 28) dataGaps.push('Limited weather history — estimate is less certain.')
+
+  return {
+    diseaseId: 'cholera',
+    level: levelFromScore(score),
+    score,
+    drivers,
+    confidence: 'moderate',
+    dataGaps,
+  }
+}
+
 export function assessRisk(climate: ClimateWindow, diseaseId: RiskDiseaseId): RiskAssessment {
   switch (diseaseId) {
     case 'dengue':
       return assessDengue(climate)
     case 'cholera':
-      throw new Error('cholera model not implemented yet')
+      return assessCholera(climate)
   }
 }
