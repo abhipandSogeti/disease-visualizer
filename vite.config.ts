@@ -46,6 +46,16 @@ export default defineConfig({
         secure: false,
         rewrite: (p) => p.replace(/^\/proxy\/chembl/, '/chembl/api/data'),
       },
+      '/proxy/geocode': {
+        target: 'https://geocoding-api.open-meteo.com',
+        changeOrigin: true,
+        rewrite: (p) => p.replace(/^\/proxy\/geocode/, '/v1'),
+      },
+      '/proxy/openmeteo': {
+        target: 'https://api.open-meteo.com',
+        changeOrigin: true,
+        rewrite: (p) => p.replace(/^\/proxy\/openmeteo/, '/v1'),
+      },
     },
   },
 })

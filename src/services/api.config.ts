@@ -7,6 +7,10 @@ const pubchem: string =
   (import.meta.env.VITE_PUBCHEM_BASE as string | undefined) ?? '/proxy/pubchem'
 const rxnorm: string = (import.meta.env.VITE_RXNORM_BASE as string | undefined) ?? '/proxy/rxnorm'
 const chembl: string = (import.meta.env.VITE_CHEMBL_BASE as string | undefined) ?? '/proxy/chembl'
+const geocode: string =
+  (import.meta.env.VITE_GEOCODE_BASE as string | undefined) ?? '/proxy/geocode'
+const openmeteo: string =
+  (import.meta.env.VITE_OPENMETEO_BASE as string | undefined) ?? '/proxy/openmeteo'
 
 export const API_BASE = {
   who,
@@ -16,4 +20,6 @@ export const API_BASE = {
   pubchem,
   rxnorm,
   chembl,
+  geocode,
+  openmeteo,
 } as const

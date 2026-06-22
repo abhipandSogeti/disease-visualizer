@@ -29,6 +29,14 @@
       "destination": "https://www.ebi.ac.uk/chembl/api/data/:path*"
     },
     {
+      "source": "/proxy/geocode/:path*",
+      "destination": "https://geocoding-api.open-meteo.com/v1/:path*"
+    },
+    {
+      "source": "/proxy/openmeteo/:path*",
+      "destination": "https://api.open-meteo.com/v1/:path*"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
