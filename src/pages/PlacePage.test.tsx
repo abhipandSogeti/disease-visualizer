@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { MemoryRouter } from 'react-router-dom'
 import { createElement, type ReactNode } from 'react'
 import PlacePage from './PlacePage'
-import type { ClimateWindow } from '@/types/climate.schema'
+import type { ClimateWindow, DailyWeather } from '@/types/climate.schema'
 
 vi.mock('@/services/climate.service', () => ({
   geocodePlace: vi.fn(),
@@ -20,6 +20,13 @@ const wrapper = ({ children }: { children: ReactNode }) =>
     createElement(MemoryRouter, null, children),
   )
 
+const forecast14: DailyWeather[] = Array.from({ length: 14 }, (_, i) => ({
+  date: `2026-02-${String(i + 1).padStart(2, '0')}`,
+  tempC: 29,
+  humidityPct: 78,
+  rainMm: 5,
+}))
+
 const climate: ClimateWindow = {
   current: { tempC: 29, humidityPct: 80, rainMm: 5 },
   history: Array.from({ length: 56 }, (_, i) => ({
@@ -28,6 +35,7 @@ const climate: ClimateWindow = {
     humidityPct: 80,
     rainMm: 7,
   })),
+  forecast: forecast14,
 }
 
 beforeEach(() => {

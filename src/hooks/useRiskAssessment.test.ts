@@ -26,6 +26,7 @@ const fullHistory = Array.from({ length: 56 }, (_, i) => ({
 const climate: ClimateWindow = {
   current: { tempC: 29, humidityPct: 80, rainMm: 5 },
   history: fullHistory,
+  forecast: [],
 }
 
 beforeEach(() => vi.mocked(getClimateWindow).mockReset())

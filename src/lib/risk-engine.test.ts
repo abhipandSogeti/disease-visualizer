@@ -17,7 +17,7 @@ function makeHistory(
 }
 
 function window(current: ClimateWindow['current'], history: DailyWeather[]): ClimateWindow {
-  return { current, history }
+  return { current, history, forecast: [] }
 }
 
 describe('assessRisk — dengue', () => {

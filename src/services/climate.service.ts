@@ -80,5 +80,6 @@ export async function getClimateWindow(lat: number, lng: number): Promise<Climat
       rainMm: raw.current.precipitation,
     },
     history,
+    forecast: [],
   })
 }

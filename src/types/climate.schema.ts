@@ -14,6 +14,7 @@ export const ClimateWindowSchema = z.object({
     rainMm: z.number(),
   }),
   history: z.array(DailyWeatherSchema),
+  forecast: z.array(DailyWeatherSchema),
 })
 
 export type DailyWeather = z.infer<typeof DailyWeatherSchema>
