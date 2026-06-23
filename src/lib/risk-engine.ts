@@ -167,6 +167,16 @@ export function assessRiskTimeline(window: ClimateWindow, diseaseId: RiskDisease
 }
 
 export function summarizeTrend(timeline: DayRisk[]): TrendSummary {
+  if (timeline.length === 0) {
+    return {
+      direction: 'stable',
+      peakDate: '',
+      peakLevel: 'low',
+      todayScore: 0,
+      peakScore: 0,
+    }
+  }
+
   const avg = (arr: DayRisk[]) => arr.reduce((s, d) => s + d.score, 0) / arr.length
 
   const early = avg(timeline.slice(0, 4))
