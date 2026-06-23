@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 import type { RiskResult } from '@/hooks/useRiskAssessment'
 import { CareLadderPanel } from './CareLadderPanel'
+import { TrendBadge } from './TrendBadge'
+import { RiskSparkline } from './RiskSparkline'
 
 const LEVEL_STYLE: Record<string, string> = {
   low: 'bg-green-100 text-green-800',
@@ -12,7 +14,7 @@ const LABEL: Record<string, string> = { dengue: 'Dengue', cholera: 'Cholera' }
 
 export function RiskCard({ result }: { result: RiskResult }) {
   const [open, setOpen] = useState(false)
-  const { assessment, ladder } = result
+  const { assessment, ladder, timeline, trend } = result
   return (
     <div className="rounded-lg border border-stone-200 bg-stone-50 p-3">
       <div className="flex items-center justify-between">
@@ -34,6 +36,14 @@ export function RiskCard({ result }: { result: RiskResult }) {
           {g}
         </p>
       ))}
+      {timeline.length > 0 && (
+        <div className="mt-3 flex items-center gap-3">
+          <div className="flex-1">
+            <TrendBadge summary={trend} />
+          </div>
+          <RiskSparkline timeline={timeline} disease={assessment.diseaseId} />
+        </div>
+      )}
       <button
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
