@@ -1,10 +1,12 @@
-import type { ClimateWindow } from '@/types/climate.schema'
+import type { ClimateWindow, DailyWeather } from '@/types/climate.schema'
 import type {
+  DayRisk,
   Driver,
   RiskAssessment,
   RiskConfidence,
   RiskDiseaseId,
   RiskLevel,
+  TrendSummary,
 } from '@/types/risk.types'
 
 const clamp01 = (n: number): number => Math.max(0, Math.min(1, n))
@@ -118,5 +120,71 @@ export function assessRisk(climate: ClimateWindow, diseaseId: RiskDiseaseId): Ri
       return assessDengue(climate)
     case 'cholera':
       return assessCholera(climate)
+  }
+}
+
+// --- Shared per-day scorers (used by the timeline) ---
+
+function dengueScoreForDay(tempC: number, humidityPct: number, laggedRainMm: number): number {
+  const tempScore = clamp01(dengueTempSuitability(tempC))
+  const rainScore = clamp01((laggedRainMm - 20) / (150 - 20))
+  const humidScore = clamp01((humidityPct - 50) / (80 - 50))
+  return tempScore * (0.6 * rainScore + 0.4 * humidScore)
+}
+
+function choleraScoreForDay(tempC: number, laggedRainMm: number): number {
+  const rainScore = clamp01((laggedRainMm - 30) / (200 - 30))
+  const tempScore = clamp01((tempC - 20) / (30 - 20))
+  return 0.7 * rainScore + 0.3 * tempScore
+}
+
+// Sum rain from a flat series array over [i - toAgo, i - fromAgo] (inclusive both ends).
+function seriesRain(series: DailyWeather[], i: number, fromAgo: number, toAgo: number): number {
+  let sum = 0
+  for (let ago = fromAgo; ago <= toAgo; ago++) {
+    const idx = i - ago
+    if (idx >= 0 && idx < series.length) sum += series[idx].rainMm
+  }
+  return sum
+}
+
+export function assessRiskTimeline(window: ClimateWindow, diseaseId: RiskDiseaseId): DayRisk[] {
+  const series: DailyWeather[] = [...window.history, ...window.forecast]
+  const forecastStart = window.history.length
+
+  return window.forecast.map((day, d) => {
+    const i = forecastStart + d
+    let score: number
+    if (diseaseId === 'dengue') {
+      const laggedRain = seriesRain(series, i, 14, 42)
+      score = dengueScoreForDay(day.tempC, day.humidityPct, laggedRain)
+    } else {
+      const laggedRain = seriesRain(series, i, 7, 28)
+      score = choleraScoreForDay(day.tempC, laggedRain)
+    }
+    return { date: day.date, score, level: levelFromScore(score) }
+  })
+}
+
+export function summarizeTrend(timeline: DayRisk[]): TrendSummary {
+  const avg = (arr: DayRisk[]) => arr.reduce((s, d) => s + d.score, 0) / arr.length
+
+  const early = avg(timeline.slice(0, 4))
+  const late = avg(timeline.slice(10, 14))
+  const delta = late - early
+
+  const direction = delta > 0.08 ? 'rising' : delta < -0.08 ? 'falling' : 'stable'
+
+  let peakIdx = 0
+  for (let i = 1; i < timeline.length; i++) {
+    if (timeline[i].score > timeline[peakIdx].score) peakIdx = i
+  }
+
+  return {
+    direction,
+    peakDate: timeline[peakIdx].date,
+    peakLevel: timeline[peakIdx].level,
+    todayScore: timeline[0].score,
+    peakScore: timeline[peakIdx].score,
   }
 }
