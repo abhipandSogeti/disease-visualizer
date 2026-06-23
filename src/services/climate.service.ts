@@ -55,31 +55,35 @@ const OpenMeteoSchema = z.object({
 })
 
 export async function getClimateWindow(lat: number, lng: number): Promise<ClimateWindow> {
+  const PAST_DAYS = 56
+  const FORECAST_DAYS = 14
   const params = new URLSearchParams({
     latitude: String(lat),
     longitude: String(lng),
     current: 'temperature_2m,relative_humidity_2m,precipitation',
     daily: 'temperature_2m_mean,relative_humidity_2m_mean,precipitation_sum',
-    past_days: '56',
-    forecast_days: '1',
+    past_days: String(PAST_DAYS),
+    forecast_days: String(FORECAST_DAYS),
     timezone: 'auto',
   })
   const res = await fetch(`${API_BASE.openmeteo}/forecast?${params.toString()}`)
   if (!res.ok) throw new Error(`Open-Meteo error: ${res.status}`)
   const raw = OpenMeteoSchema.parse(await res.json())
-  const history = raw.daily.time.map((date, i) => ({
+
+  const allDays = raw.daily.time.map((date, i) => ({
     date,
     tempC: raw.daily.temperature_2m_mean[i] ?? 0,
     humidityPct: raw.daily.relative_humidity_2m_mean[i] ?? 0,
     rainMm: raw.daily.precipitation_sum[i] ?? 0,
   }))
+
   return ClimateWindowSchema.parse({
     current: {
       tempC: raw.current.temperature_2m,
       humidityPct: raw.current.relative_humidity_2m,
       rainMm: raw.current.precipitation,
     },
-    history,
-    forecast: [],
+    history: allDays.slice(0, PAST_DAYS),
+    forecast: allDays.slice(PAST_DAYS),
   })
 }

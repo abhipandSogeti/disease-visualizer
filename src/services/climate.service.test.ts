@@ -64,6 +64,35 @@ describe('getClimateWindow', () => {
     })
   })
 
+  it('splits daily array into history (first 56) and forecast (remaining 14)', async () => {
+    const allDays = Array.from(
+      { length: 70 },
+      (_, i) => `2026-01-${String((i % 28) + 1).padStart(2, '0')}`,
+    )
+    const temps = Array.from({ length: 70 }, () => 27.0)
+    const humids = Array.from({ length: 70 }, () => 70)
+    const rains = Array.from({ length: 70 }, (_, i) => (i < 56 ? 5.0 : 3.0))
+
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          current: { temperature_2m: 28.4, relative_humidity_2m: 75, precipitation: 1.2 },
+          daily: {
+            time: allDays,
+            temperature_2m_mean: temps,
+            relative_humidity_2m_mean: humids,
+            precipitation_sum: rains,
+          },
+        }),
+    })
+    const w = await getClimateWindow(23.7, 90.4)
+    expect(w.history).toHaveLength(56)
+    expect(w.forecast).toHaveLength(14)
+    expect(w.forecast[0].rainMm).toBe(3.0)
+    expect(w.history[55].rainMm).toBe(5.0)
+  })
+
   it('throws on a non-ok response', async () => {
     mockFetch.mockResolvedValueOnce({ ok: false, status: 503 })
     await expect(getClimateWindow(0, 0)).rejects.toThrow('Open-Meteo error: 503')
