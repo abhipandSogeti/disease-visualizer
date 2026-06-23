@@ -39,13 +39,44 @@ function dengueTempSuitability(tempC: number): number {
   return tempC <= TOPT ? (tempC - TMIN) / (TOPT - TMIN) : (TMAX - tempC) / (TMAX - TOPT)
 }
 
+// Composite scoring — single source of truth shared by the point-in-time
+// assessment (assessRisk) and the forward timeline (assessRiskTimeline).
+
+interface DengueScore {
+  score: number
+  tempScore: number
+  rainScore: number
+  humidScore: number
+}
+
+function scoreDengue(tempC: number, humidityPct: number, laggedRainMm: number): DengueScore {
+  const tempScore = clamp01(dengueTempSuitability(tempC))
+  const rainScore = clamp01((laggedRainMm - 20) / (150 - 20))
+  const humidScore = clamp01((humidityPct - 50) / (80 - 50))
+  const score = tempScore * (0.6 * rainScore + 0.4 * humidScore)
+  return { score, tempScore, rainScore, humidScore }
+}
+
+interface CholeraScore {
+  score: number
+  rainScore: number
+  tempScore: number
+}
+
+function scoreCholera(tempC: number, laggedRainMm: number): CholeraScore {
+  const rainScore = clamp01((laggedRainMm - 30) / (200 - 30))
+  const tempScore = clamp01((tempC - 20) / (30 - 20))
+  const score = 0.7 * rainScore + 0.3 * tempScore
+  return { score, rainScore, tempScore }
+}
+
 function assessDengue(w: ClimateWindow): RiskAssessment {
-  const tempScore = clamp01(dengueTempSuitability(w.current.tempC))
   const laggedRain = cumulativeRain(w, 14, 42) // weeks 2–6
-  const rainScore = clamp01((laggedRain - 20) / (150 - 20))
-  const humidityScore = clamp01((w.current.humidityPct - 50) / (80 - 50))
-  const envScore = 0.6 * rainScore + 0.4 * humidityScore
-  const score = tempScore * envScore
+  const { score, tempScore, rainScore, humidScore } = scoreDengue(
+    w.current.tempC,
+    w.current.humidityPct,
+    laggedRain,
+  )
 
   const drivers: Driver[] = [
     {
@@ -66,7 +97,7 @@ function assessDengue(w: ClimateWindow): RiskAssessment {
     {
       factor: 'humidity',
       value: w.current.humidityPct,
-      contribution: humidityScore,
+      contribution: humidScore,
       note: `${w.current.humidityPct}% relative humidity`,
     },
   ]
@@ -80,9 +111,7 @@ function assessDengue(w: ClimateWindow): RiskAssessment {
 
 function assessCholera(w: ClimateWindow): RiskAssessment {
   const recentRain = cumulativeRain(w, 7, 28) // weeks 1–4
-  const rainScore = clamp01((recentRain - 30) / (200 - 30))
-  const tempScore = clamp01((w.current.tempC - 20) / (30 - 20))
-  const score = 0.7 * rainScore + 0.3 * tempScore
+  const { score, rainScore, tempScore } = scoreCholera(w.current.tempC, recentRain)
 
   const drivers: Driver[] = [
     {
@@ -123,21 +152,6 @@ export function assessRisk(climate: ClimateWindow, diseaseId: RiskDiseaseId): Ri
   }
 }
 
-// --- Shared per-day scorers (used by the timeline) ---
-
-function dengueScoreForDay(tempC: number, humidityPct: number, laggedRainMm: number): number {
-  const tempScore = clamp01(dengueTempSuitability(tempC))
-  const rainScore = clamp01((laggedRainMm - 20) / (150 - 20))
-  const humidScore = clamp01((humidityPct - 50) / (80 - 50))
-  return tempScore * (0.6 * rainScore + 0.4 * humidScore)
-}
-
-function choleraScoreForDay(tempC: number, laggedRainMm: number): number {
-  const rainScore = clamp01((laggedRainMm - 30) / (200 - 30))
-  const tempScore = clamp01((tempC - 20) / (30 - 20))
-  return 0.7 * rainScore + 0.3 * tempScore
-}
-
 // Sum rain from a flat series array over [i - toAgo, i - fromAgo] (inclusive both ends).
 function seriesRain(series: DailyWeather[], i: number, fromAgo: number, toAgo: number): number {
   let sum = 0
@@ -157,10 +171,10 @@ export function assessRiskTimeline(window: ClimateWindow, diseaseId: RiskDisease
     let score: number
     if (diseaseId === 'dengue') {
       const laggedRain = seriesRain(series, i, 14, 42)
-      score = dengueScoreForDay(day.tempC, day.humidityPct, laggedRain)
+      score = scoreDengue(day.tempC, day.humidityPct, laggedRain).score
     } else {
       const laggedRain = seriesRain(series, i, 7, 28)
-      score = choleraScoreForDay(day.tempC, laggedRain)
+      score = scoreCholera(day.tempC, laggedRain).score
     }
     return { date: day.date, score, level: levelFromScore(score) }
   })
