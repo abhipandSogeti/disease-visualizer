@@ -20,3 +20,19 @@ export interface RiskAssessment {
   confidence: RiskConfidence
   dataGaps: string[]
 }
+
+export interface DayRisk {
+  date: string // ISO-8601 e.g. "2026-06-23"
+  score: number // 0–1 composite
+  level: RiskLevel
+}
+
+export type TrendDirection = 'rising' | 'falling' | 'stable'
+
+export interface TrendSummary {
+  direction: TrendDirection
+  peakDate: string // ISO-8601 date of highest score
+  peakLevel: RiskLevel
+  todayScore: number // timeline[0].score
+  peakScore: number
+}
