@@ -8,7 +8,8 @@ import {
   useGdpPerCapita,
 } from '@/hooks/useWorldBank'
 import { DISEASE_COLOURS } from '@/lib/colour-scale'
-import { getDataSource } from '@/lib/data-provenance'
+import { getDataSource, WORLD_BANK_SOURCE } from '@/lib/data-provenance'
+import type { WorldBankIndicatorValue } from '@/types/worldbank.schema'
 import { LoadingSkeleton } from '@/components/ui/LoadingSkeleton'
 import { ErrorState } from '@/components/ui/ErrorState'
 import { EmptyState } from '@/components/ui/EmptyState'
@@ -53,9 +54,16 @@ export function DiseaseOverviewTab({ iso3, disease, persona }: DiseaseOverviewTa
     return (latest.NumericValue / latestPop) * 100_000
   }, [latest, latestPop])
 
-  const latestBeds = useMemo(() => bedsData?.[0]?.value ?? null, [bedsData])
-  const latestLifeExp = useMemo(() => lifeExpData?.[0]?.value ?? null, [lifeExpData])
-  const latestGdp = useMemo(() => gdpData?.[0]?.value ?? null, [gdpData])
+  // Latest record that actually has a value (World Bank returns recent years with
+  // null values); year and value come from the same point so the badge stays truthful.
+  const latestWB = (records?: WorldBankIndicatorValue[]): WorldBankIndicatorValue | null =>
+    [...(records ?? [])]
+      .filter((r) => r.value !== null)
+      .sort((a, b) => Number(b.date) - Number(a.date))[0] ?? null
+
+  const beds = useMemo(() => latestWB(bedsData), [bedsData])
+  const lifeExp = useMemo(() => latestWB(lifeExpData), [lifeExpData])
+  const gdp = useMemo(() => latestWB(gdpData), [gdpData])
 
   const peakEntry = useMemo(
     () =>
@@ -109,6 +117,8 @@ export function DiseaseOverviewTab({ iso3, disease, persona }: DiseaseOverviewTa
           value={incidencePer100k !== null ? Math.round(incidencePer100k) : null}
           unit="per 100k"
           context="per 100,000 population"
+          dataYear={latest?.TimeDim ?? null}
+          source={getDataSource(disease.id)}
           accent={colour}
         />
       </div>
@@ -149,21 +159,27 @@ export function DiseaseOverviewTab({ iso3, disease, persona }: DiseaseOverviewTa
         <div className="grid grid-cols-3 gap-2">
           <MetricCard
             label="Hospital Beds"
-            value={latestBeds !== null ? Math.round(latestBeds * 10) / 10 : null}
+            value={beds?.value != null ? Math.round(beds.value * 10) / 10 : null}
             unit="per 1k"
-            context="World Bank"
+            context=""
+            dataYear={beds ? Number(beds.date) : null}
+            source={WORLD_BANK_SOURCE}
           />
           <MetricCard
             label="Life Expectancy"
-            value={latestLifeExp !== null ? Math.round(latestLifeExp * 10) / 10 : null}
+            value={lifeExp?.value != null ? Math.round(lifeExp.value * 10) / 10 : null}
             unit="yrs"
-            context="World Bank"
+            context=""
+            dataYear={lifeExp ? Number(lifeExp.date) : null}
+            source={WORLD_BANK_SOURCE}
           />
           <MetricCard
             label="GDP / Capita"
-            value={latestGdp !== null ? Math.round(latestGdp) : null}
+            value={gdp?.value != null ? Math.round(gdp.value) : null}
             unit="USD"
-            context="World Bank"
+            context=""
+            dataYear={gdp ? Number(gdp.date) : null}
+            source={WORLD_BANK_SOURCE}
           />
         </div>
       </div>

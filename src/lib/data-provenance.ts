@@ -34,6 +34,12 @@ export function getDataSource(diseaseId: string): DataSource | undefined {
   return SOURCES[diseaseId]
 }
 
+// Country health-context metrics (beds, life expectancy, GDP) all come from World Bank.
+export const WORLD_BANK_SOURCE: DataSource = {
+  label: 'World Bank Open Data',
+  url: 'https://data.worldbank.org',
+}
+
 // Data this many years (or more) behind the current year is flagged as stale.
 export const STALE_AFTER_YEARS = 3
 
