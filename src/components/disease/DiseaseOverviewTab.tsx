@@ -8,6 +8,7 @@ import {
   useGdpPerCapita,
 } from '@/hooks/useWorldBank'
 import { DISEASE_COLOURS } from '@/lib/colour-scale'
+import { getDataSource } from '@/lib/data-provenance'
 import { LoadingSkeleton } from '@/components/ui/LoadingSkeleton'
 import { ErrorState } from '@/components/ui/ErrorState'
 import { EmptyState } from '@/components/ui/EmptyState'
@@ -98,7 +99,9 @@ export function DiseaseOverviewTab({ iso3, disease, persona }: DiseaseOverviewTa
           label="Most Recent Cases"
           value={latest?.NumericValue ?? null}
           previous={previous?.NumericValue ?? null}
-          context={latest ? `Recorded in ${latest.TimeDim}` : ''}
+          context=""
+          dataYear={latest?.TimeDim ?? null}
+          source={getDataSource(disease.id)}
           accent={colour}
         />
         <MetricCard

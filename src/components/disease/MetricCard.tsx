@@ -1,4 +1,5 @@
 import { formatCount } from '@/lib/format'
+import { isStale, type DataSource } from '@/lib/data-provenance'
 import { TrendBadge } from './TrendBadge'
 
 interface MetricCardProps {
@@ -8,9 +9,21 @@ interface MetricCardProps {
   previous?: number | null
   unit?: string
   accent?: string
+  dataYear?: number | null
+  source?: DataSource
 }
 
-export function MetricCard({ label, value, context, previous, unit, accent }: MetricCardProps) {
+export function MetricCard({
+  label,
+  value,
+  context,
+  previous,
+  unit,
+  accent,
+  dataYear,
+  source,
+}: MetricCardProps) {
+  const stale = dataYear != null && isStale(dataYear)
   return (
     <div className="relative overflow-hidden rounded-lg border border-stone-200 bg-white shadow-sm">
       {accent && (
@@ -37,6 +50,19 @@ export function MetricCard({ label, value, context, previous, unit, accent }: Me
           </div>
         )}
         {context && <p className="mt-1.5 text-[11px] leading-relaxed text-gray-500">{context}</p>}
+        {dataYear != null && source && (
+          <a
+            href={source.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`mt-1.5 block text-[10px] leading-snug hover:underline ${
+              stale ? 'text-amber-700' : 'text-gray-400'
+            }`}
+          >
+            {stale ? '⚠ ' : ''}Data: {dataYear} · {source.label}
+            {stale ? ' (latest available)' : ''}
+          </a>
+        )}
       </div>
     </div>
   )

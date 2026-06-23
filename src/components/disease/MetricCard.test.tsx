@@ -16,6 +16,32 @@ describe('MetricCard', () => {
     render(<MetricCard label="Deaths" value={null} context="" />)
     expect(screen.getByText('No data')).toBeInTheDocument()
   })
+  it('shows a cited data-vintage badge linking to the source', () => {
+    render(
+      <MetricCard
+        label="Most Recent Cases"
+        value={1000}
+        context=""
+        dataYear={2024}
+        source={{ label: 'WHO World Malaria Report 2025', url: 'https://www.who.int/x' }}
+      />,
+    )
+    const link = screen.getByRole('link', { name: /WHO World Malaria Report 2025/i })
+    expect(link).toHaveAttribute('href', 'https://www.who.int/x')
+    expect(link).toHaveTextContent('2024')
+  })
+  it('flags stale data with a warning marker', () => {
+    render(
+      <MetricCard
+        label="Most Recent Cases"
+        value={1000}
+        context=""
+        dataYear={2016}
+        source={{ label: 'WHO GHO — Cholera', url: 'https://www.who.int/y' }}
+      />,
+    )
+    expect(screen.getByRole('link', { name: /cholera/i })).toHaveTextContent(/⚠.*latest available/)
+  })
 })
 
 describe('TrendBadge', () => {
